@@ -1,0 +1,17 @@
+{
+  "framework": "vite",
+  "outputDirectory": "dist/apps/visualizer",
+  "rewrites": [
+    {
+      "source": "/((?!api/.*).*)",
+      "destination": "/index.html",
+      "has": [
+        {
+          "type": "host",
+          "value": "(?!localhost).*"
+        }
+      ]
+    }
+  ],
+  "devCommand": "npx nx run visualizer:serve-dev --port $PORT"
+}

@@ -4,17 +4,15 @@ const { join } = require('path');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    join(
-      __dirname,
-      '{src,pages,components,app}/**/*!(*.stories|*.spec).{ts,tsx}'
-    ),
+    join(__dirname, 'src/previews/**/*.html'),
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
     extend: {
-      screens: {
-        '2xs': '320px',
-        xs: '475px',
+      colors: {
+        'preview-blue': '#0d6efd',
+        'preview-green': '#198754',
+        'preview-red': '#dc3545',
       },
     },
   },

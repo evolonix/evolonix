@@ -1,7 +1,23 @@
+import { Outlet } from 'react-router-dom';
+import { Nav } from '../components/nav';
+
 export function App() {
   return (
-    <div>
-      <h1>Welcome to the Visualizer!</h1>
+    <div className="flex min-h-screen flex-col supports-[-webkit-touch-callout:none]:min-h-[-webkit-fill-available]">
+      <header className="sticky top-0 z-20 flex h-14 items-center px-4 ring-1 ring-neutral-200 sm:px-6 lg:px-8">
+        <Nav />
+      </header>
+
+      <main className="flex flex-1 flex-col bg-neutral-50 py-8 px-4 sm:px-6 lg:px-8">
+        <Outlet />
+      </main>
+
+      <footer className="grid h-20 place-items-center bg-neutral-100 ring-1 ring-neutral-200">
+        <p className="text-sm">
+          Copyright &copy; {new Date().getFullYear()} Evolonix. All rights
+          reserved.
+        </p>
+      </footer>
     </div>
   );
 }

@@ -8,8 +8,8 @@ import {
 } from 'react-router-dom';
 
 export async function loader({ params }: { params: Params<string> }) {
-  const { name } = params;
-  if (!name) {
+  const { id } = params;
+  if (!id) {
     throw new Error('No name provided');
   }
 
@@ -17,21 +17,23 @@ export async function loader({ params }: { params: Params<string> }) {
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
 
-  const index = await import('../../../index.previews.html').then(
+  const indexDoc = await import('../../../index.previews.html').then(
     (m) => m.default
   );
-  const preview = import(`../../previews/${name}.html`).then((m) => m.default);
-  const doc = Promise.all([index, preview, delay(500)]).then(
+  const previewDoc = import(`../../../previews/${id}.html`).then(
+    (m) => m.default
+  );
+  const doc = Promise.all([indexDoc, previewDoc, delay(500)]).then(
     ([index, preview]) => index.replace('<!-- PREVIEW -->', preview)
   );
 
-  return defer({ doc, name });
+  return defer({ doc, id });
 }
 
 export const Component = () => {
-  const { doc, name } = useLoaderData() as {
+  const { doc, id } = useLoaderData() as {
     doc: Promise<string>;
-    name: string;
+    id: string;
   };
   const navigate = useNavigate();
 
@@ -39,7 +41,7 @@ export const Component = () => {
     // Navigate back to /previews/:name when Escape key is pressed
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        navigate(`/previews/${name}`);
+        navigate(`/previews/${id}`);
       }
     };
 
@@ -51,7 +53,7 @@ export const Component = () => {
   return (
     <Suspense
       fallback={
-        <div className="grid h-screen place-content-center supports-[-webkit-touch-callout:none]:h-[-webkit-fill-available]">
+        <div className="grid h-screen place-content-center p-4 text-3xl supports-[-webkit-touch-callout:none]:h-[-webkit-fill-available]">
           Loading...
         </div>
       }

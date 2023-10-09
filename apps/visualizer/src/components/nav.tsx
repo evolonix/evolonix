@@ -15,36 +15,18 @@ export const Nav = ({ previews }: { previews?: Preview[] }) => {
             Dashboard
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to="/previews/preview-1"
-            className={({ isActive }) =>
-              isActive ? 'underline' : 'hover:underline'
-            }
-          >
-            Preview 1
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/previews/preview-2"
-            className={({ isActive }) =>
-              isActive ? 'underline' : 'hover:underline'
-            }
-          >
-            Preview 2
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/previews/preview-3"
-            className={({ isActive }) =>
-              isActive ? 'underline' : 'hover:underline'
-            }
-          >
-            Preview 3
-          </NavLink>
-        </li>
+        {previews?.map((preview) => (
+          <li key={preview.id}>
+            <NavLink
+              to={`/previews/${preview.id}`}
+              className={({ isActive }) =>
+                isActive ? 'underline' : 'hover:underline'
+              }
+            >
+              {preview.name}
+            </NavLink>
+          </li>
+        ))}
       </ul>
     </nav>
   );

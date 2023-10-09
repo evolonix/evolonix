@@ -2,21 +2,13 @@ import clsx from 'clsx';
 import { Resizable } from 're-resizable';
 import { Suspense, useCallback, useRef, useState } from 'react';
 import { Await, Link, Params, defer, useLoaderData } from 'react-router-dom';
+import { Preview } from '../../data/preview.model';
+import { breakpoints } from '../../lib/breakpoints';
 import { useBreakpointObserver } from '../../lib/use-breakpoint-observer';
 
-const breakpoints: Record<string, number> = {
-  '2xs': 320,
-  xs: 475,
-  sm: 640,
-  md: 768,
-  lg: 1024,
-  xl: 1280,
-  '2xl': 1536,
-};
-
 export async function loader({ params }: { params: Params<string> }) {
-  const { name } = params;
-  if (!name) {
+  const { id } = params;
+  if (!id) {
     throw new Error('No name provided');
   }
 
@@ -24,21 +16,27 @@ export async function loader({ params }: { params: Params<string> }) {
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
 
-  const index = await import('../../../index.previews.html').then(
+  const indexDoc = await import('../../../index.previews.html').then(
     (m) => m.default
   );
-  const preview = import(`../../previews/${name}.html`).then((m) => m.default);
-  const doc = Promise.all([index, preview, delay(500)]).then(
+  const previewDoc = import(`../../../previews/${id}.html`).then(
+    (m) => m.default
+  );
+  const doc = Promise.all([indexDoc, previewDoc, delay(500)]).then(
     ([index, preview]) => index.replace('<!-- PREVIEW -->', preview)
   );
+  const previews = await import('../../../previews/previews.json').then(
+    (m) => m.default
+  );
+  const preview = previews.find((p) => p.id === id);
 
-  return defer({ doc, name });
+  return defer({ doc, preview });
 }
 
 export const Component = () => {
-  const { doc, name } = useLoaderData() as {
+  const { doc, preview } = useLoaderData() as {
     doc: Promise<string>;
-    name: string;
+    preview: Preview;
   };
   const resizable = useRef<Resizable>(null);
   const guide = useRef<HTMLDivElement>(null);
@@ -88,7 +86,7 @@ export const Component = () => {
       {/* Toolbar */}
       <div className="mb-4 flex justify-end">
         <Link
-          to={`/fullscreen/${name}`}
+          to={`/fullscreen/${preview.id}`}
           className="hover:underline"
           title="View fullscreen"
         >
@@ -181,7 +179,11 @@ export const Component = () => {
           }}
         >
           <Suspense
-            fallback={<div className="flex-1 p-4 text-5xl">Loading...</div>}
+            fallback={
+              <div className="grid flex-1 place-content-center p-4 text-3xl">
+                Loading...
+              </div>
+            }
           >
             <Await resolve={doc}>
               {(resolvedDoc: string) => (

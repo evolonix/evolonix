@@ -1,11 +1,22 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLoaderData } from 'react-router-dom';
 import { Nav } from '../components/nav';
+import { Preview } from '../data/preview.model';
+
+export async function loader() {
+  const previews = await import('../../previews/previews.json').then(
+    (m) => m.default
+  );
+
+  return { previews };
+}
 
 export function App() {
+  const { previews } = useLoaderData() as { previews: Preview[] };
+
   return (
     <div className="flex min-h-screen flex-col supports-[-webkit-touch-callout:none]:min-h-[-webkit-fill-available]">
       <header className="sticky top-0 z-20 flex h-14 items-center px-4 ring-1 ring-neutral-200 sm:px-6 lg:px-8">
-        <Nav />
+        <Nav previews={previews} />
       </header>
 
       <main className="flex flex-1 flex-col bg-neutral-50 py-8 px-4 sm:px-6 lg:px-8">

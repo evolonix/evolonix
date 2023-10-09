@@ -1,9 +1,20 @@
 import { NavLink } from 'react-router-dom';
+import { Preview } from '../data/preview.model';
 
-export const Nav = () => {
+export const Nav = ({ previews }: { previews?: Preview[] }) => {
   return (
     <nav>
       <ul className="flex gap-4">
+        <li>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? 'underline' : 'hover:underline'
+            }
+          >
+            Dashboard
+          </NavLink>
+        </li>
         <li>
           <NavLink
             to="/previews/preview-1"
@@ -11,7 +22,7 @@ export const Nav = () => {
               isActive ? 'underline' : 'hover:underline'
             }
           >
-            Preview1
+            Preview 1
           </NavLink>
         </li>
         <li>
@@ -21,7 +32,7 @@ export const Nav = () => {
               isActive ? 'underline' : 'hover:underline'
             }
           >
-            Preview2
+            Preview 2
           </NavLink>
         </li>
         <li>
@@ -31,7 +42,7 @@ export const Nav = () => {
               isActive ? 'underline' : 'hover:underline'
             }
           >
-            Preview3
+            Preview 3
           </NavLink>
         </li>
       </ul>

@@ -24,15 +24,15 @@ const router = createBrowserRouter([
           { index: true, element: <Navigate to="/" /> },
           {
             path: ':id',
-            lazy: () => import('./app/previews/preview'),
+            lazy: () => import('./app/previews/detail'),
           },
         ],
       },
     ],
   },
   {
-    path: 'fullscreen/:id',
-    lazy: () => import('./app/previews/fullscreen'),
+    path: 'previews/:id/fullscreen',
+    lazy: () => import('./app/fullscreen/detail'),
   },
 ]);
 

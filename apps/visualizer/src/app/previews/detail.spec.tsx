@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { Component } from './preview';
+import { Component } from './detail';
 
 describe('Preview', () => {
   it('should render successfully', () => {

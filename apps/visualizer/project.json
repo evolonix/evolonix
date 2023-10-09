@@ -4,7 +4,7 @@
   "sourceRoot": "apps/visualizer/src",
   "projectType": "application",
   "targets": {
-    "build": {
+    "build-app": {
       "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -17,6 +17,33 @@
         },
         "production": {
           "mode": "production"
+        }
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "production",
+      "options": {
+        "commands": [],
+        "parallel": false
+      },
+      "configurations": {
+        "development": {
+          "commands": [
+            {
+              "command": "nx run visualizer:build-app:development"
+            }
+          ]
+        },
+        "production": {
+          "commands": [
+            {
+              "command": "nx run visualizer:build-app:production"
+            },
+            {
+              "command": "npx tailwindcss -i apps/visualizer/src/styles.previews.css -o dist/apps/visualizer/src/styles.previews.css"
+            }
+          ]
         }
       }
     },

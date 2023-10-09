@@ -8,13 +8,7 @@ module.exports = {
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
-    extend: {
-      colors: {
-        'preview-blue': '#0d6efd',
-        'preview-green': '#198754',
-        'preview-red': '#dc3545',
-      },
-    },
+    extend: {},
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 };

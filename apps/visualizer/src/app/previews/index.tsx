@@ -1,53 +1,37 @@
 import { Resizable } from 're-resizable';
-import { Suspense, useCallback, useRef, useState } from 'react';
-import { Params, defer, useLoaderData } from 'react-router-dom';
+import { useCallback, useRef, useState } from 'react';
+import { Params, useLoaderData } from 'react-router-dom';
 import { Preview } from '../../data/preview.model';
-import { delay } from '../../lib/utils';
 import { PreviewBreakpoints } from './breakpoints';
 import { CodeView } from './code';
 import { PreviewGuide } from './guide';
 import { PreviewView } from './preview';
-import { PreviewSkeleton } from './skeleton';
 import { PreviewToolbar } from './toolbar';
 
 export type PreviewViewType = 'preview' | 'code';
 
-export async function loader({
-  request,
-  params,
-}: {
-  request: Request;
-  params: Params<string>;
-}) {
-  const { id } = params;
-  const url = new URL(request.url);
-  const showSkeleton = url.searchParams.get('skeleton') === 'true';
+export async function loader({ params }: { params: Params<string> }) {
+  const { categoryId, previewId } = params;
 
-  const shell = import('../../../index.previews.html?raw').then(
-    (m) => m.default as string
-  );
-  const code = showSkeleton
-    ? new Promise<string>(() => '')
-    : import(`../../../previews/${id}.html?raw`).then(
-        (m) => m.default as string
-      );
-  const doc = showSkeleton
-    ? new Promise<string>(() => '')
-    : Promise.all([shell, code, delay(0)]).then(([shell, code]) =>
-        shell.replace('<!-- PREVIEW -->', code)
-      );
-  const previews = await import('../../../previews/previews').then(
-    (m) => m.default as Preview[]
-  );
-  const preview = previews.find((p) => p.id === id);
+  const templateUrl = `templates/?categoryId=${categoryId}&previewId=${previewId}`;
+  const code = await import(
+    `../../../templates/${categoryId}/${previewId}.html?raw`
+  ).then((m) => m.default as string);
 
-  return defer({ doc, code, preview });
+  const categories = await import('../../../templates/categories').then(
+    (m) => m.categories
+  );
+  const preview = categories
+    .find((c) => c.id === categoryId)
+    ?.previews.find((p) => p.id === previewId);
+
+  return { templateUrl, code, preview };
 }
 
 export const Component = () => {
-  const { doc, code, preview } = useLoaderData() as {
-    doc: Promise<string>;
-    code: Promise<string>;
+  const { templateUrl, code, preview } = useLoaderData() as {
+    templateUrl: string;
+    code: string;
     preview: Preview;
   };
   const resizable = useRef<Resizable>(null);
@@ -108,6 +92,7 @@ export const Component = () => {
       <h1 className="mb-4 text-4xl font-bold">{preview.name}</h1>
 
       <PreviewToolbar
+        templateUrl={templateUrl}
         selectedView={selectedView}
         onViewSelect={setSelectedView}
       />
@@ -121,18 +106,16 @@ export const Component = () => {
       />
 
       <div className="relative flex flex-1 flex-col rounded-lg ring-1 ring-gray-900/10">
-        <Suspense fallback={<PreviewSkeleton />}>
-          <PreviewView
-            ref={resizable}
-            doc={doc}
-            selectedView={selectedView}
-            selectedWidth={selectedWidth}
-            onResizeStart={handleResizeStart}
-            onResizeStop={handleResizeStop}
-          />
+        <PreviewView
+          ref={resizable}
+          templateUrl={templateUrl}
+          selectedView={selectedView}
+          selectedWidth={selectedWidth}
+          onResizeStart={handleResizeStart}
+          onResizeStop={handleResizeStop}
+        />
 
-          <CodeView code={code} selectedView={selectedView} />
-        </Suspense>
+        <CodeView code={code} selectedView={selectedView} />
 
         <PreviewGuide show={guide.show} width={guide.width} />
       </div>

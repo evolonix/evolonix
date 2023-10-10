@@ -1,13 +1,12 @@
 import clsx from 'clsx';
 import { Resizable } from 're-resizable';
 import { ForwardedRef, forwardRef } from 'react';
-import { Await } from 'react-router-dom';
 import { PreviewViewType } from '.';
 import { breakpoints } from '../../lib/breakpoints';
 import { useBreakpointObserver } from '../../lib/use-breakpoint-observer';
 
 interface PreviewProps {
-  doc: Promise<string>;
+  templateUrl: string;
   selectedView: PreviewViewType;
   selectedWidth: string | number;
   onResizeStart: () => void;
@@ -17,7 +16,7 @@ interface PreviewProps {
 export const PreviewView = forwardRef(
   (
     {
-      doc,
+      templateUrl,
       selectedView,
       selectedWidth,
       onResizeStart,
@@ -63,15 +62,11 @@ export const PreviewView = forwardRef(
         onResizeStart={onResizeStart}
         onResizeStop={onResizeStop}
       >
-        <Await resolve={doc}>
-          {(resolvedDoc: string) => (
-            <iframe
-              title="preview"
-              srcDoc={resolvedDoc}
-              className="w-full flex-1 rounded-lg"
-            ></iframe>
-          )}
-        </Await>
+        <iframe
+          title="preview"
+          src={templateUrl}
+          className="w-full flex-1 rounded-lg"
+        ></iframe>
       </Resizable>
     );
   }

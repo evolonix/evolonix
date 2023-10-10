@@ -1,19 +1,54 @@
 import { CodeBracketIcon, EyeIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 import { PreviewViewType } from '.';
 
 export const PreviewToolbar = ({
+  templateUrl,
   selectedView,
   onViewSelect,
 }: {
+  templateUrl: string;
   selectedView: PreviewViewType;
   onViewSelect: (view: PreviewViewType) => void;
 }) => {
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const [initialTop, setInitialTop] = useState<number | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const initial = toolbarRef.current?.offsetTop ?? null;
+
+    setInitialTop(initial);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (initialTop === null) return;
+
+      const form = toolbarRef.current;
+      const top = form?.offsetTop ?? 0;
+
+      setScrolled(top > initialTop);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [initialTop, scrolled]);
+
   return (
-    <div className="mb-4 flex items-center justify-end">
+    <div
+      ref={toolbarRef}
+      className={clsx(
+        'sticky top-14 z-20 flex items-center justify-end py-2 transition-shadow',
+        scrolled
+          ? '-mx-4 bg-gray-100 px-4 ring-1 ring-gray-200 sm:-mx-6 md:px-6 lg:-mx-8 lg:px-8'
+          : ''
+      )}
+    >
       <div
-        className="flex space-x-1 rounded-lg bg-gray-100 p-0.5"
+        className="flex space-x-1 rounded-lg bg-gray-200 p-0.5"
         role="tablist"
         aria-orientation="horizontal"
       >
@@ -63,8 +98,8 @@ export const PreviewToolbar = ({
         </button>
       </div>
       <div className="ml-6 mr-6 h-5 w-px bg-gray-900/10"></div>
-      <Link
-        to="fullscreen"
+      <a
+        href={templateUrl}
         className="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
       >
         <svg
@@ -76,7 +111,7 @@ export const PreviewToolbar = ({
           <path d="M5 19V14H7V17H10V19ZM5 10V5H10V7H7V10ZM14 19V17H17V14H19V19ZM17 10V7H14V5H19V10Z" />
         </svg>
         <span className="sr-only lg:not-sr-only">Full Screen</span>
-      </Link>
+      </a>
     </div>
   );
 };

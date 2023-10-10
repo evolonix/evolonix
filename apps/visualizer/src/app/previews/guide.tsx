@@ -17,6 +17,7 @@ export const PreviewGuide = ({
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
       className="absolute inset-0 rounded-lg bg-gray-900/20"
+      style={{ width: `${width}px` }}
     >
       <div
         className="absolute top-1 left-px bottom-0 border-r-2 border-dashed border-red-500"

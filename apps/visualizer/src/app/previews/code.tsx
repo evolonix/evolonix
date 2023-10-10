@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Prism from 'prismjs';
 import { Await } from 'react-router-dom';
-import { PreviewViewType } from './detail';
+import { PreviewViewType } from '.';
 
 export const CodeView = ({
   code,

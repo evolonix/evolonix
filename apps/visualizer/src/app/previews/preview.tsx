@@ -2,9 +2,9 @@ import clsx from 'clsx';
 import { Resizable } from 're-resizable';
 import { ForwardedRef, forwardRef } from 'react';
 import { Await } from 'react-router-dom';
+import { PreviewViewType } from '.';
 import { breakpoints } from '../../lib/breakpoints';
 import { useBreakpointObserver } from '../../lib/use-breakpoint-observer';
-import { PreviewViewType } from './detail';
 
 interface PreviewProps {
   doc: Promise<string>;

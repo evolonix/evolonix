@@ -2,6 +2,7 @@ import { Resizable } from 're-resizable';
 import { Suspense, useCallback, useRef, useState } from 'react';
 import { Params, defer, useLoaderData } from 'react-router-dom';
 import { Preview } from '../../data/preview.model';
+import { delay } from '../../lib/utils';
 import { PreviewBreakpoints } from './breakpoints';
 import { CodeView } from './code';
 import { PreviewGuide } from './guide';
@@ -32,12 +33,12 @@ export async function loader({
       );
   const doc = showSkeleton
     ? new Promise<string>(() => '')
-    : Promise.all([shell, code]).then(([shell, code]) =>
+    : Promise.all([shell, code, delay(0)]).then(([shell, code]) =>
         shell.replace('<!-- PREVIEW -->', code)
       );
-  const previews = (await import('../../../previews/previews').then(
-    (m) => m.default
-  )) as Preview[];
+  const previews = await import('../../../previews/previews').then(
+    (m) => m.default as Preview[]
+  );
   const preview = previews.find((p) => p.id === id);
 
   return defer({ doc, code, preview });

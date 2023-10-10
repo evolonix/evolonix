@@ -13,4 +13,8 @@ export default [
     id: 'detail-screen',
     name: 'Detail Screen',
   },
+  {
+    id: 'thomas-preview',
+    name: "Thomas' Preview",
+  },
 ] satisfies Preview[];

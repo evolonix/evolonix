@@ -6,6 +6,7 @@ import {
   useLoaderData,
   useNavigate,
 } from 'react-router-dom';
+import { delay } from '../../lib/utils';
 import { FullscreenSkeleton } from './skeleton';
 
 export async function loader({ params }: { params: Params<string> }) {
@@ -20,7 +21,7 @@ export async function loader({ params }: { params: Params<string> }) {
   const code = await import(`../../../previews/${id}.html?raw`).then(
     (m) => m.default
   );
-  const doc = Promise.all([shell, code]).then(([shell, code]) =>
+  const doc = Promise.all([shell, code, delay(0)]).then(([shell, code]) =>
     shell.replace('<!-- PREVIEW -->', code)
   );
 
@@ -49,10 +50,10 @@ export const Component = () => {
   return (
     <Suspense fallback={<FullscreenSkeleton />}>
       <Await resolve={doc}>
-        {(doc) => (
+        {(resolvedDoc) => (
           <iframe
             title="preview"
-            srcDoc={doc}
+            srcDoc={resolvedDoc}
             className="min-h-screen w-full supports-[-webkit-touch-callout:none]:min-h-[-webkit-fill-available]"
           ></iframe>
         )}

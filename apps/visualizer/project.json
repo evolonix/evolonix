@@ -51,16 +51,15 @@
       "executor": "@nx/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "visualizer:build",
-        "host": "0.0.0.0"
+        "buildTarget": "visualizer:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "visualizer:build:development",
+          "buildTarget": "visualizer:build-app:development",
           "hmr": true
         },
         "production": {
-          "buildTarget": "visualizer:build:production",
+          "buildTarget": "visualizer:build-app:production",
           "hmr": false
         }
       }

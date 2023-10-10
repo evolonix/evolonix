@@ -5,18 +5,20 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import App, { loader as appLoader } from './app/app';
-import { Dashboard } from './app/dashboard/dashboard';
+import App from './app/app';
 import ErrorPage from './app/error';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    loader: appLoader,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Dashboard />, errorElement: <ErrorPage /> },
+      {
+        index: true,
+        lazy: () => import('./app/dashboard'),
+        errorElement: <ErrorPage />,
+      },
       {
         path: 'previews',
         errorElement: <ErrorPage />,
@@ -24,7 +26,7 @@ const router = createBrowserRouter([
           { index: true, element: <Navigate to="/" /> },
           {
             path: ':id',
-            lazy: () => import('./app/previews/detail'),
+            lazy: () => import('./app/previews'),
           },
         ],
       },
@@ -32,7 +34,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'previews/:id/fullscreen',
-    lazy: () => import('./app/fullscreen/detail'),
+    lazy: () => import('./app/fullscreen'),
   },
 ]);
 

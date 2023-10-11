@@ -31,7 +31,7 @@ export const PreviewView = forwardRef(
         ref={forwardedRef}
         className={clsx(
           selectedView === 'preview' ? 'flex' : 'hidden',
-          'relative min-w-[320px] max-w-full flex-1 flex-col rounded-lg bg-white ring-1 ring-gray-900/10 transition-all duration-300'
+          'relative min-w-[320px] max-w-full flex-1 flex-col rounded-lg bg-white ring-1 ring-gray-900/10 transition-all duration-300 dark:bg-black dark:ring-white/10'
         )}
         defaultSize={{
           width: selectedWidth,

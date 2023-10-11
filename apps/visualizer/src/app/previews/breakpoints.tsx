@@ -25,7 +25,7 @@ export const PreviewBreakpoints = ({
       {Object.entries(breakpoints).map(([key, width]) => (
         <div
           key={key}
-          className="absolute top-0 -mr-px flex h-8 items-center border-r-2 border-dashed border-red-500"
+          className="absolute top-0 -mr-px flex h-8 items-center border-r-2 border-dashed border-red-500 dark:border-red-400"
           style={{
             left: `${width + 1}px`,
             transform: 'translateX(-100%)',

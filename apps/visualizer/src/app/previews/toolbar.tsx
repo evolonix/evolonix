@@ -1,6 +1,5 @@
 import { CodeBracketIcon, EyeIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
 import { PreviewViewType } from '.';
 
 export const PreviewToolbar = ({
@@ -12,43 +11,10 @@ export const PreviewToolbar = ({
   selectedView: PreviewViewType;
   onViewSelect: (view: PreviewViewType) => void;
 }) => {
-  const toolbarRef = useRef<HTMLDivElement>(null);
-  const [initialTop, setInitialTop] = useState<number | null>(null);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const initial = toolbarRef.current?.offsetTop ?? null;
-
-    setInitialTop(initial);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (initialTop === null) return;
-
-      const form = toolbarRef.current;
-      const top = form?.offsetTop ?? 0;
-
-      setScrolled(top > initialTop);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [initialTop, scrolled]);
-
   return (
-    <div
-      ref={toolbarRef}
-      className={clsx(
-        'sticky top-14 z-20 flex items-center justify-end py-2 transition-shadow',
-        scrolled
-          ? '-mx-4 bg-gray-100 px-4 ring-1 ring-gray-200 sm:-mx-6 md:px-6 lg:-mx-8 lg:px-8'
-          : ''
-      )}
-    >
+    <div className="sticky top-0 z-30 my-px flex items-center justify-end py-2">
       <div
-        className="flex space-x-1 rounded-lg bg-gray-200 p-0.5"
+        className="flex space-x-1 rounded-lg bg-gray-200 p-0.5 dark:bg-gray-800"
         role="tablist"
         aria-orientation="horizontal"
       >
@@ -67,11 +33,16 @@ export const PreviewToolbar = ({
             className={clsx(
               selectedView === 'preview'
                 ? 'stroke-indigo-500'
-                : 'stroke-gray-600',
+                : 'stroke-gray-600 dark:stroke-gray-400',
               'h-5 w-5 flex-none'
             )}
           />
-          <span className="sr-only text-gray-900 lg:not-sr-only lg:ml-2">
+          <span
+            className={clsx(
+              selectedView === 'preview' ? 'text-gray-600' : '',
+              'sr-only lg:not-sr-only lg:ml-2'
+            )}
+          >
             Preview
           </span>
         </button>
@@ -88,11 +59,18 @@ export const PreviewToolbar = ({
         >
           <CodeBracketIcon
             className={clsx(
-              selectedView === 'code' ? 'stroke-indigo-500' : 'stroke-gray-600',
+              selectedView === 'code'
+                ? 'stroke-indigo-500'
+                : 'stroke-gray-600 dark:stroke-gray-400',
               'h-5 w-5 flex-none'
             )}
           />
-          <span className="sr-only text-gray-600 lg:not-sr-only lg:ml-2">
+          <span
+            className={clsx(
+              selectedView === 'code' ? 'text-gray-600' : '',
+              'sr-only lg:not-sr-only lg:ml-2'
+            )}
+          >
             Code
           </span>
         </button>
@@ -100,7 +78,7 @@ export const PreviewToolbar = ({
       <div className="ml-6 mr-6 h-5 w-px bg-gray-900/10"></div>
       <a
         href={templateUrl}
-        className="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:shadow-black"
       >
         <svg
           className="-mt-1 -ml-0.5 h-5 w-5"

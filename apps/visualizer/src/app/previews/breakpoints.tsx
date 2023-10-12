@@ -33,15 +33,15 @@ export const PreviewBreakpoints = ({
         >
           <button
             className={clsx(
-              width === selectedWidth ? 'text-indigo-500' : '',
-              'group -mr-2 inline-flex items-center gap-1 hover:text-indigo-500'
+              width === selectedWidth ? 'text-sky-500' : '',
+              'group -mr-2 inline-flex items-center gap-1 hover:text-sky-500'
             )}
             onClick={() => onBreakpointSelect(width)}
             onPointerEnter={() => onBreakpointEnter(width)}
             onPointerLeave={() => onBreakpointLeave()}
           >
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-xs leading-none text-gray-400">
+              <span className="text-xs leading-none text-slate-400">
                 {width}px
               </span>
               <span className="text-sm leading-none">{key}</span>

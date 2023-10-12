@@ -13,7 +13,7 @@ export const CodeView = ({
     <div
       className={clsx(
         selectedView === 'code' ? 'flex' : 'hidden',
-        'flex-1 overflow-hidden rounded-lg bg-gray-900 text-white'
+        'flex-1 overflow-hidden rounded-lg bg-slate-900 text-white'
       )}
     >
       <pre className="flex flex-1 overflow-auto text-sm leading-[1.5714285714]">

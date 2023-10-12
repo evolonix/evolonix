@@ -31,7 +31,7 @@ export const PreviewView = forwardRef(
         ref={forwardedRef}
         className={clsx(
           selectedView === 'preview' ? 'flex' : 'hidden',
-          'relative min-w-[320px] max-w-full flex-1 flex-col rounded-lg bg-white ring-1 ring-gray-900/10 transition-all duration-300 dark:bg-gray-950 dark:ring-white/10'
+          'relative min-w-[320px] max-w-full flex-1 flex-col rounded-lg bg-white ring-1 ring-slate-900/10 transition-all duration-300 dark:bg-slate-950 dark:ring-white/10'
         )}
         defaultSize={{
           width: selectedWidth,
@@ -55,7 +55,7 @@ export const PreviewView = forwardRef(
         handleComponent={{
           right: (
             <div className="absolute inset-y-0 left-full hidden cursor-ew-resize items-center px-2 sm:flex">
-              <div className="h-8 w-1.5 rounded-full bg-gray-400"></div>
+              <div className="h-8 w-1.5 rounded-full bg-slate-400"></div>
             </div>
           ),
         }}

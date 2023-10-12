@@ -119,7 +119,7 @@ export const Component = () => {
         onBreakpointLeave={handleBreakpointLeave}
       />
 
-      <div className="relative flex flex-1 flex-col rounded-lg ring-1 ring-gray-900/10 dark:ring-white/10">
+      <div className="relative flex flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 dark:ring-white/10">
         <PreviewView
           ref={resizable}
           templateUrl={preview.templateUrl}

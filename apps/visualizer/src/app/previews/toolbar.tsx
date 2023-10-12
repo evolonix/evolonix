@@ -33,7 +33,7 @@ export const PreviewToolbar = ({
   return (
     <div className="sticky top-0 z-30 my-px flex items-center justify-end py-2">
       <div
-        className="flex space-x-1 rounded-lg bg-gray-200 p-0.5 dark:bg-gray-900"
+        className="flex space-x-1 rounded-lg bg-slate-200 p-0.5 dark:bg-slate-900"
         role="tablist"
         aria-orientation="horizontal"
       >
@@ -51,14 +51,14 @@ export const PreviewToolbar = ({
           <EyeIcon
             className={clsx(
               selectedView === 'preview'
-                ? 'stroke-indigo-500'
-                : 'stroke-gray-600 dark:stroke-gray-400',
+                ? 'stroke-sky-500'
+                : 'stroke-slate-600 dark:stroke-slate-400',
               'h-5 w-5 flex-none'
             )}
           />
           <span
             className={clsx(
-              selectedView === 'preview' ? 'text-gray-600' : '',
+              selectedView === 'preview' ? 'text-slate-600' : '',
               'sr-only lg:not-sr-only lg:ml-2'
             )}
           >
@@ -79,14 +79,14 @@ export const PreviewToolbar = ({
           <CodeBracketIcon
             className={clsx(
               selectedView === 'code'
-                ? 'stroke-indigo-500'
-                : 'stroke-gray-600 dark:stroke-gray-400',
+                ? 'stroke-sky-500'
+                : 'stroke-slate-600 dark:stroke-slate-400',
               'h-5 w-5 flex-none'
             )}
           />
           <span
             className={clsx(
-              selectedView === 'code' ? 'text-gray-600' : '',
+              selectedView === 'code' ? 'text-slate-600' : '',
               'sr-only lg:not-sr-only lg:ml-2'
             )}
           >
@@ -95,12 +95,12 @@ export const PreviewToolbar = ({
         </button>
       </div>
 
-      <div className="ml-6 mr-6 h-5 w-px bg-gray-900/10 dark:bg-white/10"></div>
+      <div className="ml-6 mr-6 h-5 w-px bg-slate-900/10 dark:bg-white/10"></div>
 
       {/* Full Screen */}
       <a
         href={templateUrl}
-        className="inline-flex items-center rounded-md bg-indigo-600 p-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:shadow-black lg:gap-x-1.5 lg:px-2.5"
+        className="inline-flex items-center rounded-md bg-sky-600 p-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:shadow-black lg:gap-x-1.5 lg:px-2.5"
       >
         <svg
           className="h-5 w-5"
@@ -119,7 +119,7 @@ export const PreviewToolbar = ({
       {/* Copy to Clipboard */}
       <button
         type="button"
-        className="group relative ml-2 inline-flex items-center rounded-md p-1.5 text-sm font-semibold text-gray-500 hover:text-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:text-gray-400 dark:shadow-black dark:hover:text-indigo-400 dark:focus-visible:outline-indigo-500"
+        className="group relative ml-2 inline-flex items-center rounded-md p-1.5 text-sm font-semibold text-slate-500 hover:text-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:text-slate-400 dark:shadow-black dark:hover:text-sky-400 dark:focus-visible:outline-sky-500"
         onClick={handleCopyToClipboard}
       >
         <span className="sr-only">Copy code to clipboard</span>
@@ -134,7 +134,7 @@ export const PreviewToolbar = ({
           leaveTo="opacity-0"
         >
           <div className="absolute -left-8 top-full ml-0.5 mt-2.5 flex justify-center">
-            <div className="rounded-md bg-gray-900 px-3 py-1 text-xs font-semibold uppercase leading-4 tracking-wide text-white drop-shadow-md filter dark:bg-gray-50 dark:text-gray-950">
+            <div className="rounded-md bg-slate-900 px-3 py-1 text-xs font-semibold uppercase leading-4 tracking-wide text-white drop-shadow-md filter dark:bg-slate-50 dark:text-slate-950">
               <svg
                 aria-hidden="true"
                 width="16"
@@ -146,7 +146,7 @@ export const PreviewToolbar = ({
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M15 0H1V1.00366V1.00366V1.00371H1.01672C2.72058 1.0147 4.24225 2.74704 5.42685 4.72928C6.42941 6.40691 9.57154 6.4069 10.5741 4.72926C11.7587 2.74703 13.2803 1.0147 14.9841 1.00371H15V0Z"
-                  className="fill-gray-900 dark:fill-gray-50"
+                  className="fill-slate-900 dark:fill-slate-50"
                 ></path>
               </svg>
               Copied!

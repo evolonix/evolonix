@@ -1,7 +1,10 @@
+import htmlParser from 'prettier/parser-html';
+import prettier from 'prettier/standalone';
 import { Resizable } from 're-resizable';
 import { useCallback, useRef, useState } from 'react';
 import { Params, useLoaderData } from 'react-router-dom';
-import { Preview } from '../../data/preview.model';
+import { Category, Preview } from '../../data/preview.model';
+import { generateTemplateUrl } from '../../lib/category.utils';
 import { PreviewBreakpoints } from './breakpoints';
 import { CodeView } from './code';
 import { PreviewGuide } from './guide';
@@ -13,24 +16,32 @@ export type PreviewViewType = 'preview' | 'code';
 export async function loader({ params }: { params: Params<string> }) {
   const { categoryId, previewId } = params;
 
-  const templateUrl = `templates/?categoryId=${categoryId}&previewId=${previewId}`;
   const code = await import(
     `../../../templates/${categoryId}/${previewId}.html?raw`
-  ).then((m) => m.default as string);
+  )
+    .then((m) => m.default as string)
+    .then(async (code) =>
+      // Format the code with prettier to fix any formatting issues after parsing components (Coming soon)
+      prettier.format(code, {
+        parser: 'html',
+        plugins: [htmlParser],
+      })
+    );
 
   const categories = await import('../../../templates/categories').then(
     (m) => m.categories
   );
-  const preview = categories
-    .find((c) => c.id === categoryId)
-    ?.previews.find((p) => p.id === previewId);
+  const category = categories.find((c) => c.id === categoryId) as Category;
+  let preview = category?.previews.find((p) => p.id === previewId) as
+    | Preview
+    | undefined;
+  preview = preview ? generateTemplateUrl(category)(preview) : undefined;
 
-  return { templateUrl, code, preview };
+  return { code, preview };
 }
 
 export const Component = () => {
-  const { templateUrl, code, preview } = useLoaderData() as {
-    templateUrl: string;
+  const { code, preview } = useLoaderData() as {
     code: string;
     preview: Preview;
   };
@@ -92,9 +103,12 @@ export const Component = () => {
       <h1 className="mb-4 text-4xl font-bold">{preview.name}</h1>
 
       <PreviewToolbar
-        templateUrl={templateUrl}
+        templateUrl={preview.templateUrl}
         selectedView={selectedView}
         onViewSelect={setSelectedView}
+        onCopyToClipboard={() => {
+          navigator.clipboard.writeText(code);
+        }}
       />
 
       <PreviewBreakpoints
@@ -108,7 +122,7 @@ export const Component = () => {
       <div className="relative flex flex-1 flex-col rounded-lg ring-1 ring-gray-900/10 dark:ring-white/10">
         <PreviewView
           ref={resizable}
-          templateUrl={templateUrl}
+          templateUrl={preview.templateUrl}
           selectedView={selectedView}
           selectedWidth={selectedWidth}
           onResizeStart={handleResizeStart}

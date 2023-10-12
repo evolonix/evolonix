@@ -1,20 +1,32 @@
 import { NavLink } from 'react-router-dom';
-import { Preview } from '../../data/preview.model';
+import { Category, Preview } from '../../data/preview.model';
 
 export const PreviewCard = ({
-  categoryId,
+  category,
   preview,
 }: {
-  categoryId: string;
+  category: Category;
   preview: Preview;
 }) => {
   return (
     <NavLink
-      key={`${categoryId}-${preview.id}`}
-      to={`/previews/${categoryId}/${preview.id}`}
-      className="block overflow-hidden sm:rounded-lg sm:shadow dark:sm:shadow-black"
+      key={`${category.id}-${preview.id}`}
+      to={`/previews/${category.id}/${preview.id}`}
+      className="block overflow-hidden rounded-lg bg-white shadow ring-indigo-400 transition hover:scale-105 focus:outline-none focus:ring-2 dark:bg-gray-950 dark:shadow-black"
     >
-      <div className="border-b border-gray-200 bg-white px-4 py-5 dark:border-gray-800 dark:bg-black sm:px-6">
+      <div className="relative aspect-video rounded-t-lg border-b border-gray-200 dark:border-gray-800">
+        <img
+          className="absolute h-full w-full object-cover object-top"
+          src={preview.image}
+          alt=""
+        />
+        {/* <iframe
+          src={preview.templateUrl}
+          title={preview.name}
+          className="overflow-hiddden pointer-events-none h-full w-full rounded-t-lg"
+        /> */}
+      </div>
+      <div className="px-4 py-5 sm:px-6">
         <h3 className="text-base font-semibold leading-6">{preview.name}</h3>
       </div>
     </NavLink>

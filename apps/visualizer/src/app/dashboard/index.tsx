@@ -1,11 +1,15 @@
 import { useLoaderData } from 'react-router-dom';
 import { Category } from '../../data/preview.model';
+import { loadImages } from '../../lib/category.utils';
 import { PreviewCard } from './card';
 
 export async function loader() {
-  const categories = await import('../../../templates/categories').then(
-    (m) => m.categories
+  const categories = await Promise.all(
+    await import('../../../templates/categories').then((m) =>
+      m.categories.map(loadImages)
+    )
   );
+  //.then((categories) => categories.map(generateTemplateUrls));
 
   return { categories };
 }
@@ -22,13 +26,13 @@ export const Component = () => {
           <div key={category.id}>
             <h2 className="mb-4 text-2xl font-bold">{category.name}</h2>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-12">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-12">
               {category.previews.map((preview) => (
                 <div
                   key={preview.id}
                   className="sm:col-span-6 lg:col-span-4 xl:col-span-3"
                 >
-                  <PreviewCard categoryId={category.id} preview={preview} />
+                  <PreviewCard category={category} preview={preview} />
                 </div>
               ))}
             </div>

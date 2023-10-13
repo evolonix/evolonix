@@ -14,7 +14,7 @@ const multiPageAppIndexRouting = () => ({
           ).filter((key) => key !== 'main');
           for (const appName of inputs) {
             if (req.originalUrl?.startsWith(`/${appName}`)) {
-              req.url = `/${appName}/index.html`;
+              req.url = `/index.${appName}.html`;
               break;
             }
           }
@@ -58,7 +58,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        templates: resolve(__dirname, 'templates', 'index.html'),
+        pages: resolve(__dirname, 'index.pages.html'),
       },
     },
   },

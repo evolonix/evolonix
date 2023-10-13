@@ -21,7 +21,7 @@ export const PreviewCard = ({
           alt=""
         />
         {/* <iframe
-          src={preview.templateUrl}
+          src={preview.url}
           title={preview.name}
           className="overflow-hiddden pointer-events-none h-full w-full rounded-t-lg"
         /> */}

@@ -5,11 +5,11 @@ import { PreviewCard } from './card';
 
 export async function loader() {
   const categories = await Promise.all(
-    await import('../../../templates/categories').then((m) =>
+    await import('../../pages/categories').then((m) =>
       m.categories.map(loadImages)
     )
   );
-  //.then((categories) => categories.map(generateTemplateUrls));
+  //.then((categories) => categories.map(generateUrls));
 
   return { categories };
 }

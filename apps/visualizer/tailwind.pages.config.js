@@ -5,11 +5,7 @@ const colors = require('tailwindcss/colors');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    join(__dirname, 'templates/**/*.html'),
-    join(
-      __dirname,
-      '{src,pages,components,app}/**/templates/**/*!(*.stories|*.spec).{ts,tsx}'
-    ),
+    join(__dirname, 'src/**/pages/**/*!(*.stories|*.spec).{html,ts,tsx}'),
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {

@@ -9,12 +9,12 @@ import { useState } from 'react';
 import { PreviewViewType } from '.';
 
 export const PreviewToolbar = ({
-  templateUrl,
+  pageUrl,
   selectedView,
   onViewSelect,
   onCopyToClipboard,
 }: {
-  templateUrl?: string;
+  pageUrl?: string;
   selectedView: PreviewViewType;
   onViewSelect: (view: PreviewViewType) => void;
   onCopyToClipboard: () => void;
@@ -99,7 +99,7 @@ export const PreviewToolbar = ({
 
       {/* Full Screen */}
       <a
-        href={templateUrl}
+        href={pageUrl}
         className="inline-flex items-center rounded-md bg-sky-600 p-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:shadow-black lg:gap-x-1.5 lg:px-2.5"
       >
         <svg

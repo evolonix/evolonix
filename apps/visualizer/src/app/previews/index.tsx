@@ -4,7 +4,7 @@ import { Resizable } from 're-resizable';
 import { useCallback, useRef, useState } from 'react';
 import { Params, useLoaderData } from 'react-router-dom';
 import { Category, Preview } from '../../data/preview.model';
-import { generateTemplateUrl } from '../../lib/category.utils';
+import { generateUrl } from '../../lib/category.utils';
 import { PreviewBreakpoints } from './breakpoints';
 import { CodeView } from './code';
 import { PreviewGuide } from './guide';
@@ -17,7 +17,7 @@ export async function loader({ params }: { params: Params<string> }) {
   const { categoryId, previewId } = params;
 
   const code = await import(
-    `../../../templates/${categoryId}/${previewId}.html?raw`
+    `../../pages/categories/${categoryId}/${previewId}.html?raw`
   )
     .then((m) => m.default as string)
     .then(async (code) =>
@@ -28,14 +28,14 @@ export async function loader({ params }: { params: Params<string> }) {
       })
     );
 
-  const categories = await import('../../../templates/categories').then(
+  const categories = await import('../../pages/categories').then(
     (m) => m.categories
   );
   const category = categories.find((c) => c.id === categoryId) as Category;
   let preview = category?.previews.find((p) => p.id === previewId) as
     | Preview
     | undefined;
-  preview = preview ? generateTemplateUrl(category)(preview) : undefined;
+  preview = preview ? generateUrl(category)(preview) : undefined;
 
   return { code, preview };
 }
@@ -103,7 +103,7 @@ export const Component = () => {
       <h1 className="mb-4 text-4xl font-bold">{preview.name}</h1>
 
       <PreviewToolbar
-        templateUrl={preview.templateUrl}
+        pageUrl={preview.url}
         selectedView={selectedView}
         onViewSelect={setSelectedView}
         onCopyToClipboard={() => {
@@ -122,7 +122,7 @@ export const Component = () => {
       <div className="relative flex flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 dark:ring-white/10">
         <PreviewView
           ref={resizable}
-          templateUrl={preview.templateUrl}
+          pageUrl={preview.url}
           selectedView={selectedView}
           selectedWidth={selectedWidth}
           onResizeStart={handleResizeStart}

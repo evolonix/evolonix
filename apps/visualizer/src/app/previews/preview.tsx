@@ -6,7 +6,7 @@ import { breakpoints } from '../../lib/breakpoints';
 import { useBreakpointObserver } from '../../lib/use-breakpoint-observer';
 
 interface PreviewProps {
-  templateUrl?: string;
+  pageUrl?: string;
   selectedView: PreviewViewType;
   selectedWidth: string | number;
   onResizeStart: () => void;
@@ -16,7 +16,7 @@ interface PreviewProps {
 export const PreviewView = forwardRef(
   (
     {
-      templateUrl,
+      pageUrl,
       selectedView,
       selectedWidth,
       onResizeStart,
@@ -64,7 +64,7 @@ export const PreviewView = forwardRef(
       >
         <iframe
           title="preview"
-          src={templateUrl}
+          src={pageUrl}
           className="w-full flex-1 rounded-lg"
         ></iframe>
       </Resizable>

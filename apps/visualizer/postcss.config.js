@@ -12,7 +12,7 @@ module.exports = {
         config: join(__dirname, 'tailwind.config.js'),
       },
       {
-        config: join(__dirname, 'tailwind.templates.config.js'),
+        config: join(__dirname, 'tailwind.pages.config.js'),
       },
     ],
     autoprefixer: {},

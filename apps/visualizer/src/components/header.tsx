@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { Fragment } from 'react';
 import { NavLink, useLocation, useMatches } from 'react-router-dom';
 import logo from '../assets/logo.svg';
+import Breadcrumbs from './breadcrumbs';
 
 const user = {
   name: 'Tom Cook',
@@ -203,6 +204,8 @@ export default function Header() {
 
             {navigation?.length ? (
               <div className="space-y-1 border-t border-slate-200 px-2 pb-3 pt-2 dark:border-slate-700">
+                <Breadcrumbs className="flex" />
+
                 {navigation.map((item) => (
                   <Disclosure.Button
                     key={item.name}

@@ -5,7 +5,7 @@ import {
   EyeIcon,
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { PreviewViewType } from '.';
 
 export const PreviewToolbar = ({
@@ -31,7 +31,7 @@ export const PreviewToolbar = ({
   };
 
   return (
-    <div className="my-px flex items-center justify-end py-2">
+    <div className="z-10 my-px flex items-center justify-end py-2">
       <div
         className="flex space-x-1 rounded-lg bg-slate-200 p-0.5 dark:bg-slate-900"
         role="tablist"
@@ -97,6 +97,49 @@ export const PreviewToolbar = ({
 
       <div className="ml-6 mr-6 h-5 w-px bg-slate-900/10 dark:bg-white/10"></div>
 
+      {/* Copy to Clipboard */}
+      <button
+        type="button"
+        className="group relative inline-flex items-center rounded-md bg-sky-600 p-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:shadow-black lg:px-2.5"
+        onClick={handleCopyToClipboard}
+      >
+        <ClipboardIcon className="h-5 w-5" />
+        <span className="sr-only lg:not-sr-only lg:ml-1.5">Copy Code</span>
+
+        <Transition
+          as={Fragment}
+          show={copied}
+          enter="transition ease-out duration-200"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition ease-in duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="absolute bottom-full left-1/2 -ml-2 mb-2.5 flex -translate-x-1/2 justify-center">
+            <div className="rounded-md bg-slate-900 px-3 py-1 text-xs font-semibold uppercase leading-4 tracking-wide text-white drop-shadow-md filter dark:bg-slate-50 dark:text-slate-950">
+              <svg
+                aria-hidden="true"
+                width="16"
+                height="6"
+                viewBox="0 0 16 6"
+                className="absolute left-1/2 top-full -mt-px"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M15 0H1V1.00366V1.00366V1.00371H1.01672C2.72058 1.0147 4.24225 2.74704 5.42685 4.72928C6.42941 6.40691 9.57154 6.4069 10.5741 4.72926C11.7587 2.74703 13.2803 1.0147 14.9841 1.00371H15V0Z"
+                  className="fill-slate-900 dark:fill-slate-50"
+                ></path>
+              </svg>
+              Copied!
+            </div>
+          </div>
+        </Transition>
+      </button>
+
+      <div className="ml-6 mr-6 h-5 w-px bg-slate-900/10 dark:bg-white/10"></div>
+
       {/* Full Screen */}
       <a
         href={pageUrl}
@@ -115,46 +158,6 @@ export const PreviewToolbar = ({
         </svg>
         <span className="sr-only lg:not-sr-only">Full Screen</span>
       </a>
-
-      {/* Copy to Clipboard */}
-      <button
-        type="button"
-        className="group relative ml-2 inline-flex items-center rounded-md p-1.5 text-sm font-semibold text-slate-500 hover:text-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:text-slate-400 dark:shadow-black dark:hover:text-sky-400 dark:focus-visible:outline-sky-500"
-        // className="group relative inline-flex items-center rounded-md bg-sky-600 p-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:shadow-black lg:gap-x-1.5 lg:px-2.5"
-        onClick={handleCopyToClipboard}
-      >
-        <span className="sr-only">Copy code to clipboard</span>
-        <ClipboardIcon className="h-5 w-5 text-current transition-transform group-hover:rotate-[-4deg]" />
-        <Transition
-          show={copied}
-          enter="transition ease-out duration-200"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="transition ease-in duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="absolute -left-8 top-full ml-0.5 mt-2.5 flex justify-center">
-            <div className="rounded-md bg-slate-900 px-3 py-1 text-xs font-semibold uppercase leading-4 tracking-wide text-white drop-shadow-md filter dark:bg-slate-50 dark:text-slate-950">
-              <svg
-                aria-hidden="true"
-                width="16"
-                height="6"
-                viewBox="0 0 16 6"
-                className="absolute bottom-full left-1/2 -mb-px rotate-180"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M15 0H1V1.00366V1.00366V1.00371H1.01672C2.72058 1.0147 4.24225 2.74704 5.42685 4.72928C6.42941 6.40691 9.57154 6.4069 10.5741 4.72926C11.7587 2.74703 13.2803 1.0147 14.9841 1.00371H15V0Z"
-                  className="fill-slate-900 dark:fill-slate-50"
-                ></path>
-              </svg>
-              Copied!
-            </div>
-          </div>
-        </Transition>
-      </button>
     </div>
   );
 };

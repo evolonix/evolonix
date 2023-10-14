@@ -1,8 +1,9 @@
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 import { ReactElement } from 'react';
 import { NavLink, useMatches } from 'react-router-dom';
 
-export default function Breadcrumbs() {
+export default function Breadcrumbs({ className }: { className: string }) {
   const matches = useMatches();
   const crumbs = matches
     // First get rid of any matches that don't have handle and crumb
@@ -16,8 +17,8 @@ export default function Breadcrumbs() {
     );
 
   return (
-    <nav className="mb-4 hidden lg:flex" aria-label="Breadcrumb">
-      <ol className="flex items-center space-x-4">
+    <nav className={clsx('mb-4', className)} aria-label="Breadcrumb">
+      <ol className="flex flex-wrap items-center gap-x-4 gap-y-2">
         <li>
           <div>
             <NavLink

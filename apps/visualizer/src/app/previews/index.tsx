@@ -37,7 +37,17 @@ export async function loader({ params }: { params: Params<string> }) {
     | undefined;
   preview = preview ? generateUrl(category)(preview) : undefined;
 
-  return { code, preview };
+  const navigation = category.previews.map((preview) => ({
+    name: preview.name,
+    to: `/dashboard/${category.id}/${preview.id}`,
+  }));
+
+  return {
+    code,
+    category,
+    preview,
+    navigation,
+  };
 }
 
 export const Component = () => {

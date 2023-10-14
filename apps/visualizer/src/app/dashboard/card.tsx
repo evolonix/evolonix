@@ -11,7 +11,7 @@ export const PreviewCard = ({
   return (
     <NavLink
       key={`${category.id}-${preview.id}`}
-      to={`/previews/${category.id}/${preview.id}`}
+      to={`/dashboard/${category.id}/${preview.id}`}
       className="block overflow-hidden rounded-lg bg-white shadow ring-sky-400 transition hover:scale-105 focus:outline-none focus:ring-2 dark:bg-slate-950 dark:shadow-black"
     >
       <div className="relative aspect-video rounded-t-lg border-b border-slate-200 dark:border-slate-800">

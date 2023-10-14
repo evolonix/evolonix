@@ -31,7 +31,7 @@ export const PreviewToolbar = ({
   };
 
   return (
-    <div className="sticky top-0 z-30 my-px flex items-center justify-end py-2">
+    <div className="my-px flex items-center justify-end py-2">
       <div
         className="flex space-x-1 rounded-lg bg-slate-200 p-0.5 dark:bg-slate-900"
         role="tablist"
@@ -120,6 +120,7 @@ export const PreviewToolbar = ({
       <button
         type="button"
         className="group relative ml-2 inline-flex items-center rounded-md p-1.5 text-sm font-semibold text-slate-500 hover:text-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:text-slate-400 dark:shadow-black dark:hover:text-sky-400 dark:focus-visible:outline-sky-500"
+        // className="group relative inline-flex items-center rounded-md bg-sky-600 p-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:shadow-black lg:gap-x-1.5 lg:px-2.5"
         onClick={handleCopyToClipboard}
       >
         <span className="sr-only">Copy code to clipboard</span>

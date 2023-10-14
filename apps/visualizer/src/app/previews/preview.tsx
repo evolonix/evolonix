@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Resizable } from 're-resizable';
-import { ForwardedRef, forwardRef } from 'react';
+import { ForwardedRef, RefObject, forwardRef, useEffect } from 'react';
 import { PreviewViewType } from '.';
 import { breakpoints } from '../../lib/breakpoints';
 import { useBreakpointObserver } from '../../lib/use-breakpoint-observer';
@@ -25,6 +25,16 @@ export const PreviewView = forwardRef(
     forwardedRef: ForwardedRef<Resizable>
   ) => {
     const isSmallScreen = useBreakpointObserver(breakpoints['sm']);
+
+    useEffect(() => {
+      // Reset to full width on x-small screens since resizable is disabled
+      if (!isSmallScreen) {
+        (forwardedRef as RefObject<Resizable>)?.current?.updateSize({
+          width: '100%',
+          height: '100%',
+        });
+      }
+    }, [forwardedRef, isSmallScreen]);
 
     return (
       <Resizable

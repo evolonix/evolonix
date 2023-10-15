@@ -1,10 +1,8 @@
-import htmlParser from 'prettier/parser-html';
-import prettier from 'prettier/standalone';
 import { Resizable } from 're-resizable';
 import { useCallback, useRef, useState } from 'react';
 import { Params, useLoaderData } from 'react-router-dom';
-import { Category, Preview } from '../../data/preview.model';
-import { generateUrl } from '../../lib/category.utils';
+import { getPreview } from '../../data';
+import { Preview } from '../../data/preview.model';
 import { PreviewBreakpoints } from './breakpoints';
 import { CodeView } from './code';
 import { PreviewGuide } from './guide';
@@ -15,44 +13,18 @@ export type PreviewViewType = 'preview' | 'code';
 
 export async function loader({ params }: { params: Params<string> }) {
   const { categoryId, previewId } = params;
+  if (!categoryId || !previewId) throw new Error('Missing params');
 
-  const code = await import(
-    `../../pages/categories/${categoryId}/${previewId}.html?raw`
-  )
-    .then((m) => m.default as string)
-    .then(async (code) =>
-      // Format the code with prettier to fix any formatting issues after parsing components (Coming soon)
-      prettier.format(code, {
-        parser: 'html',
-        plugins: [htmlParser],
-      })
-    );
-
-  const categories = await import('../../pages/categories').then(
-    (m) => m.categories
-  );
-  const category = categories.find((c) => c.id === categoryId) as Category;
-  let preview = category?.previews.find((p) => p.id === previewId) as
-    | Preview
-    | undefined;
-  preview = preview ? generateUrl(category)(preview) : undefined;
-
-  const navigation = category.previews.map((preview) => ({
-    name: preview.name,
-    to: `/dashboard/${category.id}/${preview.id}`,
-  }));
+  const [preview, navigation] = await getPreview(previewId, categoryId);
 
   return {
-    code,
-    category,
     preview,
     navigation,
   };
 }
 
 export const Component = () => {
-  const { code, preview } = useLoaderData() as {
-    code: string;
+  const { preview } = useLoaderData() as {
     preview: Preview;
   };
   const resizable = useRef<Resizable>(null);
@@ -117,7 +89,7 @@ export const Component = () => {
         selectedView={selectedView}
         onViewSelect={setSelectedView}
         onCopyToClipboard={() => {
-          navigator.clipboard.writeText(code);
+          if (preview?.code) navigator.clipboard.writeText(preview.code);
         }}
       />
 
@@ -139,7 +111,7 @@ export const Component = () => {
           onResizeStop={handleResizeStop}
         />
 
-        <CodeView code={code} selectedView={selectedView} />
+        <CodeView code={preview?.code} selectedView={selectedView} />
 
         <PreviewGuide show={guide.show} width={guide.width} />
       </div>

@@ -1,0 +1,147 @@
+import { matchSorter } from 'match-sorter';
+import htmlParser from 'prettier/parser-html';
+import prettier from 'prettier/standalone';
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
+import * as api from './preview.api';
+import { Category, Preview } from './preview.model';
+
+const filterCategories = (categories: Category[], query: string) => {
+  const matchedCategories = matchSorter(categories, query, {
+    keys: ['name'],
+  });
+  let matchedCategoriesWithPreviews = categories.map((category) => ({
+    ...category,
+    previews: matchSorter(category.previews, query, { keys: ['name'] }),
+  }));
+  matchedCategoriesWithPreviews = matchedCategoriesWithPreviews.filter(
+    (category) => category.previews.length
+  );
+  categories = categories
+    .filter(
+      (category) =>
+        matchedCategories.some((c) => c.id === category.id) ||
+        matchedCategoriesWithPreviews.some((c) => c.id === category.id)
+    )
+    .map(
+      (category) =>
+        matchedCategoriesWithPreviews.find((c) => c.id === category.id) ?? {
+          ...category,
+          previews: [],
+        }
+    );
+
+  return categories;
+};
+
+export interface PreviewState {
+  categories: Category[];
+  selected?: Preview;
+}
+
+export const usePreviewStore = create(
+  immer<PreviewState>(() => ({
+    categories: [],
+  }))
+);
+
+export const getCategories = async (
+  query?: string | null
+): Promise<
+  [
+    Category[],
+    {
+      name: string;
+      to: string;
+    }[]
+  ]
+> => {
+  let { categories } = usePreviewStore.getState();
+
+  if (!categories?.length) {
+    categories = await api.getCategories();
+
+    usePreviewStore.setState({ categories, selected: undefined }); // Clear selected preview
+  }
+
+  const navigation = categories.map((category) => ({
+    name: category.name,
+    to: `/dashboard/${category.id}`,
+  }));
+
+  if (query) {
+    categories = filterCategories(categories, query);
+
+    usePreviewStore.setState({ selected: undefined }); // Clear selected preview
+  }
+
+  return [categories, navigation];
+};
+
+export const getCategory = async (id: string): Promise<Category | null> => {
+  let { categories } = usePreviewStore.getState();
+  if (!categories?.length) [categories] = await getCategories();
+
+  const category = categories?.find((category) => category.id === id);
+
+  return category ?? null;
+};
+
+export const getPreview = async (
+  id: string,
+  categoryId: string
+): Promise<
+  [
+    Preview | null,
+    {
+      name: string;
+      to: string;
+    }[]
+  ]
+> => {
+  const category = await getCategory(categoryId);
+  const preview = category?.previews.find((preview) => preview.id === id);
+
+  if (preview && (!preview?.url || !preview.code)) {
+    preview.url = `/pages/${categoryId}/${preview.id}`;
+    preview.code = await import(
+      `../pages/categories/${categoryId}/${preview.id}.html?raw`
+    )
+      .then((m) => m.default as string)
+      .then(async (code) =>
+        // Format the code with prettier to fix any formatting issues after parsing components (Coming soon)
+        prettier.format(code, {
+          parser: 'html',
+          plugins: [htmlParser],
+        })
+      );
+
+    let { categories } = usePreviewStore.getState();
+    categories = categories.map((category) => {
+      if (category.id === categoryId) {
+        category.previews = category.previews.map((p) =>
+          p.id === preview.id ? preview : p
+        );
+      }
+
+      return category;
+    });
+
+    usePreviewStore.setState({ categories });
+  }
+
+  usePreviewStore.setState({ selected: preview });
+
+  const navigation = category?.previews.map((preview) => ({
+    name: preview.name,
+    to: `/dashboard/${category.id}/${preview.id}`,
+  }));
+
+  return [preview ?? null, navigation || []];
+};
+
+export const getSelectedPreview = (): Preview | null => {
+  const { selected } = usePreviewStore.getState();
+
+  return selected ?? null;
+};

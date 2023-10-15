@@ -7,7 +7,7 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import App from './app/app';
+import App, { loader as appLoader } from './app/app';
 import ErrorPage from './app/error';
 import { Category, Preview } from './data/preview.model';
 
@@ -15,6 +15,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    loader: appLoader,
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Navigate to="/dashboard" /> },
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
           {
             path: ':categoryId',
             async lazy() {
-              const { loader } = await import('./app/dashboard/category');
+              const { loader } = await import('./app/categories/category');
               return { loader };
             },
             handle: {
@@ -71,21 +72,15 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                lazy: () => import('./app/dashboard/category'),
+                lazy: () => import('./app/categories/category'),
               },
               {
                 path: ':previewId',
                 lazy: () => import('./app/previews'),
                 handle: {
-                  crumb: ({
-                    category,
-                    preview,
-                  }: {
-                    category: Category;
-                    preview: Preview;
-                  }) => (
+                  crumb: ({ preview }: { preview: Preview }) => (
                     <NavLink
-                      to={`/dashboard/${category.id}/${preview.id}`}
+                      to={`/dashboard/${preview.categoryId}/${preview.id}`}
                       end
                       className={({ isActive }) =>
                         clsx(

@@ -1,11 +1,28 @@
 import { Transition } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLoaderData } from 'react-router-dom';
+import { AppSearch } from '../components/app.search';
 import Breadcrumbs from '../components/breadcrumbs';
 import Header from '../components/header';
+import { Category, getCategories } from '../data';
+
+export async function loader({ request }: { request: Request }) {
+  const url = new URL(request.url);
+  const query = url.searchParams.get('search');
+  const [categories] = query ? await getCategories(query) : [];
+
+  return {
+    categories,
+    query,
+  };
+}
 
 export function App() {
+  const { categories, query } = useLoaderData() as {
+    categories: Category[] | undefined;
+    query: string | null;
+  };
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -34,6 +51,8 @@ export function App() {
           reserved.
         </p>
       </footer>
+
+      <AppSearch query={query} filteredCategories={categories} />
 
       {/* Scroll to Top */}
       <Transition

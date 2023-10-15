@@ -1,23 +1,22 @@
-import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { Disclosure } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { Fragment } from 'react';
-import { NavLink, useLocation, useMatches } from 'react-router-dom';
+import { Link, NavLink, useLocation, useMatches } from 'react-router-dom';
 import logo from '../assets/logo.svg';
 import Breadcrumbs from './breadcrumbs';
 
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-};
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-];
+// const user = {
+//   name: 'Tom Cook',
+//   email: 'tom@example.com',
+//   imageUrl:
+//     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+// };
+// const userNavigation = [
+//   { name: 'Your Profile', href: '#' },
+//   { name: 'Settings', href: '#' },
+//   { name: 'Sign out', href: '#' },
+// ];
 
 export default function Header() {
   const { pathname } = useLocation();
@@ -46,7 +45,9 @@ export default function Header() {
             <div className="relative flex h-16 justify-between">
               <div className="relative z-10 flex px-2 lg:px-0">
                 <div className="flex flex-shrink-0 items-center">
-                  <img className="h-8 w-auto" src={logo} alt="Your Company" />
+                  <Link to="/">
+                    <img className="h-8 w-auto" src={logo} alt="Your Company" />
+                  </Link>
                 </div>
                 <nav
                   className="ml-4 hidden lg:flex lg:space-x-4"
@@ -54,6 +55,7 @@ export default function Header() {
                 >
                   <NavLink
                     to="/dashboard"
+                    end
                     className={({ isActive }) =>
                       clsx(
                         isActive
@@ -101,7 +103,8 @@ export default function Header() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
+
+              {/* <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
                 <button
                   type="button"
                   className="relative flex-shrink-0 rounded-full bg-white p-1 text-slate-400 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 dark:bg-slate-950 dark:text-slate-500 dark:hover:text-slate-400 dark:focus:ring-sky-400"
@@ -111,7 +114,7 @@ export default function Header() {
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
 
-                {/* Profile dropdown */}
+                // Profile dropdown
                 <Menu as="div" className="relative ml-4 flex-shrink-0">
                   <div>
                     <Menu.Button className="relative flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 dark:bg-slate-950 dark:focus:ring-sky-400">
@@ -152,7 +155,7 @@ export default function Header() {
                     </Menu.Items>
                   </Transition>
                 </Menu>
-              </div>
+              </div> */}
             </div>
 
             {navigation?.length ? (
@@ -189,6 +192,7 @@ export default function Header() {
               <Disclosure.Button
                 as={NavLink}
                 to="/dashboard"
+                end
                 className={({ isActive }: { isActive: boolean }) =>
                   clsx(
                     isActive
@@ -226,7 +230,7 @@ export default function Header() {
               </div>
             ) : null}
 
-            <div className="border-t border-slate-200 pb-3 pt-4 dark:border-slate-700">
+            {/* <div className="border-t border-slate-200 pb-3 pt-4 dark:border-slate-700">
               <div className="flex items-center px-4">
                 <div className="flex-shrink-0">
                   <img
@@ -264,7 +268,7 @@ export default function Header() {
                   </Disclosure.Button>
                 ))}
               </div>
-            </div>
+            </div> */}
           </Disclosure.Panel>
         </>
       )}

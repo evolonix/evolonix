@@ -6,7 +6,7 @@ export const CodeView = ({
   code,
   selectedView,
 }: {
-  code: string;
+  code?: string;
   selectedView: PreviewViewType;
 }) => {
   return (
@@ -20,7 +20,9 @@ export const CodeView = ({
         <code
           className="p-4"
           dangerouslySetInnerHTML={{
-            __html: Prism.highlight(code, Prism.languages.html, 'html'),
+            __html: code
+              ? Prism.highlight(code, Prism.languages.html, 'html')
+              : '',
           }}
         ></code>
       </pre>

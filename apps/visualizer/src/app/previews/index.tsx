@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Resizable } from 're-resizable';
 import { useCallback, useRef, useState } from 'react';
 import { Params, useLoaderData } from 'react-router-dom';
@@ -34,6 +35,7 @@ export const Component = () => {
   });
   const [selectedWidth, setSelectedWidth] = useState<string | number>('100%');
   const [selectedView, setSelectedView] = useState<PreviewViewType>('preview');
+  const [darkMode, setDarkMode] = useState(false);
 
   const handleBreakpointSelect = useCallback(
     (width: string | number) => {
@@ -85,12 +87,13 @@ export const Component = () => {
       <h1 className="mb-4 text-4xl font-bold">{preview.name}</h1>
 
       <PreviewToolbar
-        pageUrl={preview.url}
+        pageUrl={`${preview.url}?dark=${darkMode ? 'true' : 'false'}`}
         selectedView={selectedView}
         onViewSelect={setSelectedView}
         onCopyToClipboard={() => {
           if (preview?.code) navigator.clipboard.writeText(preview.code);
         }}
+        onDarkModeToggle={(darkMode) => setDarkMode(darkMode)}
       />
 
       <PreviewBreakpoints
@@ -101,19 +104,29 @@ export const Component = () => {
         onBreakpointLeave={handleBreakpointLeave}
       />
 
-      <div className="relative flex flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 dark:ring-white/10">
+      <div
+        className={clsx(
+          darkMode ? 'bg-slate-800' : 'bg-slate-100',
+          'relative flex flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 transition-colors dark:ring-white/10'
+        )}
+      >
         <PreviewView
           ref={resizable}
-          pageUrl={preview.url}
+          pageUrl={`${preview.url}?dark=${darkMode ? 'true' : 'false'}`}
           selectedView={selectedView}
           selectedWidth={selectedWidth}
+          darkMode={darkMode}
           onResizeStart={handleResizeStart}
           onResizeStop={handleResizeStop}
         />
 
         <CodeView code={preview?.code} selectedView={selectedView} />
 
-        <PreviewGuide show={guide.show} width={guide.width} />
+        <PreviewGuide
+          show={guide.show}
+          width={guide.width}
+          darkMode={darkMode}
+        />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 export interface Preview {
   id: string;
-  categoryId: string; // This is the ID of the category that this preview belongs to.
   name: string;
+  categoryId?: string; // This is the ID of the category that this preview belongs to.
 
   image?: string;
   url?: string;

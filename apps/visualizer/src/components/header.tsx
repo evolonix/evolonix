@@ -2,6 +2,7 @@ import { Disclosure } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation, useMatches } from 'react-router-dom';
 import logo from '../assets/logo.svg';
 import Breadcrumbs from './breadcrumbs';
@@ -33,6 +34,22 @@ export default function Header() {
       }
     | undefined;
   const navigation = data?.navigation;
+  const [isMacOS, setIsMacOS] = useState(false);
+  console.log(window.navigator.userAgent);
+
+  const handleSearchClick = () => {
+    const e = new KeyboardEvent('keydown', {
+      key: 'k',
+      ctrlKey: !isMacOS,
+      metaKey: isMacOS,
+    });
+    document.dispatchEvent(e);
+  };
+
+  useEffect(() => {
+    const mac = window.navigator.userAgent.includes('Macintosh');
+    setIsMacOS(mac);
+  }, []);
 
   return (
     <Disclosure
@@ -69,26 +86,20 @@ export default function Header() {
                   </NavLink>
                 </nav>
               </div>
-              <div className="relative z-0 flex flex-1 items-center justify-center px-2 sm:absolute sm:inset-0">
-                <div className="w-full sm:max-w-xs">
-                  <label htmlFor="search" className="sr-only">
-                    Search
-                  </label>
-                  <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <MagnifyingGlassIcon
-                        className="h-5 w-5 text-slate-400"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <input
-                      id="search"
-                      name="search"
-                      className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 dark:bg-slate-950 dark:text-slate-50 dark:ring-slate-600 dark:placeholder:text-slate-500 dark:focus:ring-sky-300 sm:text-sm sm:leading-6"
-                      placeholder="Search"
-                      type="search"
+              <div className="absolute inset-0 z-0 hidden flex-1 items-center justify-center px-2 lg:flex">
+                <div>
+                  <button
+                    type="button"
+                    className="flex w-full items-center gap-x-2 rounded-md bg-white px-3 py-1.5 text-sm leading-6 text-slate-400 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-inset focus:ring-sky-600 dark:bg-slate-950 dark:text-slate-500 dark:ring-slate-600 dark:focus:ring-sky-300"
+                    onClick={handleSearchClick}
+                  >
+                    <MagnifyingGlassIcon
+                      className="h-5 w-5"
+                      aria-hidden="true"
                     />
-                  </div>
+                    <span className="flex-1 text-left">Search</span>
+                    <span>{isMacOS ? '⌘' : 'ctrl+'}K</span>
+                  </button>
                 </div>
               </div>
               <div className="relative z-10 flex items-center lg:hidden">

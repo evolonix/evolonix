@@ -48,7 +48,7 @@ const router = createBrowserRouter([
           {
             path: ':categoryId',
             async lazy() {
-              const { loader } = await import('./app/categories/category');
+              const { loader } = await import('./app/categories');
               return { loader };
             },
             handle: {
@@ -72,7 +72,7 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                lazy: () => import('./app/categories/category'),
+                lazy: () => import('./app/categories'),
               },
               {
                 path: ':previewId',

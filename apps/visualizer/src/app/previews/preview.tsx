@@ -9,6 +9,7 @@ interface PreviewProps {
   pageUrl?: string;
   selectedView: PreviewViewType;
   selectedWidth: string | number;
+  darkMode: boolean;
   onResizeStart: () => void;
   onResizeStop: () => void;
 }
@@ -19,6 +20,7 @@ export const PreviewView = forwardRef(
       pageUrl,
       selectedView,
       selectedWidth,
+      darkMode,
       onResizeStart,
       onResizeStop,
     }: PreviewProps,
@@ -41,7 +43,7 @@ export const PreviewView = forwardRef(
         ref={forwardedRef}
         className={clsx(
           selectedView === 'preview' ? 'flex' : 'hidden',
-          'relative min-w-[320px] max-w-full flex-1 flex-col rounded-lg bg-white ring-1 ring-slate-900/10 transition-all duration-300 dark:bg-slate-950 dark:ring-white/10'
+          'relative min-w-[320px] max-w-full flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 transition-all duration-300'
         )}
         defaultSize={{
           width: selectedWidth,
@@ -64,8 +66,15 @@ export const PreviewView = forwardRef(
         }}
         handleComponent={{
           right: (
-            <div className="absolute inset-y-0 left-full hidden cursor-ew-resize items-center px-2 sm:flex">
-              <div className="h-8 w-1.5 rounded-full bg-slate-400"></div>
+            <div className="group absolute inset-y-0 left-full hidden cursor-ew-resize items-center px-2 sm:flex">
+              <div
+                className={clsx(
+                  darkMode
+                    ? 'bg-slate-500 group-hover:bg-slate-400 group-active:bg-slate-400'
+                    : 'bg-slate-400 group-hover:bg-slate-500 group-active:bg-slate-500',
+                  'h-8 w-1.5 rounded-full transition-colors'
+                )}
+              ></div>
             </div>
           ),
         }}

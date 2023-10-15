@@ -1,4 +1,5 @@
 import { Transition } from '@headlessui/react';
+import { MoonIcon, SunIcon } from '@heroicons/react/20/solid';
 import {
   ClipboardIcon,
   CodeBracketIcon,
@@ -13,13 +14,16 @@ export const PreviewToolbar = ({
   selectedView,
   onViewSelect,
   onCopyToClipboard,
+  onDarkModeToggle,
 }: {
   pageUrl?: string;
   selectedView: PreviewViewType;
   onViewSelect: (view: PreviewViewType) => void;
   onCopyToClipboard: () => void;
+  onDarkModeToggle: (darkMode: boolean) => void;
 }) => {
   const [copied, setCopied] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   const handleCopyToClipboard = () => {
     setCopied(true);
@@ -28,6 +32,12 @@ export const PreviewToolbar = ({
     setTimeout(() => {
       setCopied(false);
     }, 1500);
+  };
+
+  const handleDarkModeToggle = () => {
+    const dark = !darkMode;
+    setDarkMode(dark);
+    onDarkModeToggle(dark);
   };
 
   return (
@@ -136,6 +146,22 @@ export const PreviewToolbar = ({
             </div>
           </div>
         </Transition>
+      </button>
+
+      {/* Dark Mode */}
+      <button
+        type="button"
+        className="group relative ml-2 inline-flex items-center rounded-md bg-sky-600 p-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:shadow-black lg:px-2.5"
+        onClick={handleDarkModeToggle}
+      >
+        {darkMode ? (
+          <SunIcon className="h-5 w-5" />
+        ) : (
+          <MoonIcon className="h-5 w-5" />
+        )}
+        <span className="sr-only lg:not-sr-only lg:ml-1.5">
+          {darkMode ? 'Light' : 'Dark'} Mode
+        </span>
       </button>
 
       <div className="ml-6 mr-6 h-5 w-px bg-slate-900/10 dark:bg-white/10"></div>

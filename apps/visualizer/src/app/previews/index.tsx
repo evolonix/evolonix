@@ -2,13 +2,14 @@ import clsx from 'clsx';
 import { Resizable } from 're-resizable';
 import { useCallback, useRef, useState } from 'react';
 import { Params, useLoaderData } from 'react-router-dom';
-import { getPreview } from '../../data';
-import { Preview } from '../../data/preview.model';
-import { PreviewBreakpoints } from './breakpoints';
-import { CodeView } from './code';
-import { PreviewGuide } from './guide';
-import { PreviewView } from './preview';
-import { PreviewToolbar } from './toolbar';
+import {
+  CodeView,
+  PreviewBreakpoints,
+  PreviewGuide,
+  PreviewToolbar,
+  PreviewView,
+} from '../../components';
+import { Preview, getPreview } from '../../data';
 
 export type PreviewViewType = 'preview' | 'code';
 
@@ -84,8 +85,6 @@ export const Component = () => {
 
   return (
     <div className="flex flex-1 flex-col">
-      <h1 className="mb-4 text-4xl font-bold">{preview.name}</h1>
-
       <PreviewToolbar
         pageUrl={`${preview.url}?dark=${darkMode ? 'true' : 'false'}`}
         selectedView={selectedView}

@@ -6,7 +6,7 @@ export async function getCategories(): Promise<Category[]> {
 
   const hydratePreview = (category: Category) => async (preview: Preview) => ({
     ...preview,
-    categoryId: category.id,
+    category,
     image: await import(`../pages/categories/${category.id}/${preview.id}.png`)
       .then((m) => m.default)
       .catch(loadPlaceholderImage),

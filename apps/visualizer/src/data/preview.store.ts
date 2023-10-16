@@ -7,31 +7,27 @@ import * as api from './preview.api';
 import { Category, Preview } from './preview.model';
 
 const filterCategories = (categories: Category[], query: string) => {
-  const matchedCategories = matchSorter(categories, query, {
+  const categoriesFound = matchSorter(categories, query, {
     keys: ['name'],
-  });
-  let matchedCategoriesWithPreviews = categories.map((category) => ({
-    ...category,
-    previews: matchSorter(category.previews, query, { keys: ['name'] }),
-  }));
-  matchedCategoriesWithPreviews = matchedCategoriesWithPreviews.filter(
-    (category) => category.previews.length
-  );
-  categories = categories
-    .filter(
-      (category) =>
-        matchedCategories.some((c) => c.id === category.id) ||
-        matchedCategoriesWithPreviews.some((c) => c.id === category.id)
-    )
-    .map(
-      (category) =>
-        matchedCategoriesWithPreviews.find((c) => c.id === category.id) ?? {
-          ...category,
-          previews: [],
-        }
-    );
+    threshold: matchSorter.rankings.CONTAINS,
+  }).map((category) => ({ ...category, previews: [] })) as Category[];
 
-  return categories;
+  const matchedCategoriesWithPreviews = categories
+    .map((category) => ({
+      ...category,
+      previews: matchSorter(category.previews, query, {
+        keys: ['name'],
+        threshold: matchSorter.rankings.CONTAINS,
+      }),
+    }))
+    .filter((category) => category.previews.length) as Category[];
+
+  return matchedCategoriesWithPreviews.concat(
+    categoriesFound.filter(
+      (category) =>
+        !matchedCategoriesWithPreviews.some((c) => c.id === category.id)
+    )
+  );
 };
 
 export interface PreviewState {

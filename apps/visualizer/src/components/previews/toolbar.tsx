@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { Fragment, useState } from 'react';
-import { PreviewViewType } from '.';
+import { PreviewViewType } from '../../app/previews';
 
 export const PreviewToolbar = ({
   pageUrl,
@@ -41,7 +41,7 @@ export const PreviewToolbar = ({
   };
 
   return (
-    <div className="z-10 my-px flex items-center justify-end py-2">
+    <div className="z-10 mb-4 flex items-center justify-end py-2">
       <div
         className="flex space-x-1 rounded-lg bg-slate-200 p-0.5 dark:bg-slate-900"
         role="tablist"
@@ -100,12 +100,12 @@ export const PreviewToolbar = ({
               'sr-only lg:not-sr-only lg:ml-2'
             )}
           >
-            Code
+            HTML
           </span>
         </button>
       </div>
 
-      <div className="ml-6 mr-6 h-5 w-px bg-slate-900/10 dark:bg-white/10"></div>
+      <div className="ml-6 mr-6 h-5 w-px bg-slate-900/10 dark:bg-slate-50/20"></div>
 
       {/* Copy to Clipboard */}
       <button
@@ -114,7 +114,7 @@ export const PreviewToolbar = ({
         onClick={handleCopyToClipboard}
       >
         <ClipboardIcon className="h-5 w-5" />
-        <span className="sr-only lg:not-sr-only lg:ml-1.5">Copy Code</span>
+        <span className="sr-only lg:not-sr-only lg:ml-1.5">Copy HTML</span>
 
         <Transition
           as={Fragment}
@@ -164,7 +164,7 @@ export const PreviewToolbar = ({
         </span>
       </button>
 
-      <div className="ml-6 mr-6 h-5 w-px bg-slate-900/10 dark:bg-white/10"></div>
+      <div className="ml-6 mr-6 h-5 w-px bg-slate-900/10 dark:bg-slate-50/20"></div>
 
       {/* Full Screen */}
       <a

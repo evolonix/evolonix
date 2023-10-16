@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { PreviewViewType } from '.';
+import { PreviewViewType } from '../../app/previews';
 import { breakpoints } from '../../lib/breakpoints';
 
 export const PreviewBreakpoints = ({

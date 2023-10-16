@@ -2,9 +2,7 @@ import { Transition } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { useEffect, useState } from 'react';
 import { Outlet, useLoaderData } from 'react-router-dom';
-import { AppSearch } from '../components/app.search';
-import Breadcrumbs from '../components/breadcrumbs';
-import Header from '../components/header';
+import { AppSearch, Header } from '../components';
 import { Category, getCategories } from '../data';
 
 export async function loader({ request }: { request: Request }) {
@@ -40,8 +38,6 @@ export function App() {
       <Header />
 
       <main className="flex flex-1 flex-col px-4 pb-8 pt-4 sm:px-6 lg:px-8">
-        <Breadcrumbs className="hidden lg:flex" />
-
         <Outlet />
       </main>
 

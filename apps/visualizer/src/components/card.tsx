@@ -1,6 +1,6 @@
 import { ForwardedRef, forwardRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Category, Preview } from '../data/preview.model';
+import { Category, Preview } from '../data';
 
 export const PreviewCard = forwardRef(
   (

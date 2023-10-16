@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Params, useLoaderData } from 'react-router-dom';
-import { PreviewCard } from '../../components/card';
+import { PreviewCard } from '../../components';
 import {
   Category,
   Preview,
@@ -32,7 +32,7 @@ export const Component = () => {
       setTimeout(() => {
         const index = category.previews.findIndex(
           (preview) =>
-            preview.categoryId === selectedPreview.categoryId &&
+            preview.category?.id === selectedPreview.category?.id &&
             preview.id === selectedPreview.id
         );
         cardRefs.current[index]?.scrollIntoView({

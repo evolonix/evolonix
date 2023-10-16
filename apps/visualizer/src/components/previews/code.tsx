@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import Prism from 'prismjs';
-import { PreviewViewType } from '.';
+import { PreviewViewType } from '../../app/previews';
 
 export const CodeView = ({
   code,

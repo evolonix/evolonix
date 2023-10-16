@@ -1,4 +1,4 @@
-import { Category } from '../data/preview.model';
+import { Category } from '../data';
 
 export const categories = [
   {

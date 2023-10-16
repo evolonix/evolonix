@@ -1,4 +1,4 @@
-import { Category, Preview } from '../data/preview.model';
+import { Category, Preview } from '../data';
 
 const loadPlaceholderImage = async () =>
   await import('../assets/placeholder.png').then((m) => m.default);

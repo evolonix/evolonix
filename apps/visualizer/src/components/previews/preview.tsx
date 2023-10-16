@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Resizable } from 're-resizable';
 import { ForwardedRef, RefObject, forwardRef, useEffect } from 'react';
-import { PreviewViewType } from '.';
+import { PreviewViewType } from '../../app/previews';
 import { breakpoints } from '../../lib/breakpoints';
 import { useBreakpointObserver } from '../../lib/use-breakpoint-observer';
 

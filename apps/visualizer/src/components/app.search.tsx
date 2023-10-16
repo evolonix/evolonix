@@ -44,12 +44,17 @@ export const AppSearch = ({
     navigation.location &&
     new URLSearchParams(navigation.location.search).has('search');
 
-  // Toggle the menu when ⌘K is pressed
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Toggle the menu when ⌘ K or Ctrl K is pressed
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setOpen((open) => !open);
+      }
+
+      // Close the menu when Escape is pressed
+      if (e.key === 'Escape') {
+        setOpen(false);
       }
     };
 
@@ -145,18 +150,18 @@ export const AppSearch = ({
                         className="max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-slate-800 dark:text-slate-100"
                       >
                         {filteredCategories.map((category) => (
-                          <>
+                          <Fragment key={category.id}>
                             <Combobox.Option
-                              key={category.id}
                               value={category}
                               className="py-0.5"
                             >
                               <Link
                                 to={`/dashboard/${category.id}`}
-                                className="flex w-full items-center gap-2 px-4 py-2 hover:bg-slate-100 focus:bg-slate-50 focus:outline-none dark:hover:bg-slate-800 dark:focus:bg-slate-900"
+                                className="flex w-full items-center gap-2 px-4 py-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus:bg-slate-50 focus:outline-none dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 dark:focus:bg-slate-900"
+                                // className="block rounded-md px-3 py-2 text-base font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
                                 onClick={() => setOpen(false)}
                               >
-                                <span className="flex items-center px-2 font-extrabold text-slate-900 dark:text-slate-50">
+                                <span className="flex items-center px-2 font-extrabold">
                                   {category.name}
                                 </span>
                               </Link>
@@ -164,22 +169,23 @@ export const AppSearch = ({
 
                             {category.previews.map((preview) => (
                               <Combobox.Option
-                                key={`${preview.categoryId}-${preview.id}`}
+                                key={`${preview.category?.id}-${preview.id}`}
                                 value={preview}
                                 className="py-0.5"
                               >
                                 <Link
-                                  to={`/dashboard/${preview.categoryId}/${preview.id}`}
-                                  className="flex w-full items-center gap-2 px-4 py-2 hover:bg-slate-100 focus:bg-slate-50 focus:outline-none dark:hover:bg-slate-800 dark:focus:bg-slate-900"
+                                  to={`/dashboard/${preview.category?.id}/${preview.id}`}
+                                  className="flex w-full items-center gap-2 py-2 pl-8 pr-4 text-sm text-slate-900 hover:bg-slate-100 focus:bg-slate-50 focus:outline-none dark:text-slate-50 dark:hover:bg-slate-800 dark:focus:bg-slate-900"
+                                  // className='text-slate-900 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-50 dark:hover:bg-slate-900 dark:hover:text-slate-50 pl-8 pr-2 block rounded-md py-2 text-sm font-medium'
                                   onClick={() => setOpen(false)}
                                 >
-                                  <span className="flex items-center px-2 font-bold text-slate-900 dark:text-slate-50">
+                                  <span className="flex items-center px-2 font-bold">
                                     {preview.name}
                                   </span>
                                 </Link>
                               </Combobox.Option>
                             ))}
-                          </>
+                          </Fragment>
                         ))}
                       </Combobox.Options>
                     )}

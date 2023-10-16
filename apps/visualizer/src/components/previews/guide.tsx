@@ -21,7 +21,7 @@ export const PreviewGuide = ({
       leaveTo="opacity-0"
       className={clsx(
         darkMode ? 'bg-white/20' : 'bg-slate-900/20',
-        'absolute inset-0 rounded-lg transition-colors'
+        'absolute inset-0 rounded-l-lg transition-colors'
       )}
       style={{ width: `${width}px` }}
     >

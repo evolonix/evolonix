@@ -1,9 +1,17 @@
 import clsx from 'clsx';
 import { Resizable } from 're-resizable';
-import { ForwardedRef, RefObject, forwardRef, useEffect } from 'react';
+import {
+  ForwardedRef,
+  RefObject,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { PreviewViewType } from '../../app/previews';
 import { breakpoints } from '../../lib/breakpoints';
 import { useBreakpointObserver } from '../../lib/use-breakpoint-observer';
+import { PreviewSkeleton } from './preview.skeleton';
 
 interface PreviewProps {
   pageUrl?: string;
@@ -27,6 +35,8 @@ export const PreviewView = forwardRef(
     forwardedRef: ForwardedRef<Resizable>
   ) => {
     const isSmallScreen = useBreakpointObserver(breakpoints['sm']);
+    const [loading, setLoading] = useState(true);
+    const iframe = useRef<HTMLIFrameElement>(null);
 
     useEffect(() => {
       // Reset to full width on x-small screens since resizable is disabled
@@ -38,12 +48,32 @@ export const PreviewView = forwardRef(
       }
     }, [forwardedRef, isSmallScreen]);
 
+    useEffect(() => {
+      setLoading(true);
+
+      // Clear the timeout if the iframe fails to load and clear it
+      const timeout = setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }, [pageUrl]);
+
+    useEffect(() => {
+      iframe.current?.contentDocument?.documentElement.classList.toggle(
+        'dark',
+        darkMode
+      );
+    }, [darkMode]);
+
     return (
       <Resizable
         ref={forwardedRef}
         className={clsx(
           selectedView === 'preview' ? 'flex' : 'hidden',
-          'relative min-w-[320px] max-w-full flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 transition-all duration-300'
+          'relative min-h-[640px] min-w-[320px] max-w-full flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 transition-all duration-300'
         )}
         defaultSize={{
           width: selectedWidth,
@@ -82,10 +112,23 @@ export const PreviewView = forwardRef(
         onResizeStop={onResizeStop}
       >
         <iframe
+          ref={iframe}
           title="preview"
           src={pageUrl}
           className="w-full flex-1 rounded-lg"
+          onLoad={() => {
+            setTimeout(() => {
+              iframe.current?.contentDocument?.documentElement.classList.toggle(
+                'dark',
+                darkMode
+              );
+
+              setLoading(false);
+            }, 500);
+          }}
         ></iframe>
+
+        <PreviewSkeleton show={loading} darkMode={darkMode} />
       </Resizable>
     );
   }

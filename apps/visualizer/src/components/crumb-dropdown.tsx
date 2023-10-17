@@ -2,7 +2,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Preview } from '../data';
 
 export default function CrumbDropdown({
@@ -12,6 +12,8 @@ export default function CrumbDropdown({
   preview: Preview;
   navigation: { name: string; to: string }[];
 }) {
+  const { search } = useLocation();
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -39,7 +41,7 @@ export default function CrumbDropdown({
               <Menu.Item key={item.to}>
                 {({ active }) => (
                   <Link
-                    to={item.to}
+                    to={`${item.to}${search}`}
                     className={clsx(
                       active ? 'bg-slate-100 text-slate-900' : 'text-slate-700',
                       'block px-4 py-2 text-sm'

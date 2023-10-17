@@ -1,7 +1,13 @@
 import clsx from 'clsx';
 import { Resizable } from 're-resizable';
 import { useCallback, useRef, useState } from 'react';
-import { Params, useLoaderData } from 'react-router-dom';
+import {
+  Form,
+  Params,
+  useLoaderData,
+  useLocation,
+  useSubmit,
+} from 'react-router-dom';
 import {
   CodeView,
   PreviewBreakpoints,
@@ -13,7 +19,15 @@ import { Preview, getPreview } from '../../data';
 
 export type PreviewViewType = 'preview' | 'code';
 
-export async function loader({ params }: { params: Params<string> }) {
+export async function loader({
+  request,
+  params,
+}: {
+  request: Request;
+  params: Params<string>;
+}) {
+  const url = new URL(request.url);
+  const dark = url.searchParams.get('dark');
   const { categoryId, previewId } = params;
   if (!categoryId || !previewId) throw new Error('Missing params');
 
@@ -22,12 +36,14 @@ export async function loader({ params }: { params: Params<string> }) {
   return {
     preview,
     navigation,
+    darkMode: dark === 'true',
   };
 }
 
 export const Component = () => {
-  const { preview } = useLoaderData() as {
+  const { preview, darkMode } = useLoaderData() as {
     preview: Preview;
+    darkMode: boolean;
   };
   const resizable = useRef<Resizable>(null);
   const [guide, setGuide] = useState<{ show: boolean; width: number }>({
@@ -36,7 +52,8 @@ export const Component = () => {
   });
   const [selectedWidth, setSelectedWidth] = useState<string | number>('100%');
   const [selectedView, setSelectedView] = useState<PreviewViewType>('preview');
-  const [darkMode, setDarkMode] = useState(false);
+  const { pathname } = useLocation();
+  const submit = useSubmit();
 
   const handleBreakpointSelect = useCallback(
     (width: string | number) => {
@@ -83,17 +100,24 @@ export const Component = () => {
     );
   };
 
+  const handleDarkModeToggle = (darkMode: boolean) => {
+    submit(darkMode ? { dark: 'true' } : null, { action: pathname });
+  };
+
   return (
     <div className="flex flex-1 flex-col">
-      <PreviewToolbar
-        pageUrl={`${preview.url}?dark=${darkMode ? 'true' : 'false'}`}
-        selectedView={selectedView}
-        onViewSelect={setSelectedView}
-        onCopyToClipboard={() => {
-          if (preview?.code) navigator.clipboard.writeText(preview.code);
-        }}
-        onDarkModeToggle={(darkMode) => setDarkMode(darkMode)}
-      />
+      <Form>
+        <PreviewToolbar
+          pageUrl={`${preview.url}?dark=${darkMode ? 'true' : 'false'}`}
+          selectedView={selectedView}
+          darkMode={darkMode}
+          onViewSelect={setSelectedView}
+          onCopyToClipboard={() => {
+            if (preview?.code) navigator.clipboard.writeText(preview.code);
+          }}
+          onDarkModeToggle={(darkMode) => handleDarkModeToggle(darkMode)}
+        />
+      </Form>
 
       <PreviewBreakpoints
         selectedView={selectedView}
@@ -111,7 +135,7 @@ export const Component = () => {
       >
         <PreviewView
           ref={resizable}
-          pageUrl={`${preview.url}?dark=${darkMode ? 'true' : 'false'}`}
+          pageUrl={preview.url}
           selectedView={selectedView}
           selectedWidth={selectedWidth}
           darkMode={darkMode}

@@ -28,19 +28,16 @@ export const Component = () => {
 
   useEffect(() => {
     if (selectedPreview) {
-      // Wait a tick for the cards to render before scrolling to the selected
-      setTimeout(() => {
-        const index = category.previews.findIndex(
-          (preview) =>
-            preview.category?.id === selectedPreview.category?.id &&
-            preview.id === selectedPreview.id
-        );
-        cardRefs.current[index]?.scrollIntoView({
-          block: 'center',
-          behavior: 'smooth',
-        });
-        cardRefs.current[index]?.focus({ preventScroll: true });
-      }, 100);
+      const index = category.previews.findIndex(
+        (preview) =>
+          preview.category?.id === selectedPreview.category?.id &&
+          preview.id === selectedPreview.id
+      );
+      cardRefs.current[index]?.scrollIntoView({
+        block: 'center',
+        behavior: 'smooth',
+      });
+      cardRefs.current[index]?.focus({ preventScroll: true });
     }
   }, [category, selectedPreview]);
 

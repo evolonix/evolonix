@@ -12,18 +12,19 @@ import { PreviewViewType } from '../../app/previews';
 export const PreviewToolbar = ({
   pageUrl,
   selectedView,
+  darkMode,
   onViewSelect,
   onCopyToClipboard,
   onDarkModeToggle,
 }: {
   pageUrl?: string;
   selectedView: PreviewViewType;
+  darkMode: boolean;
   onViewSelect: (view: PreviewViewType) => void;
   onCopyToClipboard: () => void;
   onDarkModeToggle: (darkMode: boolean) => void;
 }) => {
   const [copied, setCopied] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
 
   const handleCopyToClipboard = () => {
     setCopied(true);
@@ -36,7 +37,7 @@ export const PreviewToolbar = ({
 
   const handleDarkModeToggle = () => {
     const dark = !darkMode;
-    setDarkMode(dark);
+
     onDarkModeToggle(dark);
   };
 

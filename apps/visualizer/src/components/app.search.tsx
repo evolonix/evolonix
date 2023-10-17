@@ -115,7 +115,7 @@ export const AppSearch = ({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="mx-auto max-w-xl transform divide-y divide-slate-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all dark:divide-slate-800 dark:bg-slate-950">
-                <Form id="app-search-form" role="search">
+                <Form role="search">
                   <Combobox>
                     <div className="relative">
                       <MagnifyingGlassIcon

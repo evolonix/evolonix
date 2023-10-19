@@ -12,5 +12,67 @@
   <body class="h-full">
     <div id="root" class="h-full"></div>
     <script type="module" src="/src/main.pages.tsx"></script>
+
+    <!-- This script provides helpers to provide interactive functionality in previews -->
+    <script>
+      // Toggle the sidebar for mobile
+      function toggleSidebar() {
+        const overlay = document.querySelector('[role="dialog"] > div');
+        const sidebar = overlay.nextElementSibling;
+        const isOpen = sidebar.classList.contains('hidden');
+
+        overlay.classList.toggle('block', isOpen);
+        overlay.classList.toggle('hidden', !isOpen);
+
+        sidebar.classList.toggle('flex', isOpen);
+        sidebar.classList.toggle('hidden', !isOpen);
+      }
+
+      // Toggle the product switcher menu
+      function toggleProductSwitcher() {
+        const button = document.getElementById('product-switcher-button');
+        const menu = button.nextElementSibling;
+        const isOpen = menu.classList.contains('hidden');
+
+        if (isOpen) {
+          menu.classList.remove('hidden');
+          menu.classList.add('block');
+          button.setAttribute('aria-expanded', 'true');
+        } else {
+          menu.classList.remove('block');
+          menu.classList.add('hidden');
+          button.setAttribute('aria-expanded', 'false');
+        }
+      }
+
+      // Toggle the sidebar expanded state
+      function toggleSidebarExpanded() {
+        const component = document.getElementById('component');
+        const isExpanded = component.classList.contains('expanded');
+
+        if (isExpanded) {
+          component.classList.remove('expanded');
+        } else {
+          component.classList.add('expanded');
+        }
+      }
+
+      // Toggle the scales flyout menu
+      function toggleMenu(buttonId) {
+        const button = document.getElementById(buttonId);
+        const menu = button.nextElementSibling;
+        const isOpen = menu.classList.contains('hidden');
+
+        if (isOpen) {
+          menu.classList.remove('hidden');
+          menu.classList.add('flex');
+          button.setAttribute('aria-expanded', 'true');
+        } else {
+          menu.classList.remove('flex');
+          menu.classList.add('hidden');
+          button.setAttribute('aria-expanded', 'false');
+        }
+      }
+    </script>
   </body>
 </html>

@@ -1,9 +1,24 @@
-<div class="h-full bg-white p-4">
-  
-  
-  
-  
-  <h1 class="text-4xl font-bold text-blue-500">
-    Preview 2</h1><p>This is a preview, dynamically loaded and rendered.
+---
+shell: apollo/nav
+---
 
-    </p></div>
+<div>
+  <h1 class="text-4xl font-bold text-blue-500">Preview 2</h1>
+  <p>This is a preview, dynamically loaded and rendered.</p>
+
+  <html-component name="subfolder/test-with-children">
+    <div class="mt-8 text-green-500">
+      <h2 class="text-2xl font-bold">This is a header within the children!</h2>
+      <p class="uppercase text-blue-500">
+        This is a paragraph within the children!
+      </p>
+    </div>
+    <p class="mt-8 text-red-500">This is a second child!</p>
+
+    <div class="mt-8">
+      <html-component name="test"></html-component>
+    </div>
+  </html-component>
+
+  <html-component name="test" class="!text-red-500"></html-component>
+</div>

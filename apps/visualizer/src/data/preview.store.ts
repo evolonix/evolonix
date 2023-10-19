@@ -1,3 +1,4 @@
+import fm from 'front-matter';
 import { matchSorter } from 'match-sorter';
 import htmlParser from 'prettier/parser-html';
 import prettier from 'prettier/standalone';
@@ -5,6 +6,7 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import * as api from './preview.api';
 import { Category, Preview } from './preview.model';
+import { replaceHtmlComponents } from './preview.utils';
 
 const filterCategories = (categories: Category[], query: string) => {
   const categoriesFound = matchSorter(categories, query, {
@@ -100,17 +102,26 @@ export const getPreview = async (
 
   if (preview && (!preview?.url || !preview.code)) {
     preview.url = `/pages/${categoryId}/${preview.id}`;
-    preview.code = await import(
+
+    const html = await import(
       `../pages/categories/${categoryId}/${preview.id}.html?raw`
-    )
-      .then((m) => m.default as string)
-      .then(async (code) =>
-        // Format the code with prettier to fix any formatting issues after parsing components (Coming soon)
-        prettier.format(code, {
-          parser: 'html',
-          plugins: [htmlParser],
-        })
-      );
+    ).then((m) => m.default as string);
+
+    const { attributes, body } = fm(html);
+
+    preview.code = await replaceHtmlComponents(body).then((code) =>
+      // Format the code with prettier to fix any formatting issues after parsing html components
+      prettier.format(code, {
+        parser: 'html',
+        plugins: [htmlParser],
+      })
+    );
+
+    const { shell } = attributes as { shell?: string };
+    const shellComponent = shell
+      ? `<html-component name="${shell}">${preview.code}</html-component>`
+      : preview.code ?? '';
+    preview.html = await replaceHtmlComponents(shellComponent);
 
     let { categories } = usePreviewStore.getState();
     categories = categories.map((category) => {

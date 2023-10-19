@@ -51,7 +51,7 @@ export const PreviewView = forwardRef(
     useEffect(() => {
       setLoading(true);
 
-      // Clear the timeout if the iframe fails to load and clear it
+      // Clear the timeout if the iframe fails to load
       const timeout = setTimeout(() => {
         setLoading(false);
       }, 2000);
@@ -73,7 +73,7 @@ export const PreviewView = forwardRef(
         ref={forwardedRef}
         className={clsx(
           selectedView === 'preview' ? 'flex' : 'hidden',
-          'relative min-h-[640px] min-w-[320px] max-w-full flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 transition-all duration-300'
+          'min-w-xs relative min-h-[640px] max-w-full flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 transition-all duration-300'
         )}
         defaultSize={{
           width: selectedWidth,

@@ -1,0 +1,3 @@
+{
+  "exportall.config.relExclusion": ["/apps/visualizer/src/data/preview.api.ts"]
+}

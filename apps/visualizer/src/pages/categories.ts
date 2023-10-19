@@ -2,6 +2,16 @@ import { Category } from '../data';
 
 export const categories = [
   {
+    id: 'apollo',
+    name: 'Apollo',
+    previews: [
+      {
+        id: 'nav',
+        name: 'Nav',
+      },
+    ],
+  },
+  {
     id: 'category-1',
     name: 'Category 1',
     previews: [

@@ -5,6 +5,7 @@ export interface Preview {
 
   image?: string;
   url?: string;
+  html?: string;
   code?: string;
 }
 

@@ -1,6 +1,5 @@
 export const breakpoints: Record<string, number> = {
-  '2xs': 320,
-  xs: 475,
+  xs: 428,
   sm: 640,
   md: 768,
   lg: 1024,

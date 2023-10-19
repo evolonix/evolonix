@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { Params, useLoaderData } from 'react-router-dom';
+import { Preview, getPreview } from '../data';
 
 export async function loader({
   request,
@@ -11,26 +12,25 @@ export async function loader({
   const { categoryId, previewId } = params;
   const url = new URL(request.url);
   const darkMode = url.searchParams.get('dark') === 'true';
+  if (!categoryId || !previewId) throw new Error('Missing params');
 
-  const html = await import(
-    `./categories/${categoryId}/${previewId}.html?raw`
-  ).then((m) => m.default as string);
+  const [preview] = await getPreview(previewId, categoryId);
 
-  return { html, darkMode };
+  return { preview, darkMode };
 }
 
 export const Component = () => {
-  const { html, darkMode } = useLoaderData() as {
-    html: string;
+  const { preview, darkMode } = useLoaderData() as {
+    preview: Preview;
     darkMode: boolean;
   };
 
-  return (
+  return preview.html ? (
     <div
       className={clsx('h-full', darkMode ? 'dark' : '')}
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: preview.html }}
     />
-  );
+  ) : null;
 };
 
 Component.displayName = 'Page';

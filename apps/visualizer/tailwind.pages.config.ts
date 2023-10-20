@@ -9,11 +9,15 @@ import { customPlugin } from '../../libs/tailwind/src';
 export default {
   darkMode: 'class',
   content: [
-    join(__dirname, 'src/**/pages/**/*!(*.stories|*.spec).{html,ts,tsx}'),
+    join(__dirname, 'src/pages/**/*!(*.spec).{html,ts,tsx}'),
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'test-pages': '#00ff00',
+      },
+    },
   },
   plugins: [formsPlugin, aspectRatioPlugin, customPlugin],
 } satisfies Config;

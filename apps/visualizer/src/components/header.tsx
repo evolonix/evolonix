@@ -85,7 +85,7 @@ export function Header() {
               <div className="relative z-10 flex px-2 lg:px-0">
                 <div className="flex flex-shrink-0 items-center">
                   <Link to="/">
-                    <img className="h-8 w-auto" src={logo} alt="Your Company" />
+                    <img className="h-8 w-auto" src={logo} alt="Evolonix" />
                   </Link>
                 </div>
                 <nav

@@ -28,36 +28,19 @@
         sidebar.classList.toggle('hidden', !isOpen);
       }
 
-      // Toggle the product switcher menu
-      function toggleProductSwitcher() {
-        const button = document.getElementById('product-switcher-button');
-        const menu = button.nextElementSibling;
-        const isOpen = menu.classList.contains('hidden');
-
-        if (isOpen) {
-          menu.classList.remove('hidden');
-          menu.classList.add('block');
-          button.setAttribute('aria-expanded', 'true');
-        } else {
-          menu.classList.remove('block');
-          menu.classList.add('hidden');
-          button.setAttribute('aria-expanded', 'false');
-        }
-      }
-
       // Toggle the sidebar expanded state
       function toggleSidebarExpanded() {
-        const component = document.getElementById('component');
-        const isExpanded = component.classList.contains('expanded');
+        const component = document.querySelector('#component > .group');
+        const isExpanded = component?.classList.contains('expanded');
 
         if (isExpanded) {
-          component.classList.remove('expanded');
+          component?.classList.remove('expanded');
         } else {
-          component.classList.add('expanded');
+          component?.classList.add('expanded');
         }
       }
 
-      // Toggle the scales flyout menu
+      // Toggle a menu for the specified button
       function toggleMenu(buttonId) {
         const button = document.getElementById(buttonId);
         const menu = button.nextElementSibling;

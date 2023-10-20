@@ -4,16 +4,6 @@ import * as colors from 'tailwindcss/colors';
 export const customPresets = {
   content: [],
   theme: {
-    // grid
-    screens: {
-      // xs: '320px', // margin: 16px, columns: 4, gutter: 16px, body: scaling, column width: scaling
-      // sm: '428px', // margin: 16px, columns: 8, gutter: 16px, body: scaling, column width: scaling
-      // md: '600px', // margin: 16px, columns: 12, gutter: 16px, body: scaling, column width: scaling
-      // lg: '905px', // margin: scaling, columns: 12, gutter: 24px, body: 840px (w-grid-lg), column width: 48px
-      // xl: '1240px', // margin: 200px (m-grid-xl), columns: 12, gutter: 24px, body: scaling, column width: scaling
-      // '2xl': '1528px', // margin: scaling, columns: 12, gutter: 24px, body: 1128px (w-grid-2xl), column width: 72px
-      xs: '428px',
-    },
     colors: {
       inherit: colors.inherit,
       current: colors.current,
@@ -98,6 +88,7 @@ export const customPresets = {
         900: '#AA073D',
         950: '#910A3A',
       },
+      'test-presets': '#0000ff',
     },
     boxShadow: {
       none: '0 0 0 rgba(0, 0, 0, 0)',
@@ -109,10 +100,16 @@ export const customPresets = {
         '0 20px 25px -5px rgba(53, 60, 66, 0.1), 0 10px 10px rgba(53, 60, 66, 0.04)',
     },
     extend: {
+      screens: {
+        xs: '480px',
+      },
       margin: {
+        // TODO: Update this value to match the design system. May need a "grid-lg or grid-2xl"?
         'grid-xl': '12.5rem', // 200px
       },
       width: {
+        // TODO: Update these values to match the design system
+        'grid-md': '840px', // body - margin x2: 905px - 16px - 16px
         'grid-lg': '840px', // body - margin x2: 905px - 16px - 16px
         'grid-2xl': '1128px', // body - xl margin x2: 1240px - 200px - 200px
       },

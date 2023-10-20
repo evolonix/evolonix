@@ -1,3 +1,14 @@
 {
-  "exportall.config.relExclusion": ["/apps/visualizer/src/data/preview.api.ts"]
+  "exportall.config.relExclusion": ["/apps/visualizer/src/data/preview.api.ts"],
+  "files.associations": { "*.css": "tailwindcss" },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.experimental.configFile": {
+    "apps/visualizer/tailwind.config.ts": [
+      "apps/visualizer/src/app/**",
+      "apps/visualizer/src/components/**"
+    ],
+    "apps/visualizer/tailwind.pages.config.ts": "apps/visualizer/src/pages/**"
+  }
 }

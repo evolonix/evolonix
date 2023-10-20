@@ -6,20 +6,20 @@ import { Config } from 'tailwindcss';
 export default {
   content: [
     join(__dirname, 'index.html'),
-    join(
-      __dirname,
-      '{src,pages,components,app}/**/*!(*.stories|*.spec).{ts,tsx}'
-    ),
+    join(__dirname, 'src/{app,components}/**/*!(*.spec).{ts,tsx}'),
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
     extend: {
       screens: {
-        xs: '428px',
+        xs: '480px',
       },
       minWidth: ({ theme }) => ({
         xs: theme('screens.xs'),
       }),
+      colors: {
+        'test-app': '#ff0000',
+      },
     },
   },
   plugins: [formsPlugin],

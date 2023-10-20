@@ -1,4 +1,3 @@
-import fm from 'front-matter';
 import { matchSorter } from 'match-sorter';
 import htmlParser from 'prettier/parser-html';
 import prettier from 'prettier/standalone';
@@ -107,9 +106,7 @@ export const getPreview = async (
       `../pages/categories/${categoryId}/${preview.id}.html?raw`
     ).then((m) => m.default as string);
 
-    const { attributes, body } = fm(html);
-
-    preview.code = await replaceHtmlComponents(body).then((code) =>
+    preview.code = await replaceHtmlComponents(html, false).then((code) =>
       // Format the code with prettier to fix any formatting issues after parsing html components
       prettier.format(code, {
         parser: 'html',
@@ -117,11 +114,7 @@ export const getPreview = async (
       })
     );
 
-    const { shell } = attributes as { shell?: string };
-    const shellComponent = shell
-      ? `<html-component name="${shell}">${preview.code}</html-component>`
-      : preview.code ?? '';
-    preview.html = await replaceHtmlComponents(shellComponent);
+    preview.html = await replaceHtmlComponents(html);
 
     let { categories } = usePreviewStore.getState();
     categories = categories.map((category) => {

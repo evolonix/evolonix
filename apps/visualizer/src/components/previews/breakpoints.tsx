@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { PreviewViewType } from '../../app/previews';
-import { breakpoints } from '../../lib/breakpoints';
+import { breakpoints } from '../../lib';
 
 export const PreviewBreakpoints = ({
   selectedView,
@@ -10,9 +10,9 @@ export const PreviewBreakpoints = ({
   onBreakpointLeave,
 }: {
   selectedView: PreviewViewType;
-  selectedWidth: string | number;
-  onBreakpointSelect: (width: string | number) => void;
-  onBreakpointEnter: (width: number) => void;
+  selectedWidth: string;
+  onBreakpointSelect: (width: string) => void;
+  onBreakpointEnter: (width: string) => void;
   onBreakpointLeave: () => void;
 }) => {
   return (
@@ -27,7 +27,7 @@ export const PreviewBreakpoints = ({
           key={key}
           className="absolute top-0 -mr-px flex h-8 items-start border-r-2 border-dashed border-red-500 dark:border-red-400"
           style={{
-            left: `${width + 1}px`,
+            left: `calc(${width} + 1px)`,
             transform: 'translateX(-100%)',
           }}
         >
@@ -42,7 +42,7 @@ export const PreviewBreakpoints = ({
           >
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-xs leading-none text-slate-400">
-                {width}px
+                {width}
               </span>
               <span className="text-sm leading-none">{key}</span>
             </div>

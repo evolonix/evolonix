@@ -46,17 +46,17 @@ export const Component = () => {
     darkMode: boolean;
   };
   const resizable = useRef<Resizable>(null);
-  const [guide, setGuide] = useState<{ show: boolean; width: number }>({
+  const [guide, setGuide] = useState<{ show: boolean; width: string }>({
     show: false,
-    width: 0,
+    width: '0px',
   });
-  const [selectedWidth, setSelectedWidth] = useState<string | number>('100%');
+  const [selectedWidth, setSelectedWidth] = useState<string>('100%');
   const [selectedView, setSelectedView] = useState<PreviewViewType>('preview');
   const { pathname } = useLocation();
   const submit = useSubmit();
 
   const handleBreakpointSelect = useCallback(
-    (width: string | number) => {
+    (width: string) => {
       if (!resizable.current) {
         return;
       }
@@ -76,12 +76,12 @@ export const Component = () => {
     [selectedWidth]
   );
 
-  const handleBreakpointEnter = (width: number) => {
+  const handleBreakpointEnter = (width: string) => {
     setGuide({ show: true, width });
   };
 
   const handleBreakpointLeave = () => {
-    setGuide({ show: false, width: 0 });
+    setGuide({ show: false, width: '0px' });
   };
 
   const handleResizeStart = () => {

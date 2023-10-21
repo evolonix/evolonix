@@ -1,35 +1,8 @@
-import { matchSorter } from 'match-sorter';
-import htmlParser from 'prettier/parser-html';
-import prettier from 'prettier/standalone';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { filterCategories, hydratePreview } from '../lib';
 import * as api from './preview.api';
 import { Category, Preview } from './preview.model';
-import { replaceHtmlComponents } from './preview.utils';
-
-const filterCategories = (categories: Category[], query: string) => {
-  const categoriesFound = matchSorter(categories, query, {
-    keys: ['name'],
-    threshold: matchSorter.rankings.CONTAINS,
-  }).map((category) => ({ ...category, previews: [] })) as Category[];
-
-  const matchedCategoriesWithPreviews = categories
-    .map((category) => ({
-      ...category,
-      previews: matchSorter(category.previews, query, {
-        keys: ['name'],
-        threshold: matchSorter.rankings.CONTAINS,
-      }),
-    }))
-    .filter((category) => category.previews.length) as Category[];
-
-  return matchedCategoriesWithPreviews.concat(
-    categoriesFound.filter(
-      (category) =>
-        !matchedCategoriesWithPreviews.some((c) => c.id === category.id)
-    )
-  );
-};
 
 export interface PreviewState {
   categories: Category[];
@@ -97,37 +70,9 @@ export const getPreview = async (
   ]
 > => {
   const category = await getCategory(categoryId);
-  const preview = category?.previews.find((preview) => preview.id === id);
-
-  if (preview && (!preview?.url || !preview.code)) {
-    preview.url = `/pages/${categoryId}/${preview.id}`;
-
-    const html = await import(
-      `../pages/categories/${categoryId}/${preview.id}.html?raw`
-    ).then((m) => m.default as string);
-
-    preview.code = await replaceHtmlComponents(html, false).then((code) =>
-      // Format the code with prettier to fix any formatting issues after parsing html components
-      prettier.format(code, {
-        parser: 'html',
-        plugins: [htmlParser],
-      })
-    );
-
-    preview.html = await replaceHtmlComponents(html);
-
-    let { categories } = usePreviewStore.getState();
-    categories = categories.map((category) => {
-      if (category.id === categoryId) {
-        category.previews = category.previews.map((p) =>
-          p.id === preview.id ? preview : p
-        );
-      }
-
-      return category;
-    });
-
-    usePreviewStore.setState({ categories });
+  let preview = category?.previews.find((preview) => preview.id === id);
+  if (category && preview) {
+    preview = await hydratePreview(category, false)(preview);
   }
 
   usePreviewStore.setState({ selected: preview });

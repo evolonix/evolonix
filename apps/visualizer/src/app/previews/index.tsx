@@ -27,7 +27,7 @@ export async function loader({
   params: Params<string>;
 }) {
   const url = new URL(request.url);
-  const dark = url.searchParams.get('dark');
+  const darkMode = url.searchParams.get('dark') === 'true';
   const { categoryId, previewId } = params;
   if (!categoryId || !previewId) throw new Error('Missing params');
 
@@ -36,7 +36,7 @@ export async function loader({
   return {
     preview,
     navigation,
-    darkMode: dark === 'true',
+    darkMode,
   };
 }
 

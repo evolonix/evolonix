@@ -10,7 +10,7 @@ export interface Preview {
 }
 
 /**
- * This interface is used to validate the data in the src/pages/categories.ts file.
+ * This interface is used to validate the data in the pages/categories.ts file.
  */
 export interface Category {
   id: string;

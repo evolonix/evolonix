@@ -30,6 +30,8 @@
 
       // Toggle the sidebar expanded state
       function toggleSidebarExpanded() {
+        // the id="component" attribute is added to the wrapper element in the front matter of the Apollo Nav component
+        // to facilitate this functionality
         const component = document.querySelector('#component > .group');
         const isExpanded = component?.classList.contains('expanded');
 

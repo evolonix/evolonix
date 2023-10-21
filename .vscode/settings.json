@@ -5,10 +5,7 @@
     "strings": "on"
   },
   "tailwindCSS.experimental.configFile": {
-    "apps/visualizer/tailwind.config.ts": [
-      "apps/visualizer/src/app/**",
-      "apps/visualizer/src/components/**"
-    ],
-    "apps/visualizer/tailwind.pages.config.ts": "apps/visualizer/src/pages/**"
+    "apps/visualizer/tailwind.config.ts": "apps/visualizer/src/**",
+    "apps/visualizer/tailwind.pages.config.ts": "apps/visualizer/pages/**"
   }
 }

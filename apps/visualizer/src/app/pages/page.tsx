@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Params, useLoaderData } from 'react-router-dom';
-import { Preview, getPreview } from '../data';
+import { Preview, getPreview } from '../../data';
 
 export async function loader({
   request,

@@ -9,7 +9,7 @@ import { customPlugin } from '../../libs/tailwind/src';
 export default {
   darkMode: 'class',
   content: [
-    join(__dirname, 'src/pages/**/*!(*.spec).{html,ts,tsx}'),
+    join(__dirname, 'pages/**/*!(*.spec).{html,ts,tsx}'),
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {

@@ -7,7 +7,7 @@ const router = createBrowserRouter(
   [
     {
       path: '/:categoryId/:previewId',
-      lazy: () => import('./pages/page'),
+      lazy: () => import('./app/pages/page'),
       errorElement: <ErrorPage />,
     },
   ],

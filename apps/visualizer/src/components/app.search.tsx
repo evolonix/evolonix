@@ -121,7 +121,7 @@ export const AppSearch = ({
                       <MagnifyingGlassIcon
                         className={clsx(
                           isSearching ? 'hidden' : '',
-                          'pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-slate-400 dark:text-slate-500'
+                          'pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-slate-400 dark:text-slate-500',
                         )}
                         aria-hidden="true"
                       />

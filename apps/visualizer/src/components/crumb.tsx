@@ -11,7 +11,7 @@ export const Crumb = ({ name, to }: { name: string; to: string }) => {
           isActive
             ? 'text-slate-700 dark:text-slate-200'
             : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
-          'ml-4 text-sm font-medium'
+          'ml-4 text-sm font-medium',
         )
       }
     >

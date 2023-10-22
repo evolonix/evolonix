@@ -32,7 +32,7 @@ export const PreviewView = forwardRef(
       onResizeStart,
       onResizeStop,
     }: PreviewProps,
-    forwardedRef: ForwardedRef<Resizable>
+    forwardedRef: ForwardedRef<Resizable>,
   ) => {
     const isSmallScreen = useBreakpointObserver(breakpoints['sm']);
     const [loading, setLoading] = useState(true);
@@ -64,7 +64,7 @@ export const PreviewView = forwardRef(
     useEffect(() => {
       iframe.current?.contentDocument?.documentElement.classList.toggle(
         'dark',
-        darkMode
+        darkMode,
       );
     }, [darkMode]);
 
@@ -73,7 +73,7 @@ export const PreviewView = forwardRef(
         ref={forwardedRef}
         className={clsx(
           selectedView === 'preview' ? 'flex' : 'hidden',
-          'sm:min-w-xs relative min-h-[640px] min-w-[320px] max-w-full flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 transition-all duration-300'
+          'sm:min-w-xs relative min-h-[640px] min-w-[320px] max-w-full flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 transition-all duration-300',
         )}
         defaultSize={{
           width: selectedWidth,
@@ -102,7 +102,7 @@ export const PreviewView = forwardRef(
                   darkMode
                     ? 'bg-slate-500 group-hover:bg-slate-400 group-active:bg-slate-400'
                     : 'bg-slate-400 group-hover:bg-slate-500 group-active:bg-slate-500',
-                  'h-8 w-1.5 rounded-full transition-colors'
+                  'h-8 w-1.5 rounded-full transition-colors',
                 )}
               ></div>
             </div>
@@ -120,7 +120,7 @@ export const PreviewView = forwardRef(
             setTimeout(() => {
               iframe.current?.contentDocument?.documentElement.classList.toggle(
                 'dark',
-                darkMode
+                darkMode,
               );
 
               setLoading(false);
@@ -131,5 +131,5 @@ export const PreviewView = forwardRef(
         <PreviewSkeleton show={loading} darkMode={darkMode} />
       </Resizable>
     );
-  }
+  },
 );

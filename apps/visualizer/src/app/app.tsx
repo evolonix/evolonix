@@ -41,13 +41,12 @@ export function App() {
         <Outlet />
       </main>
 
-      {/* <footer className="grid h-20 place-items-center bg-slate-50 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+      <footer className="grid h-20 place-items-center bg-slate-50 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
         <p className="text-sm">
           Copyright &copy; {new Date().getFullYear()} Evolonix. All rights
           reserved.
         </p>
-      </footer> */}
-
+      </footer>
       <AppSearch query={query} filteredCategories={categories} />
 
       {/* Scroll to Top */}

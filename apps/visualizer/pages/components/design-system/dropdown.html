@@ -1,0 +1,57 @@
+---
+id: menu-dropdown
+---
+
+<div class="relative inline-block text-left">
+  <div>
+    <button
+      type="button"
+      class="btn-small btn-secondary-outline"
+      id="<!-- ID -->"
+      aria-expanded="true"
+      aria-haspopup="true"
+      onclick="toggleDropdown('<!-- ID -->')"
+    >
+      <span>Options</span>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M13 5.5L8 10.5L3 5.5"
+          stroke="#44515A"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <!--
+      Dropdown menu, show/hide based on menu state.
+  
+      Entering: "transition ease-out duration-100"
+        From: "transform opacity-0 scale-95"
+        To: "transform opacity-100 scale-100"
+      Leaving: "transition ease-in duration-75"
+        From: "transform opacity-100 scale-100"
+        To: "transform opacity-0 scale-95"
+    -->
+  <!-- Open: "block", Default: "hidden" -->
+  <!-- Remove "hidden" class when implementing this component and manage with state instead -->
+  <div
+    class="absolute right-0 z-10 mt-2 hidden w-56 origin-top-right rounded-xl bg-white text-sm text-neutral-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="menu-button"
+    tabindex="-1"
+  >
+    <div class="py-2" role="none">
+      <!-- CHILDREN -->
+    </div>
+  </div>
+</div>

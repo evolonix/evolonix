@@ -3,13 +3,17 @@
  */
 import { Category } from '../src/data';
 
-const apollo = {
-  id: 'apollo',
-  name: 'Apollo',
+const designSystem = {
+  id: 'design-system',
+  name: 'Design System',
   previews: [
     {
       id: 'nav',
       name: 'Nav',
+    },
+    {
+      id: 'dropdown',
+      name: 'Dropdown',
     },
   ],
 };
@@ -95,4 +99,9 @@ const category3 = {
   ],
 };
 
-export default [apollo, category1, category2, category3] satisfies Category[];
+export default [
+  designSystem,
+  category1,
+  category2,
+  category3,
+] satisfies Category[];

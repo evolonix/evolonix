@@ -20,7 +20,7 @@ export const PreviewSkeleton = ({
       <div
         className={clsx(
           darkMode ? 'bg-slate-800' : 'bg-slate-100',
-          'absolute inset-0 overflow-hidden rounded-lg p-4 text-4xl font-bold'
+          'absolute inset-0 overflow-hidden rounded-lg p-4 text-4xl font-bold',
         )}
       >
         <div role="status" className="mx-auto w-full max-w-7xl animate-pulse">

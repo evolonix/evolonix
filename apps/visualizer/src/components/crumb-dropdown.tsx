@@ -44,7 +44,7 @@ export default function CrumbDropdown({
                     to={`${item.to}${search}`}
                     className={clsx(
                       active ? 'bg-slate-100 text-slate-900' : 'text-slate-700',
-                      'block px-4 py-2 text-sm'
+                      'block px-4 py-2 text-sm',
                     )}
                   >
                     {item.name}

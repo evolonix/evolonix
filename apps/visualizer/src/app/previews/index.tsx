@@ -73,7 +73,7 @@ export const Component = () => {
       resizable.current.updateSize(size);
       setSelectedWidth(width);
     },
-    [selectedWidth]
+    [selectedWidth],
   );
 
   const handleBreakpointEnter = (width: string) => {
@@ -89,14 +89,14 @@ export const Component = () => {
 
     resizable.current?.resizable?.style.setProperty(
       'transition-property',
-      'none'
+      'none',
     );
   };
 
   const handleResizeStop = () => {
     resizable.current?.resizable?.style.setProperty(
       'transition-property',
-      'all'
+      'all',
     );
   };
 
@@ -130,7 +130,7 @@ export const Component = () => {
       <div
         className={clsx(
           darkMode ? 'bg-slate-800' : 'bg-slate-100',
-          'relative flex flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 transition-colors dark:ring-white/10'
+          'relative flex flex-1 flex-col rounded-lg ring-1 ring-slate-900/10 transition-colors dark:ring-white/10',
         )}
       >
         <PreviewView

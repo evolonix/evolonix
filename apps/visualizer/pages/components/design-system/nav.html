@@ -1,0 +1,546 @@
+---
+wrapper: <div id="component"><!-- The "component" ID is used to help with expanding the sidebar from the script in the index.pages.html file --></div>
+title: Home
+---
+
+<!--
+  This component requires updating your template:
+
+  ```
+  <html class="h-full bg-neutral-50">
+  <body class="h-full">
+  ```
+-->
+<!-- Expanded: "expanded", Default: "" -->
+<div class="group">
+  <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+  <div class="relative z-50 md:hidden" role="dialog" aria-modal="true">
+    <!--
+      Off-canvas menu backdrop, show/hide based on off-canvas menu state.
+
+      Entering: "transition-opacity ease-linear duration-300"
+        From: "opacity-0"
+        To: "opacity-100"
+      Leaving: "transition-opacity ease-linear duration-300"
+        From: "opacity-100"
+        To: "opacity-0"
+    -->
+    <!-- Open: "block", Default: "hidden" -->
+    <!-- Remove "hidden" class when implementing this component and manage with state instead -->
+    <div class="fixed inset-0 hidden bg-neutral-900/80"></div>
+
+    <!-- Open: "flex", Default: "hidden" -->
+    <!-- Replace "hidden" class with "flex" class when implementing this component and manage with state instead -->
+    <div class="fixed inset-0 hidden">
+      <!--
+        Off-canvas menu, show/hide based on off-canvas menu state.
+
+        Entering: "transition ease-in-out duration-300 transform"
+          From: "-translate-x-full"
+          To: "translate-x-0"
+        Leaving: "transition ease-in-out duration-300 transform"
+          From: "translate-x-0"
+          To: "-translate-x-full"
+      -->
+      <div class="relative mr-16 flex w-full max-w-[200px] flex-1">
+        <!--
+          Close button, show/hide based on off-canvas menu state.
+
+          Entering: "ease-in-out duration-300"
+            From: "opacity-0"
+            To: "opacity-100"
+          Leaving: "ease-in-out duration-300"
+            From: "opacity-100"
+            To: "opacity-0"
+        -->
+        <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
+          <button type="button" class="-m-2.5 p-2.5" onclick="toggleSidebar()">
+            <span class="sr-only">Close sidebar</span>
+            <svg
+              class="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Sidebar component, swap this element with another sidebar if you like -->
+        <div class="flex grow flex-col gap-y-4 overflow-y-auto bg-white pb-6">
+          <div class="flex shrink-0 items-center justify-center p-6">
+            <span class="sr-only">Your Company</span>
+            <!-- TODO: Insert logo here -->
+          </div>
+          <nav class="flex flex-1 flex-col">
+            <ul role="list" class="flex flex-1 flex-col gap-y-2">
+              <li>
+                <ul role="list" class="space-y-2">
+                  <li class="relative">
+                    <!-- Current: "text-purple-800", Default: "text-neutral-800 hover:text-purple-800" -->
+                    <a
+                      href="javascript:;"
+                      class="group flex items-center gap-x-2 px-4 py-3 text-xs font-semibold text-purple-800 hover:bg-purple-100"
+                    >
+                      <svg
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                        />
+                      </svg>
+                      <span class="flex-1">Home</span>
+                    </a>
+                    <!-- Current: show, Default: hide -->
+                    <div
+                      class="absolute inset-y-0 right-0 w-1 rounded-l bg-purple-800"
+                    ></div>
+                  </li>
+                  <li class="relative">
+                    <!-- Current: "text-purple-800", Default: "text-neutral-800 hover:text-purple-800" -->
+                    <a
+                      href="javascript:;"
+                      class="group flex items-center gap-x-2 px-4 py-3 text-xs font-semibold text-neutral-800 hover:bg-purple-100 hover:text-purple-800"
+                    >
+                      <svg
+                        class="h-6 w-6"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M12 6.04168C10.4077 4.61656 8.30506 3.75 6 3.75C4.94809 3.75 3.93834 3.93046 3 4.26212V18.5121C3.93834 18.1805 4.94809 18 6 18C8.30506 18 10.4077 18.8666 12 20.2917M12 6.04168C13.5923 4.61656 15.6949 3.75 18 3.75C19.0519 3.75 20.0617 3.93046 21 4.26212V18.5121C20.0617 18.1805 19.0519 18 18 18C15.6949 18 13.5923 18.8666 12 20.2917M12 6.04168V20.2917"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      <span class="flex-1">Catalog</span>
+                    </a>
+                    <!-- Current: show, Default: hide -->
+                    <div
+                      class="absolute inset-y-0 right-0 hidden w-1 rounded-l bg-purple-800"
+                    ></div>
+                  </li>
+                  <li class="relative">
+                    <!-- Current: "text-purple-800", Default: "text-neutral-800 hover:text-purple-800" -->
+                    <a
+                      href="javascript:;"
+                      class="group flex items-center gap-x-2 px-4 py-3 text-xs font-semibold text-neutral-800 hover:bg-purple-100 hover:text-purple-800"
+                    >
+                      <svg
+                        class="h-6 w-6"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M12 3V20.25M12 20.25C10.528 20.25 9.1179 20.515 7.81483 21M12 20.25C13.472 20.25 14.8821 20.515 16.1852 21M18.75 4.97089C16.5446 4.66051 14.291 4.5 12 4.5C9.70897 4.5 7.45542 4.66051 5.25 4.97089M18.75 4.97089C19.7604 5.1131 20.7608 5.28677 21.75 5.49087M18.75 4.97089L21.3704 15.6961C21.4922 16.1948 21.2642 16.7237 20.7811 16.8975C20.1468 17.1257 19.4629 17.25 18.75 17.25C18.0371 17.25 17.3532 17.1257 16.7189 16.8975C16.2358 16.7237 16.0078 16.1948 16.1296 15.6961L18.75 4.97089ZM2.25 5.49087C3.23922 5.28677 4.23956 5.1131 5.25 4.97089M5.25 4.97089L7.87036 15.6961C7.9922 16.1948 7.76419 16.7237 7.28114 16.8975C6.6468 17.1257 5.96292 17.25 5.25 17.25C4.53708 17.25 3.8532 17.1257 3.21886 16.8975C2.73581 16.7237 2.5078 16.1948 2.62964 15.6961L5.25 4.97089Z"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      <span class="flex-1">Scales</span>
+                      <svg
+                        class="h-3 w-3"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M3.7256 10.0619C3.55334 9.88275 3.55893 9.59788 3.73808 9.42562L7.30073 6L3.73808 2.57437C3.55893 2.40211 3.55334 2.11724 3.7256 1.9381C3.89786 1.75895 4.18273 1.75336 4.36187 1.92562L8.26187 5.67562C8.35011 5.76046 8.39998 5.87759 8.39998 6C8.39998 6.1224 8.35011 6.23953 8.26187 6.32437L4.36188 10.0744C4.18273 10.2466 3.89786 10.241 3.7256 10.0619Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </a>
+                    <!-- Current: show, Default: hide -->
+                    <div
+                      class="absolute inset-y-0 right-0 hidden w-1 rounded-l bg-purple-800"
+                    ></div>
+                  </li>
+                </ul>
+              </li>
+              <li></li>
+              <li class="relative mt-auto">
+                <a
+                  href="javascript:;"
+                  class="group flex items-center gap-x-2 px-4 py-3 text-xs font-semibold text-neutral-800 hover:bg-purple-100 hover:text-purple-800"
+                >
+                  <span class="ml-6 flex-1">Log Out</span>
+                  <svg
+                    class="h-6 w-6"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M15.75 9V5.25C15.75 4.00736 14.7426 3 13.5 3L7.5 3C6.25736 3 5.25 4.00736 5.25 5.25L5.25 18.75C5.25 19.9926 6.25736 21 7.5 21H13.5C14.7426 21 15.75 19.9926 15.75 18.75V15M18.75 15L21.75 12M21.75 12L18.75 9M21.75 12L9 12"
+                      stroke="#44515A"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Static sidebar for desktop -->
+  <div
+    class="hidden transition-[width] md:fixed md:inset-y-0 md:z-50 md:flex md:w-20 md:flex-col group-[.expanded]:md:w-[200px]"
+  >
+    <!-- Sidebar component, swap this element with another sidebar if you like -->
+    <div
+      class="flex grow flex-col gap-y-4 overflow-y-visible border-r border-neutral-200 bg-white pb-6"
+    >
+      <div class="flex shrink-0 items-center justify-center p-6">
+        <span class="sr-only">Your Company</span>
+        <!-- TODO: Insert logo here -->
+        <button
+          type="button"
+          class="btn-secondary-outline btn-small btn-icon absolute -right-3 top-6 shadow-lg"
+          onclick="toggleSidebarExpanded()"
+        >
+          <span class="sr-only group-[.expanded]:hidden">Expand sidebar</span>
+          <svg
+            class="h-4 w-4 group-[.expanded]:hidden"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4.9675 13.4159C4.73783 13.177 4.74528 12.7972 4.98414 12.5675L9.73434 8L4.98414 3.4325C4.74528 3.20282 4.73783 2.82299 4.9675 2.58413C5.19718 2.34527 5.57701 2.33782 5.81587 2.5675L11.0159 7.5675C11.1335 7.68062 11.2 7.83679 11.2 8C11.2 8.16321 11.1335 8.31937 11.0159 8.4325L5.81587 13.4325C5.57701 13.6622 5.19718 13.6547 4.9675 13.4159Z"
+              fill="#44515A"
+            />
+          </svg>
+
+          <span class="hidden group-[.expanded]:sr-only">Collapse sidebar</span>
+          <svg
+            class="hidden h-4 w-4 group-[.expanded]:block"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M11.0325 2.58414C11.2621 2.823 11.2547 3.20283 11.0158 3.4325L6.26562 8L11.0158 12.5675C11.2547 12.7972 11.2621 13.177 11.0324 13.4159C10.8028 13.6547 10.4229 13.6622 10.1841 13.4325L4.98409 8.4325C4.86644 8.31938 4.79995 8.16321 4.79995 8C4.79995 7.83679 4.86644 7.68063 4.98409 7.5675L10.1841 2.5675C10.4229 2.33783 10.8028 2.34527 11.0325 2.58414Z"
+              fill="#44515A"
+            />
+          </svg>
+        </button>
+      </div>
+      <nav class="flex flex-1 flex-col">
+        <ul role="list" class="flex flex-1 flex-col gap-y-2">
+          <li>
+            <ul role="list" class="space-y-2">
+              <li class="relative">
+                <!-- Current: "text-purple-800", Default: "text-neutral-800 hover:text-purple-800" -->
+                <!-- Expanded: "px-6", Default: "pl-6" -->
+                <a
+                  href="javascript:;"
+                  class="group flex items-center overflow-hidden py-3 pl-6 text-xs font-semibold text-purple-800 hover:bg-purple-100 group-[.expanded]:px-6"
+                >
+                  <svg
+                    class="mr-1 h-6 w-6 min-w-[24px]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                    />
+                  </svg>
+                  <!-- Expanded: "md:not-sr-only md:flex-1 md:overflow-hidden md:whitespace-nowrap", Default: "sr-only" -->
+                  <span
+                    class="sr-only group-[.expanded]:md:not-sr-only group-[.expanded]:md:flex-1 group-[.expanded]:md:overflow-hidden group-[.expanded]:md:whitespace-nowrap"
+                    >Home</span
+                  >
+                </a>
+                <!-- Current: show, Default: hide -->
+                <div
+                  class="absolute inset-y-0 right-0 w-1 rounded-l bg-purple-800"
+                ></div>
+              </li>
+              <li class="relative">
+                <!-- Current: "text-purple-800", Default: "text-neutral-800 hover:text-purple-800" -->
+                <!-- Expanded: "px-6", Default: "pl-6" -->
+                <a
+                  href="javascript:;"
+                  class="group flex items-center overflow-hidden py-3 pl-6 text-xs font-semibold text-neutral-800 hover:bg-purple-100 hover:text-purple-800 group-[.expanded]:px-6"
+                >
+                  <svg
+                    class="mr-1 h-6 w-6 min-w-[24px]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12 6.04168C10.4077 4.61656 8.30506 3.75 6 3.75C4.94809 3.75 3.93834 3.93046 3 4.26212V18.5121C3.93834 18.1805 4.94809 18 6 18C8.30506 18 10.4077 18.8666 12 20.2917M12 6.04168C13.5923 4.61656 15.6949 3.75 18 3.75C19.0519 3.75 20.0617 3.93046 21 4.26212V18.5121C20.0617 18.1805 19.0519 18 18 18C15.6949 18 13.5923 18.8666 12 20.2917M12 6.04168V20.2917"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <!-- Expanded: "md:not-sr-only md:flex-1 md:overflow-hidden md:whitespace-nowrap", Default: "sr-only" -->
+                  <span
+                    class="sr-only group-[.expanded]:md:not-sr-only group-[.expanded]:md:flex-1 group-[.expanded]:md:overflow-hidden group-[.expanded]:md:whitespace-nowrap"
+                    >Catalog</span
+                  >
+                </a>
+                <!-- Current: show, Default: hide -->
+                <div
+                  class="absolute inset-y-0 right-0 hidden w-1 rounded-l bg-purple-800"
+                ></div>
+              </li>
+              <li class="relative">
+                <!-- Current: "text-purple-800", Default: "text-neutral-800 hover:text-purple-800" -->
+                <!-- Expanded: "px-6", Default: "pl-6" -->
+                <div>
+                  <button
+                    id="scales-menu-button"
+                    type="button"
+                    class="group flex w-full items-center overflow-hidden py-3 pl-6 text-left text-xs font-semibold text-neutral-800 hover:bg-purple-100 hover:text-purple-800 group-[.expanded]:px-6"
+                    aria-expanded="false"
+                    onclick="toggleDropdown('scales-menu-button')"
+                  >
+                    <svg
+                      class="mr-1 h-6 w-6 min-w-[24px]"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M12 3V20.25M12 20.25C10.528 20.25 9.1179 20.515 7.81483 21M12 20.25C13.472 20.25 14.8821 20.515 16.1852 21M18.75 4.97089C16.5446 4.66051 14.291 4.5 12 4.5C9.70897 4.5 7.45542 4.66051 5.25 4.97089M18.75 4.97089C19.7604 5.1131 20.7608 5.28677 21.75 5.49087M18.75 4.97089L21.3704 15.6961C21.4922 16.1948 21.2642 16.7237 20.7811 16.8975C20.1468 17.1257 19.4629 17.25 18.75 17.25C18.0371 17.25 17.3532 17.1257 16.7189 16.8975C16.2358 16.7237 16.0078 16.1948 16.1296 15.6961L18.75 4.97089ZM2.25 5.49087C3.23922 5.28677 4.23956 5.1131 5.25 4.97089M5.25 4.97089L7.87036 15.6961C7.9922 16.1948 7.76419 16.7237 7.28114 16.8975C6.6468 17.1257 5.96292 17.25 5.25 17.25C4.53708 17.25 3.8532 17.1257 3.21886 16.8975C2.73581 16.7237 2.5078 16.1948 2.62964 15.6961L5.25 4.97089Z"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <!-- Expanded: "md:not-sr-only md:flex-1 md:overflow-hidden md:whitespace-nowrap", Default: "sr-only" -->
+                    <span
+                      class="sr-only group-[.expanded]:md:not-sr-only group-[.expanded]:md:flex-1 group-[.expanded]:md:overflow-hidden group-[.expanded]:md:whitespace-nowrap"
+                      >Scales</span
+                    >
+                    <svg
+                      class="ml-1 h-3 w-3 min-w-[12px]"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M3.7256 10.0619C3.55334 9.88275 3.55893 9.59788 3.73808 9.42562L7.30073 6L3.73808 2.57437C3.55893 2.40211 3.55334 2.11724 3.7256 1.9381C3.89786 1.75895 4.18273 1.75336 4.36187 1.92562L8.26187 5.67562C8.35011 5.76046 8.39998 5.87759 8.39998 6C8.39998 6.1224 8.35011 6.23953 8.26187 6.32437L4.36188 10.0744C4.18273 10.2466 3.89786 10.241 3.7256 10.0619Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+
+                  <!-- Current: show, Default: hide -->
+                  <div
+                    class="absolute inset-y-0 right-0 hidden w-1 rounded-l bg-purple-800"
+                  ></div>
+                </div>
+
+                <!--
+                  Flyout menu, show/hide based on flyout menu state.
+
+                  Entering: "transition ease-out duration-200"
+                    From: "opacity-0 translate-y-1"
+                    To: "opacity-100 translate-y-0"
+                  Leaving: "transition ease-in duration-150"
+                    From: "opacity-100 translate-y-0"
+                    To: "opacity-0 translate-y-1"
+                -->
+                <!-- Open: "flex", Default: "hidden" -->
+                <!-- Replace "hidden" class with "flex" class when implementing this component and manage with state instead -->
+                <div
+                  class="absolute top-0 z-10 ml-20 hidden w-screen max-w-max -translate-y-2 px-2 transition-[width] group-[.expanded]:ml-[200px]"
+                >
+                  <div
+                    class="w-screen max-w-[240px] flex-auto overflow-hidden rounded-xl bg-white shadow-xl"
+                  >
+                    <div class="py-2">
+                      <h4 class="mb-2 px-4 py-2 font-extrabold">Scales</h4>
+                      <ul class="border-t border-neutral-300">
+                        <li>
+                          <!-- Active: "font-semibold", Not Active: "" -->
+                          <a
+                            href="#"
+                            class="flex items-center justify-between px-4 py-2 font-semibold hover:bg-neutral-100"
+                            role="menuitem"
+                            tabindex="-1"
+                            id="menu-item-0"
+                          >
+                            Sources
+                            <svg
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25ZM15.0588 10.3123C15.3694 10.0382 15.3989 9.56425 15.1248 9.2537C14.8507 8.94315 14.3768 8.9136 14.0662 9.1877C12.7083 10.3862 11.6072 11.8701 10.857 13.5463L9.53033 12.2197C9.23744 11.9268 8.76256 11.9268 8.46967 12.2197C8.17678 12.5126 8.17678 12.9874 8.46967 13.2803L10.6054 15.4161C10.7887 15.5993 11.0535 15.675 11.3059 15.6162C11.5583 15.5574 11.7624 15.3725 11.8459 15.1271C12.4835 13.2513 13.6034 11.5969 15.0588 10.3123Z"
+                                class="fill-green-600"
+                              />
+                            </svg>
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            class="flex items-center justify-between px-4 py-2 hover:bg-neutral-100"
+                            role="menuitem"
+                            tabindex="-1"
+                            id="menu-item-1"
+                          >
+                            Mapping
+                            <svg
+                              class="hidden"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25ZM15.0588 10.3123C15.3694 10.0382 15.3989 9.56425 15.1248 9.2537C14.8507 8.94315 14.3768 8.9136 14.0662 9.1877C12.7083 10.3862 11.6072 11.8701 10.857 13.5463L9.53033 12.2197C9.23744 11.9268 8.76256 11.9268 8.46967 12.2197C8.17678 12.5126 8.17678 12.9874 8.46967 13.2803L10.6054 15.4161C10.7887 15.5993 11.0535 15.675 11.3059 15.6162C11.5583 15.5574 11.7624 15.3725 11.8459 15.1271C12.4835 13.2513 13.6034 11.5969 15.0588 10.3123Z"
+                                class="fill-green-600"
+                              />
+                            </svg>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li></li>
+          <li class="relative mt-auto">
+            <!-- Expanded: "px-6", Default: "pl-6" -->
+            <a
+              href="javascript:;"
+              class="group flex items-center overflow-hidden py-3 pl-6 text-xs font-semibold text-neutral-800 hover:bg-purple-100 hover:text-purple-800 group-[.expanded]:px-6"
+            >
+              <!-- Expanded: "md:not-sr-only md:flex-1 md:overflow-hidden md:whitespace-nowrap", Default: "sr-only" -->
+              <span
+                class="sr-only group-[.expanded]:md:not-sr-only group-[.expanded]:md:flex-1 group-[.expanded]:md:overflow-hidden group-[.expanded]:md:whitespace-nowrap"
+                >Log Out</span
+              >
+              <svg
+                class="ml-1 h-6 w-6 min-w-[24px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M15.75 9V5.25C15.75 4.00736 14.7426 3 13.5 3L7.5 3C6.25736 3 5.25 4.00736 5.25 5.25L5.25 18.75C5.25 19.9926 6.25736 21 7.5 21H13.5C14.7426 21 15.75 19.9926 15.75 18.75V15M18.75 15L21.75 12M21.75 12L18.75 9M21.75 12L9 12"
+                  stroke="#44515A"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div
+    class="flex min-h-screen flex-col transition-[width] md:pl-20 group-[.expanded]:md:pl-[200px]"
+  >
+    <header
+      class="sticky top-0 z-40 flex shrink-0 items-start justify-between gap-x-4 bg-white p-4 ring-1 ring-neutral-200 md:left-20 md:pl-10 md:pr-6"
+    >
+      <button
+        type="button"
+        class="p-1 text-neutral-700 md:hidden"
+        onclick="toggleSidebar()"
+      >
+        <span class="sr-only">Open sidebar</span>
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          />
+        </svg>
+      </button>
+
+      <div class="flex flex-1 gap-x-4 self-stretch md:gap-x-6">
+        <h3 class="flex-1 text-2xl font-bold"><!-- TITLE --></h3>
+        <!-- <div class="flex items-center gap-x-4 md:gap-x-6"></div> -->
+      </div>
+    </header>
+
+    <main class="relative flex flex-1 flex-col">
+      <div class="flex flex-1 flex-col">
+        <!-- CHILDREN -->
+      </div>
+    </main>
+
+    <footer class="flex h-28 items-center justify-center gap-1">
+      <span class="text-xs font-semibold">Powered by</span>
+      <span class="text-xs font-bold">Your Company</span>
+    </footer>
+  </div>
+</div>

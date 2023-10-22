@@ -12,18 +12,18 @@ export interface PreviewState {
 export const usePreviewStore = create(
   immer<PreviewState>(() => ({
     categories: [],
-  }))
+  })),
 );
 
 export const getCategories = async (
-  query?: string | null
+  query?: string | null,
 ): Promise<
   [
     Category[],
     {
       name: string;
       to: string;
-    }[]
+    }[],
   ]
 > => {
   let { categories } = usePreviewStore.getState();
@@ -59,20 +59,20 @@ export const getCategory = async (id: string): Promise<Category | null> => {
 
 export const getPreview = async (
   id: string,
-  categoryId: string
+  categoryId: string,
 ): Promise<
   [
     Preview | null,
     {
       name: string;
       to: string;
-    }[]
+    }[],
   ]
 > => {
   const category = await getCategory(categoryId);
   let preview = category?.previews.find((preview) => preview.id === id);
   if (category && preview) {
-    preview = await hydratePreview(category, false)(preview);
+    preview = await hydratePreview(category)(preview);
   }
 
   usePreviewStore.setState({ selected: preview });

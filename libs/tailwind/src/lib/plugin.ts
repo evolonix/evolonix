@@ -15,5 +15,5 @@ export const customPlugin = Plugin.withOptions(
     },
   () => ({
     ...customPresets,
-  })
+  }),
 ) satisfies Partial<Config>;

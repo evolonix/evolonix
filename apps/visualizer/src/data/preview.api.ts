@@ -10,9 +10,9 @@ export async function getCategories(): Promise<Category[]> {
           categories.map(async (category) => ({
             ...category,
             previews: await Promise.all(
-              category.previews.map(hydratePreview(category), false)
+              category.previews.map(hydratePreview(category, false), false),
             ),
-          }))
-        )
+          })),
+        ),
     );
 }

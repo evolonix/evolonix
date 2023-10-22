@@ -18,7 +18,7 @@ const importImage =
 
 export const loadImages = async (category: Category): Promise<Category> => {
   const previews: Preview[] = await Promise.all(
-    category.previews.map(importImage(category))
+    category.previews.map(importImage(category)),
   );
 
   return { ...category, previews } satisfies Category;
@@ -55,7 +55,7 @@ export const filterCategories = (categories: Category[], query: string) => {
   return matchedCategoriesWithPreviews.concat(
     categoriesFound.filter(
       (category) =>
-        !matchedCategoriesWithPreviews.some((c) => c.id === category.id)
-    )
+        !matchedCategoriesWithPreviews.some((c) => c.id === category.id),
+    ),
   );
 };

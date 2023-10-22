@@ -52,7 +52,7 @@ export const PreviewToolbar = ({
           type="button"
           className={clsx(
             selectedView === 'preview' ? 'bg-white shadow' : '',
-            'flex items-center rounded-md py-[0.4375rem] pl-2 pr-2 text-sm font-semibold lg:pr-3'
+            'flex items-center rounded-md py-[0.4375rem] pl-2 pr-2 text-sm font-semibold lg:pr-3',
           )}
           role="tab"
           aria-selected={selectedView === 'preview' ? 'true' : 'false'}
@@ -64,13 +64,13 @@ export const PreviewToolbar = ({
               selectedView === 'preview'
                 ? 'stroke-sky-500'
                 : 'stroke-slate-600 dark:stroke-slate-400',
-              'h-5 w-5 flex-none'
+              'h-5 w-5 flex-none',
             )}
           />
           <span
             className={clsx(
               selectedView === 'preview' ? 'text-slate-600' : '',
-              'sr-only lg:not-sr-only lg:ml-2'
+              'sr-only lg:not-sr-only lg:ml-2',
             )}
           >
             Preview
@@ -80,7 +80,7 @@ export const PreviewToolbar = ({
           type="button"
           className={clsx(
             selectedView === 'code' ? 'bg-white shadow' : '',
-            'flex items-center rounded-md py-[0.4375rem] pl-2 pr-2 text-sm font-semibold lg:pr-3'
+            'flex items-center rounded-md py-[0.4375rem] pl-2 pr-2 text-sm font-semibold lg:pr-3',
           )}
           role="tab"
           aria-selected={selectedView === 'code' ? 'true' : 'false'}
@@ -92,13 +92,13 @@ export const PreviewToolbar = ({
               selectedView === 'code'
                 ? 'stroke-sky-500'
                 : 'stroke-slate-600 dark:stroke-slate-400',
-              'h-5 w-5 flex-none'
+              'h-5 w-5 flex-none',
             )}
           />
           <span
             className={clsx(
               selectedView === 'code' ? 'text-slate-600' : '',
-              'sr-only lg:not-sr-only lg:ml-2'
+              'sr-only lg:not-sr-only lg:ml-2',
             )}
           >
             HTML

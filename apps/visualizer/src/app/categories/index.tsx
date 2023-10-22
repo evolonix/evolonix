@@ -31,7 +31,7 @@ export const Component = () => {
       const index = category.previews.findIndex(
         (preview) =>
           preview.category?.id === selectedPreview.category?.id &&
-          preview.id === selectedPreview.id
+          preview.id === selectedPreview.id,
       );
       cardRefs.current[index]?.scrollIntoView({
         block: 'center',

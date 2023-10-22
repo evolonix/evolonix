@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-gray-50 text-gray-900">
+<!doctype html>
+<html lang="en" class="h-full bg-neutral-50 text-neutral-900">
   <head>
     <meta charset="utf-8" />
     <title>Page</title>
@@ -12,52 +12,5 @@
   <body class="h-full">
     <div id="root" class="h-full"></div>
     <script type="module" src="/src/main.pages.tsx"></script>
-
-    <!-- This script provides helpers to provide interactive functionality in previews -->
-    <script>
-      // Toggle the sidebar for mobile
-      function toggleSidebar() {
-        const overlay = document.querySelector('[role="dialog"] > div');
-        const sidebar = overlay.nextElementSibling;
-        const isOpen = sidebar.classList.contains('hidden');
-
-        overlay.classList.toggle('block', isOpen);
-        overlay.classList.toggle('hidden', !isOpen);
-
-        sidebar.classList.toggle('flex', isOpen);
-        sidebar.classList.toggle('hidden', !isOpen);
-      }
-
-      // Toggle the sidebar expanded state
-      function toggleSidebarExpanded() {
-        // the id="component" attribute is added to the wrapper element in the front matter of the Apollo Nav component
-        // to facilitate this functionality
-        const component = document.querySelector('#component > .group');
-        const isExpanded = component?.classList.contains('expanded');
-
-        if (isExpanded) {
-          component?.classList.remove('expanded');
-        } else {
-          component?.classList.add('expanded');
-        }
-      }
-
-      // Toggle a menu for the specified button
-      function toggleMenu(buttonId) {
-        const button = document.getElementById(buttonId);
-        const menu = button.nextElementSibling;
-        const isOpen = menu.classList.contains('hidden');
-
-        if (isOpen) {
-          menu.classList.remove('hidden');
-          menu.classList.add('flex');
-          button.setAttribute('aria-expanded', 'true');
-        } else {
-          menu.classList.remove('flex');
-          menu.classList.add('hidden');
-          button.setAttribute('aria-expanded', 'false');
-        }
-      }
-    </script>
   </body>
 </html>

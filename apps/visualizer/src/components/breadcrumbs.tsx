@@ -12,8 +12,8 @@ export function Breadcrumbs() {
     // data to each one
     .map((match) =>
       (match.handle as { crumb: (data: unknown) => ReactElement }).crumb(
-        match.data
-      )
+        match.data,
+      ),
     );
 
   return (

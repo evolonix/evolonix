@@ -11,7 +11,7 @@ export const PreviewCard = forwardRef(
       category: Category;
       preview: Preview;
     },
-    forwardedRef: ForwardedRef<HTMLAnchorElement>
+    forwardedRef: ForwardedRef<HTMLAnchorElement>,
   ) => {
     return (
       <NavLink
@@ -37,5 +37,5 @@ export const PreviewCard = forwardRef(
         </div>
       </NavLink>
     );
-  }
+  },
 );

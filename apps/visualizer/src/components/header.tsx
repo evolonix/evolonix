@@ -28,22 +28,22 @@ export function Header() {
   // Next, find the element for the current pathname, passing the loader data to it
   const { handle } = (matches
     .filter((match) =>
-      Boolean((match.handle as NavigationHandle | undefined)?.navigation)
+      Boolean((match.handle as NavigationHandle | undefined)?.navigation),
     )
     .find(
       (match) =>
-        match.pathname === pathname || match.pathname === `${pathname}/`
+        match.pathname === pathname || match.pathname === `${pathname}/`,
     ) ?? { handle: undefined }) as { handle?: NavigationHandle };
 
   // First, get rid of any matches that don't have data and navigation
   // Next, find the element for the current pathname, passing the loader data to it
   const { data } = (matches
     .filter((match) =>
-      Boolean((match.data as NavigationData | undefined)?.navigation)
+      Boolean((match.data as NavigationData | undefined)?.navigation),
     )
     .find(
       (match) =>
-        match.pathname === pathname || match.pathname === `${pathname}/`
+        match.pathname === pathname || match.pathname === `${pathname}/`,
     ) ?? { data: undefined }) as { data?: NavigationData };
 
   const navigation = handle?.navigation(data);
@@ -100,7 +100,7 @@ export function Header() {
                         isActive
                           ? 'border-sky-500 text-slate-900 dark:border-sky-400 dark:text-slate-50'
                           : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700 dark:text-slate-400 dark:hover:border-slate-600 dark:hover:text-slate-200',
-                        'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium'
+                        'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium',
                       )
                     }
                   >
@@ -165,7 +165,7 @@ export function Header() {
                     isActive
                       ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-50'
                       : 'text-slate-900 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-50 dark:hover:bg-slate-900 dark:hover:text-slate-50',
-                    'block rounded-md px-3 py-2 text-base font-medium'
+                    'block rounded-md px-3 py-2 text-base font-medium',
                   )
                 }
                 onClick={() => close()}
@@ -197,7 +197,7 @@ export function Header() {
                           ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-50'
                           : 'text-slate-900 hover:bg-slate-50 dark:text-slate-50 dark:hover:bg-slate-900',
                         mobileNavigation.header ? 'pl-6 pr-3' : ' px-3',
-                        'block rounded-md py-2 text-sm font-medium'
+                        'block rounded-md py-2 text-sm font-medium',
                       )
                     }
                     onClick={() => close()}

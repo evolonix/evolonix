@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Grid = (theme: any) => ({
-  '.grid-apollo': {
+  '.custom-grid': {
     // screens.xs
     marginLeft: '1rem',
     marginRight: '1rem',

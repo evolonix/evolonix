@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useEffect } from 'react';
 import { Params, useLoaderData } from 'react-router-dom';
 import { Preview, getPreview } from '../../data';
 
@@ -24,6 +25,26 @@ export const Component = () => {
     preview: Preview;
     darkMode: boolean;
   };
+
+  useEffect(() => {
+    // Don't do anything if we're not in an iframe
+    if (window.top === window.self) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Toggle the menu when ⌘ K or Ctrl K is pressed
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        // Dispatch the event on the parent window
+        window.parent.document.dispatchEvent(
+          new KeyboardEvent('keydown', { key: 'k', metaKey: true }),
+        );
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return preview.html ? (
     <div

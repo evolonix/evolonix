@@ -10,7 +10,7 @@ const multiPageAppIndexRouting = () => ({
       server.middlewares.use(async (req, _, next) => {
         if (server.config.build.rollupOptions.input) {
           const inputs = Object.keys(
-            server.config.build.rollupOptions.input
+            server.config.build.rollupOptions.input,
           ).filter((key) => key !== 'main');
           for (const appName of inputs) {
             if (req.originalUrl?.startsWith(`/${appName}`)) {

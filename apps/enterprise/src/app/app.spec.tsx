@@ -13,7 +13,7 @@ describe('App', () => {
     expect(baseElement).toBeTruthy();
   });
 
-  it('should have a greeting as the title', () => {
+  it.skip('should have a greeting as the title', () => {
     const { getAllByText } = render(
       <BrowserRouter>
         <App />

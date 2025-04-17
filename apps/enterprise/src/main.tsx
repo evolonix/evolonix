@@ -10,7 +10,9 @@ import {
 import App from './app/app';
 
 const router = createBrowserRouter(
-  createRoutesFromElements(<Route path="*" element={<App />} />)
+  createRoutesFromElements(
+    <Route path="*" element={<App />} errorElement={<div>App Error</div>} />
+  )
 );
 
 const root = ReactDOM.createRoot(

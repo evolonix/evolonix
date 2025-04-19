@@ -21,7 +21,7 @@ export interface ProfileMenuProps {
 export const ProfileDropdownMenu = ({ anchor }: ProfileMenuProps) => {
   return (
     <DropdownMenu className="min-w-64" anchor={anchor}>
-      <DropdownItem href="/my-profile">
+      <DropdownItem href="/profile">
         <UserIcon />
         <DropdownLabel>My profile</DropdownLabel>
       </DropdownItem>
@@ -30,11 +30,11 @@ export const ProfileDropdownMenu = ({ anchor }: ProfileMenuProps) => {
         <DropdownLabel>Settings</DropdownLabel>
       </DropdownItem>
       <DropdownDivider />
-      <DropdownItem href="/privacy-policy">
+      <DropdownItem href="/privacy">
         <ShieldCheckIcon />
         <DropdownLabel>Privacy policy</DropdownLabel>
       </DropdownItem>
-      <DropdownItem href="/share-feedback">
+      <DropdownItem href="/feedback">
         <LightBulbIcon />
         <DropdownLabel>Share feedback</DropdownLabel>
       </DropdownItem>

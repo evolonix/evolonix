@@ -24,7 +24,12 @@ export const Navbar = () => {
         </NavbarItem>
         <Dropdown>
           <DropdownButton as={NavbarItem}>
-            <Avatar src="/profile-photo.jpg" square />
+            <Avatar
+              // src="/profile-photo.jpg"
+              initials="E"
+              square
+              alt=""
+            />
           </DropdownButton>
           <ProfileDropdownMenu anchor="bottom end" />
         </Dropdown>

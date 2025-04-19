@@ -28,8 +28,8 @@ export const Sidebar = () => {
     <CatalystSidebar>
       <SidebarHeader>
         <SidebarItem href="/" className="lg:mb-2.5">
-          <Avatar src="/tailwind-logo.svg" />
-          <SidebarLabel>Tailwind Labs</SidebarLabel>
+          <Avatar src="/logo.svg" square />
+          <SidebarLabel>Enterprise</SidebarLabel>
         </SidebarItem>
         <SidebarSection className="max-lg:hidden">
           <SidebarItem href="/search">
@@ -70,7 +70,8 @@ export const Sidebar = () => {
           <DropdownButton as={SidebarItem}>
             <span className="flex min-w-0 items-center gap-3">
               <Avatar
-                src="/profile-photo.jpg"
+                // src="/profile-photo.jpg"
+                initials="E"
                 className="size-10"
                 square
                 alt=""

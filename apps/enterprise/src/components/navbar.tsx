@@ -1,25 +1,15 @@
-import {
-  ArrowRightStartOnRectangleIcon,
-  Cog8ToothIcon,
-  InboxIcon,
-  LightBulbIcon,
-  MagnifyingGlassIcon,
-  ShieldCheckIcon,
-  UserIcon,
-} from '@heroicons/react/16/solid';
+import { InboxIcon, MagnifyingGlassIcon } from '@heroicons/react/16/solid';
+
 import {
   Avatar,
   Navbar as CatalystNavbar,
   Dropdown,
   DropdownButton,
-  DropdownDivider,
-  DropdownItem,
-  DropdownLabel,
-  DropdownMenu,
   NavbarItem,
   NavbarSection,
   NavbarSpacer,
 } from './catalyst';
+import { ProfileDropdownMenu } from './profile-dropdown-menu';
 
 export const Navbar = () => {
   return (
@@ -36,30 +26,7 @@ export const Navbar = () => {
           <DropdownButton as={NavbarItem}>
             <Avatar src="/profile-photo.jpg" square />
           </DropdownButton>
-          <DropdownMenu className="min-w-64" anchor="bottom end">
-            <DropdownItem href="/my-profile">
-              <UserIcon />
-              <DropdownLabel>My profile</DropdownLabel>
-            </DropdownItem>
-            <DropdownItem href="/settings">
-              <Cog8ToothIcon />
-              <DropdownLabel>Settings</DropdownLabel>
-            </DropdownItem>
-            <DropdownDivider />
-            <DropdownItem href="/privacy-policy">
-              <ShieldCheckIcon />
-              <DropdownLabel>Privacy policy</DropdownLabel>
-            </DropdownItem>
-            <DropdownItem href="/share-feedback">
-              <LightBulbIcon />
-              <DropdownLabel>Share feedback</DropdownLabel>
-            </DropdownItem>
-            <DropdownDivider />
-            <DropdownItem href="/logout">
-              <ArrowRightStartOnRectangleIcon />
-              <DropdownLabel>Sign out</DropdownLabel>
-            </DropdownItem>
-          </DropdownMenu>
+          <ProfileDropdownMenu anchor="bottom end" />
         </Dropdown>
       </NavbarSection>
     </CatalystNavbar>

@@ -14,7 +14,6 @@ const Changelog = React.lazy(() => import('../pages/changelog'));
 const Profile = React.lazy(() => import('../pages/profile'));
 const Privacy = React.lazy(() => import('../pages/privacy'));
 const Feedback = React.lazy(() => import('../pages/feedback'));
-const Logout = React.lazy(() => import('../pages/logout'));
 
 export function App() {
   return (
@@ -30,7 +29,6 @@ export function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="privacy" element={<Privacy />} />
           <Route path="feedback" element={<Feedback />} />
-          <Route path="logout" element={<Logout />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

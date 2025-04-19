@@ -8,10 +8,14 @@ import {
 } from 'react-router';
 
 import App from './app/app';
+import Auth from './app/auth';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="*" element={<App />} errorElement={<div>App Error</div>} />
+    <Route errorElement={<div>App Error</div>}>
+      <Route path="auth/*" element={<Auth />} />
+      <Route path="*" element={<App />} />
+    </Route>
   )
 );
 

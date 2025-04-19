@@ -8,6 +8,7 @@ import {
   SparklesIcon,
 } from '@heroicons/react/16/solid';
 
+import Logo from '../assets/logo.svg';
 import {
   Avatar,
   Sidebar as CatalystSidebar,
@@ -28,7 +29,7 @@ export const Sidebar = () => {
     <CatalystSidebar>
       <SidebarHeader>
         <SidebarItem href="/" className="lg:mb-2.5">
-          <Avatar src="/logo.svg" square />
+          <Avatar src={Logo} square />
           <SidebarLabel>Enterprise</SidebarLabel>
         </SidebarItem>
         <SidebarSection className="max-lg:hidden">
@@ -71,7 +72,7 @@ export const Sidebar = () => {
             <span className="flex min-w-0 items-center gap-3">
               <Avatar
                 // src="/profile-photo.jpg"
-                initials="E"
+                initials={'Erica'.charAt(0)}
                 className="size-10"
                 square
                 alt=""

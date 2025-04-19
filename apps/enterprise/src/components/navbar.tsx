@@ -26,7 +26,7 @@ export const Navbar = () => {
           <DropdownButton as={NavbarItem}>
             <Avatar
               // src="/profile-photo.jpg"
-              initials="E"
+              initials={'Erica'.charAt(0)}
               square
               alt=""
             />

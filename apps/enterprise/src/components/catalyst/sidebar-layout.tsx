@@ -2,6 +2,7 @@
 
 import * as Headless from '@headlessui/react';
 import React, { useState } from 'react';
+import { Outlet } from 'react-router';
 import { NavbarItem } from './navbar';
 
 function OpenMenuIcon() {
@@ -51,7 +52,7 @@ function MobileSidebar({
 export function SidebarLayout({
   navbar,
   sidebar,
-  children,
+  children = <Outlet />,
 }: React.PropsWithChildren<{
   navbar: React.ReactNode;
   sidebar: React.ReactNode;

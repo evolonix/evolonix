@@ -140,7 +140,7 @@ export const Sidebar = ({ isExpanded = false }: SidebarProps) => {
                 <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
                   Erica
                 </span>
-                <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
+                <span className="block truncate text-xs/5 font-normal text-zinc-600 dark:text-zinc-400">
                   erica@example.com
                 </span>
               </span>

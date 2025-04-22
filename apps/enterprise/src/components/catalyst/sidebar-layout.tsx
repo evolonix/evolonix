@@ -52,38 +52,6 @@ function MobileSidebar({
   );
 }
 
-function SidebarToggle({
-  show,
-  isSidebarExpanded,
-  onToggle,
-}: {
-  show: boolean;
-  isSidebarExpanded: boolean;
-  onToggle: () => void;
-}) {
-  return (
-    <div
-      className={clsx(
-        'translate-x-1/2 absolute top-11 right-0 z-10 hidden lg:flex overflow-hidden transition-opacity duration-300 ease-in-out',
-        show ? 'opacity-100' : 'opacity-0'
-      )}
-    >
-      <SidebarToggleButton
-        circle
-        aria-label={isSidebarExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
-        onClick={onToggle}
-      >
-        <ChevronRightIcon
-          className={clsx(
-            'pointer-events-none h-5 w-5',
-            isSidebarExpanded && 'rotate-y-180'
-          )}
-        />
-      </SidebarToggleButton>
-    </div>
-  );
-}
-
 export function SidebarLayout({
   navbar,
   sidebar,
@@ -124,11 +92,26 @@ export function SidebarLayout({
         onMouseEnter={() => setShowToggleButton(true)}
         onMouseLeave={() => setShowToggleButton(false)}
       >
-        <SidebarToggle
-          show={showToggleButton}
-          isSidebarExpanded={isExpanded}
-          onToggle={handleToggleSidebar}
-        />
+        <div
+          className={clsx(
+            'translate-x-1/2 absolute top-11 right-0 z-10 hidden lg:flex overflow-hidden transition-opacity duration-300 ease-in-out',
+            showToggleButton ? 'opacity-100' : 'opacity-0'
+          )}
+        >
+          <SidebarToggleButton
+            circle
+            aria-label={isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
+            onClick={handleToggleSidebar}
+          >
+            <ChevronRightIcon
+              className={clsx(
+                'pointer-events-none h-5 w-5',
+                isExpanded ? 'rotate-y-180' : ''
+              )}
+            />
+          </SidebarToggleButton>
+        </div>
+
         {sidebar}
       </div>
 

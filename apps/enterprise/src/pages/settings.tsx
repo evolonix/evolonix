@@ -4,7 +4,7 @@ export const Settings = () => {
   return (
     <>
       <Heading level={1}>Settings</Heading>
-      <Divider className="mt-6" />
+      <Divider className="my-6" />
     </>
   );
 };

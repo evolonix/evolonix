@@ -1,8 +1,11 @@
 'use client';
 
 import * as Headless from '@headlessui/react';
+import { ChevronRightIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router';
+import { SidebarToggleButton } from '../sidebar-toggle-button';
 import { NavbarItem } from './navbar';
 
 function OpenMenuIcon() {
@@ -49,6 +52,38 @@ function MobileSidebar({
   );
 }
 
+function SidebarToggle({
+  show,
+  isSidebarExpanded,
+  onToggle,
+}: {
+  show: boolean;
+  isSidebarExpanded: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <div
+      className={clsx(
+        'translate-x-1/2 absolute top-11 right-0 z-10 hidden lg:flex overflow-hidden transition-opacity duration-300 ease-in-out',
+        show ? 'opacity-100' : 'opacity-0'
+      )}
+    >
+      <SidebarToggleButton
+        circle
+        aria-label={isSidebarExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
+        onClick={onToggle}
+      >
+        <ChevronRightIcon
+          className={clsx(
+            'pointer-events-none h-5 w-5',
+            isSidebarExpanded && 'rotate-y-180'
+          )}
+        />
+      </SidebarToggleButton>
+    </div>
+  );
+}
+
 export function SidebarLayout({
   navbar,
   sidebar,
@@ -58,11 +93,44 @@ export function SidebarLayout({
   sidebar: React.ReactNode;
 }>) {
   const [showSidebar, setShowSidebar] = useState(false);
+  const [showToggleButton, setShowToggleButton] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(() => {
+    if (typeof window === 'undefined') return true;
+
+    const isExpanded = localStorage.getItem('sidebar-expanded');
+
+    return isExpanded === 'true' || isExpanded === null;
+  });
+
+  const handleToggleSidebar = () => {
+    setIsExpanded((prev) => !prev);
+    localStorage.setItem('sidebar-expanded', String(!isExpanded));
+  };
+
+  // Set isExpanded prop for sidebar
+  sidebar = React.cloneElement<{ isExpanded?: boolean }>(
+    sidebar as React.ReactElement<{ isExpanded?: boolean }>,
+    { isExpanded }
+  );
 
   return (
     <div className="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
       {/* Sidebar on desktop */}
-      <div className="fixed inset-y-0 left-0 w-64 max-lg:hidden">{sidebar}</div>
+      <div
+        className={clsx(
+          'fixed inset-y-0 left-0 max-lg:hidden transition-[width] duration-300 ease-in-out',
+          isExpanded ? 'w-64' : 'w-[68px]'
+        )}
+        onMouseEnter={() => setShowToggleButton(true)}
+        onMouseLeave={() => setShowToggleButton(false)}
+      >
+        <SidebarToggle
+          show={showToggleButton}
+          isSidebarExpanded={isExpanded}
+          onToggle={handleToggleSidebar}
+        />
+        {sidebar}
+      </div>
 
       {/* Sidebar on mobile */}
       <MobileSidebar open={showSidebar} close={() => setShowSidebar(false)}>
@@ -83,7 +151,12 @@ export function SidebarLayout({
       </header>
 
       {/* Content */}
-      <main className="flex flex-1 flex-col pb-2 lg:min-w-0 lg:pt-2 lg:pr-2 lg:pl-64">
+      <main
+        className={clsx(
+          'flex flex-1 flex-col pb-2 lg:min-w-0 lg:pt-2 lg:pr-2 lg:transition-[padding] lg:duration-300 lg:ease-in-out',
+          isExpanded ? 'lg:pl-64' : 'lg:pl-[68px]'
+        )}
+      >
         <div className="grow p-6 lg:rounded-lg lg:bg-white lg:p-10 lg:shadow-xs lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10">
           <div className="mx-auto max-w-6xl">{children}</div>
         </div>

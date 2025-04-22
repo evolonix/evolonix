@@ -4,7 +4,7 @@ export const Search = () => {
   return (
     <>
       <Heading level={1}>Search</Heading>
-      <Divider className="mt-6" />
+      <Divider className="my-6" />
     </>
   );
 };

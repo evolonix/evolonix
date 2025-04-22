@@ -4,7 +4,7 @@ export const Support = () => {
   return (
     <>
       <Heading level={1}>Support</Heading>
-      <Divider className="mt-6" />
+      <Divider className="my-6" />
     </>
   );
 };

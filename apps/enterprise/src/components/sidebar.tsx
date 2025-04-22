@@ -7,7 +7,10 @@ import {
   QuestionMarkCircleIcon,
   SparklesIcon,
 } from '@heroicons/react/16/solid';
+import clsx from 'clsx';
+import { useLocation } from 'react-router';
 
+import { useCallback } from 'react';
 import Logo from '../assets/logo.svg';
 import {
   Avatar,
@@ -24,20 +27,52 @@ import {
 } from './catalyst';
 import { ProfileDropdownMenu } from './profile-dropdown-menu';
 
-export const Sidebar = () => {
+export interface SidebarProps {
+  isExpanded?: boolean;
+}
+
+export const Sidebar = ({ isExpanded = false }: SidebarProps) => {
+  const { pathname } = useLocation();
+
+  const isCurrent = useCallback(
+    (href: string, end = false) => {
+      const endSlashPosition =
+        href !== '/' && href.endsWith('/') ? href.length - 1 : href.length;
+      return (
+        pathname === href ||
+        (!end &&
+          pathname.startsWith(href) &&
+          pathname.charAt(endSlashPosition) === '/')
+      );
+    },
+    [pathname]
+  );
+
   return (
     <CatalystSidebar>
       <SidebarHeader>
-        <SidebarItem href="/" className="lg:mb-2.5">
-          <Avatar src={Logo} square />
+        <SidebarItem
+          href="/"
+          className="lg:mb-2.5"
+          title={isExpanded ? undefined : 'Enterprise'}
+        >
+          <Avatar src={Logo} square disableOutline />
           <SidebarLabel>Enterprise</SidebarLabel>
         </SidebarItem>
         <SidebarSection className="max-lg:hidden">
-          <SidebarItem href="/search">
+          <SidebarItem
+            href="/search"
+            title={isExpanded ? undefined : 'Search'}
+            current={isCurrent('/search')}
+          >
             <MagnifyingGlassIcon />
             <SidebarLabel>Search</SidebarLabel>
           </SidebarItem>
-          <SidebarItem href="/inbox">
+          <SidebarItem
+            href="/inbox"
+            title={isExpanded ? undefined : 'Inbox'}
+            current={isCurrent('/inbox')}
+          >
             <InboxIcon />
             <SidebarLabel>Inbox</SidebarLabel>
           </SidebarItem>
@@ -45,30 +80,54 @@ export const Sidebar = () => {
       </SidebarHeader>
       <SidebarBody>
         <SidebarSection>
-          <SidebarItem href="/">
+          <SidebarItem
+            href="/"
+            title={isExpanded ? undefined : 'Home'}
+            current={isCurrent('/')}
+          >
             <HomeIcon />
             <SidebarLabel>Home</SidebarLabel>
           </SidebarItem>
-          <SidebarItem href="/settings">
+          <SidebarItem
+            href="/settings"
+            title={isExpanded ? undefined : 'Settings'}
+            current={isCurrent('/settings')}
+          >
             <Cog6ToothIcon />
             <SidebarLabel>Settings</SidebarLabel>
           </SidebarItem>
         </SidebarSection>
         <SidebarSpacer />
         <SidebarSection>
-          <SidebarItem href="/support">
+          <SidebarItem
+            href="/support"
+            title={isExpanded ? undefined : 'Support'}
+            current={isCurrent('/support')}
+          >
             <QuestionMarkCircleIcon />
             <SidebarLabel>Support</SidebarLabel>
           </SidebarItem>
-          <SidebarItem href="/changelog">
+          <SidebarItem
+            href="/changelog"
+            title={isExpanded ? undefined : 'Changelog'}
+            current={isCurrent('/changelog')}
+          >
             <SparklesIcon />
             <SidebarLabel>Changelog</SidebarLabel>
           </SidebarItem>
         </SidebarSection>
       </SidebarBody>
-      <SidebarFooter className="max-lg:hidden">
+      <SidebarFooter
+        className={clsx(
+          'max-lg:hidden transition-[padding] duration-300 ease-in-out',
+          isExpanded ? '' : 'px-1.5'
+        )}
+      >
         <Dropdown>
-          <DropdownButton as={SidebarItem}>
+          <DropdownButton
+            as={SidebarItem}
+            title={isExpanded ? undefined : 'Erica <erica@example.com>'}
+          >
             <span className="flex min-w-0 items-center gap-3">
               <Avatar
                 // src="/profile-photo.jpg"
@@ -86,7 +145,7 @@ export const Sidebar = () => {
                 </span>
               </span>
             </span>
-            <ChevronUpIcon />
+            {isExpanded ? <ChevronUpIcon /> : null}
           </DropdownButton>
           <ProfileDropdownMenu anchor="top start" />
         </Dropdown>

@@ -1,14 +1,14 @@
 import * as Headless from '@headlessui/react';
 import clsx from 'clsx';
 import React, { forwardRef } from 'react';
-import { Link } from './link';
+import { Link } from './catalyst/link';
 
 const styles = {
   base: [
     // Base
     'relative isolate inline-flex items-baseline justify-center gap-x-2 border text-base/6 font-semibold',
     // Sizing
-    'px-[calc(--spacing(3.5)-1px)] py-[calc(--spacing(2.5)-1px)] sm:px-[calc(--spacing(3)-1px)] sm:py-[calc(--spacing(1.5)-1px)] sm:text-sm/6',
+    'px-[calc(--spacing(1.75)-1px)] sm:px-[calc(--spacing(2)-1px)] py-[calc(--spacing(.75)-1px)] sm:py-[calc(--spacing(.5)-1px)] sm:text-sm/6',
     // Focus
     'focus:outline-hidden data-focus:outline data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-blue-500',
     // Disabled
@@ -158,7 +158,7 @@ const styles = {
   },
 };
 
-type ButtonProps = (
+type SidebarToggleButtonProps = (
   | { color?: keyof typeof styles.colors; outline?: never; plain?: never }
   | { color?: never; outline: true; plain?: never }
   | { color?: never; outline?: never; plain: true }
@@ -167,7 +167,7 @@ type ButtonProps = (
     | Omit<React.ComponentPropsWithoutRef<typeof Link>, 'className'>
   );
 
-export const Button = forwardRef(function Button(
+export const SidebarToggleButton = forwardRef(function Button(
   {
     color,
     outline,
@@ -176,7 +176,7 @@ export const Button = forwardRef(function Button(
     className,
     children,
     ...props
-  }: ButtonProps,
+  }: SidebarToggleButtonProps,
   ref: React.ForwardedRef<HTMLElement>
 ) {
   const classes = clsx(

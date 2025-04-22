@@ -4,7 +4,7 @@ export const Home = () => {
   return (
     <>
       <Heading level={1}>Home</Heading>
-      <Divider className="mt-6" />
+      <Divider className="my-6" />
     </>
   );
 };

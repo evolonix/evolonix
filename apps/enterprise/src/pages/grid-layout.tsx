@@ -1,0 +1,219 @@
+import clsx from 'clsx';
+import { useEffect, useState } from 'react';
+import { useMediaMinWidth } from '../ lib';
+import { Divider } from '../components/catalyst';
+import {
+  GridLayoutItem,
+  GridLayout as Layout,
+} from '../components/grid-layout';
+import { PageHeader } from '../components/page-header';
+
+export const GridLayout = () => {
+  const sm = useMediaMinWidth('sm');
+  const md = useMediaMinWidth('md');
+  const lg = useMediaMinWidth('lg');
+  const xl = useMediaMinWidth('xl');
+  const xxl = useMediaMinWidth('xxl');
+
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return (
+    <>
+      <PageHeader label="Grid Layout" />
+      <Divider className="mt-4" />
+      <Layout>
+        {lg ? (
+          <>
+            <GridLayoutItem>
+              <div className="bg-white h-10 rounded-lg"></div>
+            </GridLayoutItem>
+            <GridLayoutItem lg={6}>
+              <div className="bg-white h-10 rounded-lg"></div>
+            </GridLayoutItem>
+            <GridLayoutItem lg={6}>
+              <div className="bg-white h-10 rounded-lg"></div>
+            </GridLayoutItem>
+            <GridLayoutItem lg={4}>
+              <div className="bg-white h-10 rounded-lg"></div>
+            </GridLayoutItem>
+            <GridLayoutItem lg={4}>
+              <div className="bg-white h-10 rounded-lg"></div>
+            </GridLayoutItem>
+            <GridLayoutItem lg={4}>
+              <div className="bg-white h-10 rounded-lg"></div>
+            </GridLayoutItem>
+            <GridLayoutItem lg={4}>
+              <div className="bg-white h-10 rounded-lg"></div>
+            </GridLayoutItem>
+            <GridLayoutItem lg={8}>
+              <div className="bg-white h-10 rounded-lg"></div>
+            </GridLayoutItem>
+            <GridLayoutItem lg={8}>
+              <div className="bg-white h-10 rounded-lg"></div>
+            </GridLayoutItem>
+          </>
+        ) : null}
+        {sm ? (
+          <>
+            <GridLayoutItem lg={4}>
+              <div className="bg-white h-10 rounded-lg"></div>
+            </GridLayoutItem>
+            <GridLayoutItem sm={4} lg={3}>
+              <div
+                className={clsx(
+                  'h-10 rounded-lg',
+                  xxl
+                    ? 'bg-white'
+                    : lg
+                    ? 'bg-yellow-400'
+                    : md
+                    ? 'bg-white'
+                    : 'bg-yellow-400'
+                )}
+              ></div>
+            </GridLayoutItem>
+            <GridLayoutItem sm={4} lg={3}>
+              <div
+                className={clsx(
+                  'h-10 rounded-lg',
+                  xxl
+                    ? 'bg-white'
+                    : lg
+                    ? 'bg-yellow-400'
+                    : md
+                    ? 'bg-white'
+                    : 'bg-yellow-400'
+                )}
+              ></div>
+            </GridLayoutItem>
+            <GridLayoutItem sm={3} lg={3}>
+              <div
+                className={clsx(
+                  'h-10 rounded-lg',
+                  xxl
+                    ? 'bg-white'
+                    : lg
+                    ? 'bg-yellow-400'
+                    : md
+                    ? 'bg-yellow-400'
+                    : sm
+                    ? 'bg-red-400'
+                    : 'bg-white'
+                )}
+              ></div>
+            </GridLayoutItem>
+            <GridLayoutItem sm={5} lg={3}>
+              <div
+                className={clsx(
+                  'h-10 rounded-lg',
+                  xxl
+                    ? 'bg-white'
+                    : lg
+                    ? 'bg-yellow-400'
+                    : md
+                    ? 'bg-yellow-400'
+                    : sm
+                    ? 'bg-red-400'
+                    : 'bg-white'
+                )}
+              ></div>
+            </GridLayoutItem>
+            <GridLayoutItem sm={5} lg={2}>
+              <div
+                className={clsx(
+                  'h-10 rounded-lg',
+                  xxl
+                    ? 'bg-yellow-400'
+                    : lg
+                    ? 'bg-red-400'
+                    : md
+                    ? 'bg-yellow-400'
+                    : 'bg-red-400'
+                )}
+              ></div>
+            </GridLayoutItem>
+            <GridLayoutItem sm={3} lg={2}>
+              <div
+                className={clsx(
+                  'h-10 rounded-lg',
+                  xxl
+                    ? 'bg-yellow-400'
+                    : lg
+                    ? 'bg-red-400'
+                    : md
+                    ? 'bg-yellow-400'
+                    : 'bg-red-400'
+                )}
+              ></div>
+            </GridLayoutItem>
+            <GridLayoutItem sm={2}>
+              <div
+                className={clsx(
+                  'h-10 rounded-lg',
+                  xxl ? 'bg-yellow-400' : 'bg-red-400'
+                )}
+              ></div>
+            </GridLayoutItem>
+          </>
+        ) : null}
+        <GridLayoutItem sm={2}>
+          <div
+            className={clsx(
+              'h-10 rounded-lg',
+              xxl ? 'bg-yellow-400' : sm ? 'bg-red-400' : 'bg-white'
+            )}
+          ></div>
+        </GridLayoutItem>
+        <GridLayoutItem xs={2}>
+          <div
+            className={clsx(
+              'h-10 rounded-lg',
+              xxl ? 'bg-yellow-400' : 'bg-red-400'
+            )}
+          ></div>
+        </GridLayoutItem>
+        <GridLayoutItem xs={2}>
+          <div
+            className={clsx(
+              'h-10 rounded-lg',
+              xxl ? 'bg-yellow-400' : 'bg-red-400'
+            )}
+          ></div>
+        </GridLayoutItem>
+      </Layout>
+      <footer className="mt-4">
+        <p className="text-center text-sm text-gray-500">
+          <span>Current breakpoint:</span>{' '}
+          <span>
+            {xxl
+              ? 'XX-Large'
+              : xl
+              ? 'X-Large'
+              : lg
+              ? 'Large'
+              : md
+              ? 'Medium'
+              : sm
+              ? 'Small'
+              : 'X-Small'}
+          </span>{' '}
+          <span>{`@ ${width}px`}</span>
+        </p>
+      </footer>
+    </>
+  );
+};
+
+export default GridLayout;

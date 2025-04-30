@@ -1,9 +1,10 @@
-import { Divider, Heading } from '../components/catalyst';
+import { Divider } from '../components/catalyst';
+import { PageHeader } from '../components/page-header';
 
 export const Profile = () => {
   return (
     <>
-      <Heading level={1}>My Profile</Heading>
+      <PageHeader label="My Profile" />
       <Divider className="my-6" />
     </>
   );

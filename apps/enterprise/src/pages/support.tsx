@@ -1,9 +1,10 @@
-import { Divider, Heading } from '../components/catalyst';
+import { Divider } from '../components/catalyst';
+import { PageHeader } from '../components/page-header';
 
 export const Support = () => {
   return (
     <>
-      <Heading level={1}>Support</Heading>
+      <PageHeader label="Support" />
       <Divider className="my-6" />
     </>
   );

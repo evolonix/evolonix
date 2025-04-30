@@ -14,6 +14,7 @@ const Changelog = React.lazy(() => import('../pages/changelog'));
 const Profile = React.lazy(() => import('../pages/profile'));
 const Privacy = React.lazy(() => import('../pages/privacy'));
 const Feedback = React.lazy(() => import('../pages/feedback'));
+const GridLayout = React.lazy(() => import('../pages/grid-layout'));
 
 const Login = React.lazy(() => import('../pages/login'));
 const Register = React.lazy(() => import('../pages/register'));
@@ -36,6 +37,9 @@ export function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="privacy" element={<Privacy />} />
           <Route path="feedback" element={<Feedback />} />
+          <Route path="cdk">
+            <Route path="grid-layout" element={<GridLayout />} />
+          </Route>
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="login" element={<Login />} />

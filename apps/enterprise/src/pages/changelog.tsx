@@ -1,9 +1,10 @@
-import { Divider, Heading } from '../components/catalyst';
+import { Divider } from '../components/catalyst';
+import { PageHeader } from '../components/page-header';
 
 export const Changelog = () => {
   return (
     <>
-      <Heading level={1}>Changelog</Heading>
+      <PageHeader label="Changelog" />
       <Divider className="my-6" />
     </>
   );

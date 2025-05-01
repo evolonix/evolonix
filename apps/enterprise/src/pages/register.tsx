@@ -76,12 +76,12 @@ export const Register = () => {
       <Field>
         <Label>Email</Label>
         <Input type="email" name={email.name} required={email.required} />
-        <ErrorMessage>{email.errors ? email.errors : null}</ErrorMessage>
+        {email.errors ? <ErrorMessage>{email.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Full name</Label>
         <Input name={name.name} required={name.required} />
-        <ErrorMessage>{name.errors ? name.errors : null}</ErrorMessage>
+        {name.errors ? <ErrorMessage>{name.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Password</Label>
@@ -91,7 +91,9 @@ export const Register = () => {
           name={password.name}
           required={password.required}
         />
-        <ErrorMessage>{password.errors ? password.errors : null}</ErrorMessage>
+        {password.errors ? (
+          <ErrorMessage>{password.errors}</ErrorMessage>
+        ) : null}
       </Field>
       <Field>
         <Label>Country</Label>
@@ -100,14 +102,14 @@ export const Register = () => {
           <option>Mexico</option>
           <option selected>United States</option>
         </Select>
-        <ErrorMessage>{country.errors ? country.errors : null}</ErrorMessage>
+        {country.errors ? <ErrorMessage>{country.errors}</ErrorMessage> : null}
       </Field>
       <CheckboxField>
         <Checkbox name={subscribe.name} />
         <Label>Get emails about product updates and news.</Label>
-        <ErrorMessage>
-          {subscribe.errors ? subscribe.errors : null}
-        </ErrorMessage>
+        {subscribe.errors ? (
+          <ErrorMessage>{subscribe.errors}</ErrorMessage>
+        ) : null}
       </CheckboxField>
       <Button type="submit" className="w-full">
         Create account

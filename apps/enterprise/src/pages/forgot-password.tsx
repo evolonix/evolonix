@@ -72,7 +72,7 @@ export const ForgotPassword = () => {
       <Field>
         <Label>Email</Label>
         <Input type="email" name={email.name} required={email.required} />
-        <ErrorMessage>{email.errors ? email.errors : null}</ErrorMessage>
+        {email.errors ? <ErrorMessage>{email.errors}</ErrorMessage> : null}
       </Field>
       <Button type="submit" className="w-full">
         Reset password

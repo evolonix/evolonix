@@ -72,7 +72,7 @@ export const Login = () => {
       <Field>
         <Label>Email</Label>
         <Input type="email" name={email.name} required={email.required} />
-        <ErrorMessage>{email.errors ? email.errors : null}</ErrorMessage>
+        {email.errors ? <ErrorMessage>{email.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Password</Label>
@@ -81,7 +81,9 @@ export const Login = () => {
           name={password.name}
           required={password.required}
         />
-        <ErrorMessage>{password.errors ? password.errors : null}</ErrorMessage>
+        {password.errors ? (
+          <ErrorMessage>{password.errors}</ErrorMessage>
+        ) : null}
       </Field>
       <div className="flex items-center justify-between">
         <CheckboxField>

@@ -5,7 +5,7 @@ export const Privacy = () => {
   return (
     <>
       <PageHeader label="Privacy Policy" />
-      <Divider className="my-6" />
+      <Divider className="mt-4" />
     </>
   );
 };

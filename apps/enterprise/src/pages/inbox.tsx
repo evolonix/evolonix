@@ -5,7 +5,7 @@ export const Inbox = () => {
   return (
     <>
       <PageHeader label="Inbox" />
-      <Divider className="my-6" />
+      <Divider className="mt-4" />
     </>
   );
 };

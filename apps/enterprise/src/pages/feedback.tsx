@@ -5,7 +5,7 @@ export const Feedback = () => {
   return (
     <>
       <PageHeader label="Share Feedback" />
-      <Divider className="my-6" />
+      <Divider className="mt-4" />
     </>
   );
 };

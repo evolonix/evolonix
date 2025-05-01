@@ -5,7 +5,7 @@ export const Changelog = () => {
   return (
     <>
       <PageHeader label="Changelog" />
-      <Divider className="my-6" />
+      <Divider className="mt-4" />
     </>
   );
 };

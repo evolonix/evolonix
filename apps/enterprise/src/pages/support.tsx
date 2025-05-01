@@ -5,7 +5,7 @@ export const Support = () => {
   return (
     <>
       <PageHeader label="Support" />
-      <Divider className="my-6" />
+      <Divider className="mt-4" />
     </>
   );
 };

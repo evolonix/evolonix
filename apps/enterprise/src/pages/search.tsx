@@ -5,7 +5,7 @@ export const Search = () => {
   return (
     <>
       <PageHeader label="Search" />
-      <Divider className="my-6" />
+      <Divider className="mt-4" />
     </>
   );
 };

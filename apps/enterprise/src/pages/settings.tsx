@@ -5,7 +5,7 @@ export const Settings = () => {
   return (
     <>
       <PageHeader label="Settings" />
-      <Divider className="my-6" />
+      <Divider className="mt-4" />
     </>
   );
 };

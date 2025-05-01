@@ -5,7 +5,7 @@ export const Profile = () => {
   return (
     <>
       <PageHeader label="My Profile" />
-      <Divider className="my-6" />
+      <Divider className="mt-4" />
     </>
   );
 };

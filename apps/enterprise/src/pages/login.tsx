@@ -1,9 +1,15 @@
+import { useForm } from '@conform-to/react';
+import { parseWithZod } from '@conform-to/zod';
+import { z } from 'zod';
+
+import { CSSProperties } from 'react';
 import Logo from '../assets/logo.svg';
 import {
   Avatar,
   Button,
   Checkbox,
   CheckboxField,
+  ErrorMessage,
   Field,
   Heading,
   Input,
@@ -14,28 +20,68 @@ import {
   TextLink,
 } from '../components/catalyst';
 
+const schema = z.object({
+  email: z
+    .string({ required_error: 'Email is required' })
+    .email('Invalid email address'),
+  password: z.string({ required_error: 'Password is required' }),
+});
+
 export const Login = () => {
+  const [form, { email, password }] = useForm({
+    shouldValidate: 'onSubmit',
+    shouldRevalidate: 'onBlur',
+    onValidate({ formData }) {
+      return parseWithZod(formData, {
+        schema,
+      });
+    },
+    onSubmit(e, { formData }) {
+      e.preventDefault();
+
+      const data: { [key: string]: string } = {};
+      formData.forEach((value, key) => {
+        data[key] = value.toString();
+      });
+      console.log('Form submitted:', data);
+    },
+  });
+
   return (
     <form
-      action="#"
+      id={form.id}
       method="POST"
       className="grid w-full max-w-sm grid-cols-1 gap-8"
+      noValidate={form.noValidate}
+      onSubmit={form.onSubmit}
     >
       <Link
         href="/"
         className="flex items-center gap-3 text-zinc-950 dark:text-white forced-colors:text-[CanvasText]"
       >
-        <Avatar src={Logo} square className="size-6" />
+        <Avatar
+          style={{ '--avatar-radius': 0 } as CSSProperties}
+          src={Logo}
+          square
+          disableOutline
+          className="size-6"
+        />
         <span className="truncate">Enterprise</span>
       </Link>
       <Heading>Sign in to your account</Heading>
       <Field>
         <Label>Email</Label>
-        <Input type="email" name="email" />
+        <Input type="email" name={email.name} required={email.required} />
+        <ErrorMessage>{email.errors ? email.errors : null}</ErrorMessage>
       </Field>
       <Field>
         <Label>Password</Label>
-        <Input type="password" name="password" />
+        <Input
+          type="password"
+          name={password.name}
+          required={password.required}
+        />
+        <ErrorMessage>{password.errors ? password.errors : null}</ErrorMessage>
       </Field>
       <div className="flex items-center justify-between">
         <CheckboxField>
@@ -52,7 +98,7 @@ export const Login = () => {
         Login
       </Button>
       <Text>
-        Don’t have an account?{' '}
+        Don't have an account?{' '}
         <TextLink href="../register">
           <Strong>Sign up</Strong>
         </TextLink>

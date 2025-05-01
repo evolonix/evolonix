@@ -1,9 +1,15 @@
+import { useForm } from '@conform-to/react';
+import { parseWithZod } from '@conform-to/zod';
+import { z } from 'zod';
+
+import { CSSProperties } from 'react';
 import Logo from '../assets/logo.svg';
 import {
   Avatar,
   Button,
   Checkbox,
   CheckboxField,
+  ErrorMessage,
   Field,
   Heading,
   Input,
@@ -15,44 +21,93 @@ import {
   TextLink,
 } from '../components/catalyst';
 
+const schema = z.object({
+  email: z
+    .string({ required_error: 'Email is required' })
+    .email('Invalid email address'),
+  name: z.string({ required_error: 'Full name is required' }),
+  password: z.string({ required_error: 'Password is required' }),
+  country: z.string({ required_error: 'Country is required' }),
+  subscribe: z.boolean().optional(),
+});
+
 export const Register = () => {
+  const [form, { email, name, password, country, subscribe }] = useForm({
+    shouldValidate: 'onSubmit',
+    shouldRevalidate: 'onBlur',
+    onValidate({ formData }) {
+      return parseWithZod(formData, {
+        schema,
+      });
+    },
+    onSubmit(e, { formData }) {
+      e.preventDefault();
+
+      const data: { [key: string]: string } = {};
+      formData.forEach((value, key) => {
+        data[key] = value.toString();
+      });
+      console.log('Form submitted:', data);
+    },
+  });
+
   return (
     <form
-      action="#"
+      id={form.id}
       method="POST"
       className="grid w-full max-w-sm grid-cols-1 gap-8"
+      noValidate={form.noValidate}
+      onSubmit={form.onSubmit}
     >
       <Link
         href="/"
         className="flex items-center gap-3 text-zinc-950 dark:text-white forced-colors:text-[CanvasText]"
       >
-        <Avatar src={Logo} square className="size-6" />
+        <Avatar
+          style={{ '--avatar-radius': 0 } as CSSProperties}
+          src={Logo}
+          square
+          disableOutline
+          className="size-6"
+        />
         <span className="truncate">Enterprise</span>
       </Link>
       <Heading>Create your account</Heading>
       <Field>
         <Label>Email</Label>
-        <Input type="email" name="email" />
+        <Input type="email" name={email.name} required={email.required} />
+        <ErrorMessage>{email.errors ? email.errors : null}</ErrorMessage>
       </Field>
       <Field>
         <Label>Full name</Label>
-        <Input name="name" />
+        <Input name={name.name} required={name.required} />
+        <ErrorMessage>{name.errors ? name.errors : null}</ErrorMessage>
       </Field>
       <Field>
         <Label>Password</Label>
-        <Input type="password" name="password" autoComplete="new-password" />
+        <Input
+          type="password"
+          autoComplete="new-password"
+          name={password.name}
+          required={password.required}
+        />
+        <ErrorMessage>{password.errors ? password.errors : null}</ErrorMessage>
       </Field>
       <Field>
         <Label>Country</Label>
-        <Select name="country">
+        <Select name={country.name} required={country.required}>
           <option>Canada</option>
           <option>Mexico</option>
           <option selected>United States</option>
         </Select>
+        <ErrorMessage>{country.errors ? country.errors : null}</ErrorMessage>
       </Field>
       <CheckboxField>
-        <Checkbox name="remember" />
+        <Checkbox name={subscribe.name} />
         <Label>Get emails about product updates and news.</Label>
+        <ErrorMessage>
+          {subscribe.errors ? subscribe.errors : null}
+        </ErrorMessage>
       </CheckboxField>
       <Button type="submit" className="w-full">
         Create account

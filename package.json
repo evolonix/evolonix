@@ -5,13 +5,16 @@
   "scripts": {},
   "private": true,
   "dependencies": {
+    "@conform-to/react": "^1.4.0",
+    "@conform-to/zod": "^1.4.0",
     "@headlessui/react": "^2.2.1",
     "@heroicons/react": "^2.2.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.7.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-router": "^7.5.0"
+    "react-router": "^7.5.0",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",

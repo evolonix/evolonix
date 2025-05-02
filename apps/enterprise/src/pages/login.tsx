@@ -2,10 +2,7 @@ import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
 import { z } from 'zod';
 
-import { CSSProperties } from 'react';
-import Logo from '../assets/logo.svg';
 import {
-  Avatar,
   Button,
   Checkbox,
   CheckboxField,
@@ -19,6 +16,7 @@ import {
   Text,
   TextLink,
 } from '../components/catalyst';
+import { Logo } from '../components/logo';
 
 const schema = z.object({
   email: z
@@ -59,13 +57,7 @@ export const Login = () => {
         href="/"
         className="flex items-center gap-3 text-zinc-950 dark:text-white forced-colors:text-[CanvasText]"
       >
-        <Avatar
-          style={{ '--avatar-radius': 0 } as CSSProperties}
-          src={Logo}
-          square
-          disableOutline
-          className="size-6"
-        />
+        <Logo className="size-7 sm:size-6" />
         <span className="truncate">Enterprise</span>
       </Link>
       <Heading>Sign in to your account</Heading>

@@ -1,6 +1,5 @@
-import { CSSProperties } from 'react';
-import Logo from '../assets/logo.svg';
-import { Avatar, Button, Heading, Link } from '../components/catalyst';
+import { Button, Heading, Link } from '../components/catalyst';
+import { Logo } from '../components/logo';
 
 export const Logout = () => {
   return (
@@ -13,13 +12,7 @@ export const Logout = () => {
         href="/"
         className="flex items-center gap-3 text-zinc-950 dark:text-white forced-colors:text-[CanvasText]"
       >
-        <Avatar
-          style={{ '--avatar-radius': 0 } as CSSProperties}
-          src={Logo}
-          square
-          disableOutline
-          className="size-6"
-        />
+        <Logo className="size-7 sm:size-6" />
         <span className="truncate">Enterprise</span>
       </Link>
       <Heading>Sign out of your account</Heading>

@@ -10,8 +10,7 @@ import {
 import clsx from 'clsx';
 import { useLocation } from 'react-router';
 
-import { CSSProperties, useCallback } from 'react';
-import Logo from '../assets/logo.svg';
+import { useCallback } from 'react';
 import {
   Avatar,
   Sidebar as CatalystSidebar,
@@ -25,6 +24,7 @@ import {
   SidebarSection,
   SidebarSpacer,
 } from './catalyst';
+import { Logo } from './logo';
 import { ProfileDropdownMenu } from './profile-dropdown-menu';
 
 export interface SidebarProps {
@@ -56,12 +56,7 @@ export const Sidebar = ({ isExpanded = false }: SidebarProps) => {
           className="lg:mb-2.5"
           title={isExpanded ? undefined : 'Enterprise'}
         >
-          <Avatar
-            style={{ '--avatar-radius': 0 } as CSSProperties}
-            src={Logo}
-            square
-            disableOutline
-          />
+          <Logo />
           <SidebarLabel>Enterprise</SidebarLabel>
         </SidebarItem>
         <SidebarSection className="max-lg:hidden">

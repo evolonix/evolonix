@@ -1,10 +1,10 @@
 'use client';
 
 import * as Headless from '@headlessui/react';
-import { ChevronRightIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router';
+
 import { SidebarToggleButton } from '../sidebar-toggle-button';
 import { NavbarItem } from './navbar';
 
@@ -99,17 +99,9 @@ export function SidebarLayout({
           )}
         >
           <SidebarToggleButton
-            circle
-            aria-label={isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
+            isExpanded={isExpanded}
             onClick={handleToggleSidebar}
-          >
-            <ChevronRightIcon
-              className={clsx(
-                'pointer-events-none h-5 w-5',
-                isExpanded ? 'rotate-y-180' : ''
-              )}
-            />
-          </SidebarToggleButton>
+          />
         </div>
 
         {sidebar}

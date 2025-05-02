@@ -62,32 +62,31 @@ export const Register = () => {
       <Heading>Create your account</Heading>
       <Field>
         <Label>Email</Label>
-        <Input type="email" name={email.name} required={email.required} />
+        <Input type="email" name={email.name} required={email.required} invalid={!!email.errors} />
         {email.errors ? <ErrorMessage>{email.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Full name</Label>
-        <Input name={name.name} required={name.required} />
+        <Input name={name.name} required={name.required} invalid={!!name.errors} />
         {name.errors ? <ErrorMessage>{name.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Password</Label>
-        <Input type="password" autoComplete="new-password" name={password.name} required={password.required} />
+        <Input type="password" autoComplete="new-password" name={password.name} required={password.required} invalid={!!password.errors} />
         {password.errors ? <ErrorMessage>{password.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Country</Label>
-        <Select name={country.name} required={country.required}>
+        <Select name={country.name} required={country.required} invalid={!!country.errors} defaultValue="United States">
           <option>Canada</option>
           <option>Mexico</option>
-          <option selected>United States</option>
+          <option>United States</option>
         </Select>
         {country.errors ? <ErrorMessage>{country.errors}</ErrorMessage> : null}
       </Field>
       <CheckboxField>
         <Checkbox name={subscribe.name} />
         <Label>Get emails about product updates and news.</Label>
-        {subscribe.errors ? <ErrorMessage>{subscribe.errors}</ErrorMessage> : null}
       </CheckboxField>
       <Button type="submit" className="w-full">
         Create account

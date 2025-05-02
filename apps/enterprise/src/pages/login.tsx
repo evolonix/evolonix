@@ -58,12 +58,12 @@ export const Login = () => {
       <Heading>Sign in to your account</Heading>
       <Field>
         <Label>Email</Label>
-        <Input type="email" name={email.name} required={email.required} />
+        <Input type="email" name={email.name} required={email.required} invalid={!!email.errors} />
         {email.errors ? <ErrorMessage>{email.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Password</Label>
-        <Input type="password" name={password.name} required={password.required} />
+        <Input type="password" name={password.name} required={password.required} invalid={!!password.errors} />
         {password.errors ? <ErrorMessage>{password.errors}</ErrorMessage> : null}
       </Field>
       <div className="flex items-center justify-between">

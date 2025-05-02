@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import React, { forwardRef } from 'react';
 import { Link } from './link';
 
-const styles = {
+export const styles = {
   base: [
     // Base
     'relative isolate inline-flex items-baseline justify-center gap-x-2 border text-base/6 font-semibold',

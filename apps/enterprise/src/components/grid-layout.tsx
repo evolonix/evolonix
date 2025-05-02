@@ -24,13 +24,12 @@ export interface GridLayoutProps {
 }
 
 export const GridLayout = ({
-  children,
   fullWidth = false,
   disableTopPadding = false,
   ...props
 }: GridLayoutProps & Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>) => {
   // Validate that all children are of type GridLayoutItem
-  validate(children);
+  validate(props.children);
 
   return (
     <div
@@ -43,23 +42,20 @@ export const GridLayout = ({
         'w-full 2xl:max-w-[var(--breakpoint-2xl)]'
       )}
       {...props}
-    >
-      {children}
-    </div>
+    />
   );
 };
 
 export interface GridLayoutItemProps {
-  xs?: number;
-  sm?: number;
-  md?: number;
-  lg?: number;
-  xl?: number;
-  xxl?: number;
+  xs?: 1 | 2 | 3 | 4;
+  sm?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  md?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  lg?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  xl?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  xxl?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 }
 
 export const GridLayoutItem = ({
-  children,
   xs,
   sm,
   md,
@@ -97,8 +93,6 @@ export const GridLayoutItem = ({
         'xxl:col-span-[var(--grid-col-span-xxl)]'
       )}
       {...props}
-    >
-      {children}
-    </div>
+    />
   );
 };

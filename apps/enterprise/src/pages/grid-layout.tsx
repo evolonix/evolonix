@@ -34,44 +34,44 @@ export const GridLayout = () => {
         {lg ? (
           <>
             <GridLayoutItem>
-              <div className="h-10 rounded-lg bg-white"></div>
+              <div className="h-10 rounded-lg bg-white" />
             </GridLayoutItem>
             <GridLayoutItem lg={6}>
-              <div className="h-10 rounded-lg bg-white"></div>
+              <div className="h-10 rounded-lg bg-white" />
             </GridLayoutItem>
             <GridLayoutItem lg={6}>
-              <div className="h-10 rounded-lg bg-white"></div>
+              <div className="h-10 rounded-lg bg-white" />
             </GridLayoutItem>
             <GridLayoutItem lg={4}>
-              <div className="h-10 rounded-lg bg-white"></div>
+              <div className="h-10 rounded-lg bg-white" />
             </GridLayoutItem>
             <GridLayoutItem lg={4}>
-              <div className="h-10 rounded-lg bg-white"></div>
+              <div className="h-10 rounded-lg bg-white" />
             </GridLayoutItem>
             <GridLayoutItem lg={4}>
-              <div className="h-10 rounded-lg bg-white"></div>
+              <div className="h-10 rounded-lg bg-white" />
             </GridLayoutItem>
             <GridLayoutItem lg={4}>
-              <div className="h-10 rounded-lg bg-white"></div>
+              <div className="h-10 rounded-lg bg-white" />
             </GridLayoutItem>
             <GridLayoutItem lg={8}>
-              <div className="h-10 rounded-lg bg-white"></div>
+              <div className="h-10 rounded-lg bg-white" />
             </GridLayoutItem>
             <GridLayoutItem lg={8}>
-              <div className="h-10 rounded-lg bg-white"></div>
+              <div className="h-10 rounded-lg bg-white" />
             </GridLayoutItem>
           </>
         ) : null}
         {sm ? (
           <>
             <GridLayoutItem lg={4}>
-              <div className="h-10 rounded-lg bg-white"></div>
+              <div className="h-10 rounded-lg bg-white" />
             </GridLayoutItem>
             <GridLayoutItem sm={4} lg={3}>
-              <div className={clsx('h-10 rounded-lg', xxl ? 'bg-white' : lg ? 'bg-yellow-400' : md ? 'bg-white' : 'bg-yellow-400')}></div>
+              <div className={clsx('h-10 rounded-lg', xxl ? 'bg-white' : lg ? 'bg-yellow-400' : md ? 'bg-white' : 'bg-yellow-400')} />
             </GridLayoutItem>
             <GridLayoutItem sm={4} lg={3}>
-              <div className={clsx('h-10 rounded-lg', xxl ? 'bg-white' : lg ? 'bg-yellow-400' : md ? 'bg-white' : 'bg-yellow-400')}></div>
+              <div className={clsx('h-10 rounded-lg', xxl ? 'bg-white' : lg ? 'bg-yellow-400' : md ? 'bg-white' : 'bg-yellow-400')} />
             </GridLayoutItem>
             <GridLayoutItem sm={3} lg={3}>
               <div
@@ -79,7 +79,7 @@ export const GridLayout = () => {
                   'h-10 rounded-lg',
                   xxl ? 'bg-white' : lg ? 'bg-yellow-400' : md ? 'bg-yellow-400' : sm ? 'bg-red-400' : 'bg-white'
                 )}
-              ></div>
+              />
             </GridLayoutItem>
             <GridLayoutItem sm={5} lg={3}>
               <div
@@ -87,31 +87,27 @@ export const GridLayout = () => {
                   'h-10 rounded-lg',
                   xxl ? 'bg-white' : lg ? 'bg-yellow-400' : md ? 'bg-yellow-400' : sm ? 'bg-red-400' : 'bg-white'
                 )}
-              ></div>
+              />
             </GridLayoutItem>
             <GridLayoutItem sm={5} lg={2}>
-              <div
-                className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : lg ? 'bg-red-400' : md ? 'bg-yellow-400' : 'bg-red-400')}
-              ></div>
+              <div className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : lg ? 'bg-red-400' : md ? 'bg-yellow-400' : 'bg-red-400')} />
             </GridLayoutItem>
             <GridLayoutItem sm={3} lg={2}>
-              <div
-                className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : lg ? 'bg-red-400' : md ? 'bg-yellow-400' : 'bg-red-400')}
-              ></div>
+              <div className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : lg ? 'bg-red-400' : md ? 'bg-yellow-400' : 'bg-red-400')} />
             </GridLayoutItem>
             <GridLayoutItem sm={2}>
-              <div className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : 'bg-red-400')}></div>
+              <div className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : 'bg-red-400')} />
             </GridLayoutItem>
           </>
         ) : null}
         <GridLayoutItem sm={2}>
-          <div className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : sm ? 'bg-red-400' : 'bg-white')}></div>
+          <div className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : sm ? 'bg-red-400' : 'bg-white')} />
         </GridLayoutItem>
         <GridLayoutItem xs={2}>
-          <div className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : 'bg-red-400')}></div>
+          <div className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : 'bg-red-400')} />
         </GridLayoutItem>
         <GridLayoutItem xs={2}>
-          <div className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : 'bg-red-400')}></div>
+          <div className={clsx('h-10 rounded-lg', xxl ? 'bg-yellow-400' : 'bg-red-400')} />
         </GridLayoutItem>
       </Layout>
       <footer className="mt-4">

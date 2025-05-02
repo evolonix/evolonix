@@ -8,13 +8,5 @@ export interface LogoProps {
 }
 
 export const Logo = ({ className }: LogoProps) => {
-  return (
-    <Avatar
-      style={{ '--avatar-radius': 0 } as CSSProperties}
-      src={Asset}
-      square
-      disableOutline
-      className={className}
-    />
-  );
+  return <Avatar style={{ '--avatar-radius': 0 } as CSSProperties} src={Asset} square disableOutline className={className} />;
 };

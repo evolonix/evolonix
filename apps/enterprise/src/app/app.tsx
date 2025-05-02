@@ -25,9 +25,7 @@ export function App() {
   return (
     <Routes>
       <Route path="/" errorElement={<div>Page Error</div>}>
-        <Route
-          element={<SidebarLayout navbar={<Navbar />} sidebar={<Sidebar />} />}
-        >
+        <Route element={<SidebarLayout navbar={<Navbar />} sidebar={<Sidebar />} />}>
           <Route index element={<Home />} />
           <Route path="search" element={<Search />} />
           <Route path="inbox" element={<Inbox />} />

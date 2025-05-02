@@ -21,12 +21,9 @@ const colors = {
   cyan: 'bg-cyan-400/20 text-cyan-700 group-data-hover:bg-cyan-400/30 dark:bg-cyan-400/10 dark:text-cyan-300 dark:group-data-hover:bg-cyan-400/15',
   sky: 'bg-sky-500/15 text-sky-700 group-data-hover:bg-sky-500/25 dark:bg-sky-500/10 dark:text-sky-300 dark:group-data-hover:bg-sky-500/20',
   blue: 'bg-blue-500/15 text-blue-700 group-data-hover:bg-blue-500/25 dark:text-blue-400 dark:group-data-hover:bg-blue-500/25',
-  indigo:
-    'bg-indigo-500/15 text-indigo-700 group-data-hover:bg-indigo-500/25 dark:text-indigo-400 dark:group-data-hover:bg-indigo-500/20',
-  violet:
-    'bg-violet-500/15 text-violet-700 group-data-hover:bg-violet-500/25 dark:text-violet-400 dark:group-data-hover:bg-violet-500/20',
-  purple:
-    'bg-purple-500/15 text-purple-700 group-data-hover:bg-purple-500/25 dark:text-purple-400 dark:group-data-hover:bg-purple-500/20',
+  indigo: 'bg-indigo-500/15 text-indigo-700 group-data-hover:bg-indigo-500/25 dark:text-indigo-400 dark:group-data-hover:bg-indigo-500/20',
+  violet: 'bg-violet-500/15 text-violet-700 group-data-hover:bg-violet-500/25 dark:text-violet-400 dark:group-data-hover:bg-violet-500/20',
+  purple: 'bg-purple-500/15 text-purple-700 group-data-hover:bg-purple-500/25 dark:text-purple-400 dark:group-data-hover:bg-purple-500/20',
   fuchsia:
     'bg-fuchsia-400/15 text-fuchsia-700 group-data-hover:bg-fuchsia-400/25 dark:bg-fuchsia-400/10 dark:text-fuchsia-400 dark:group-data-hover:bg-fuchsia-400/20',
   pink: 'bg-pink-400/15 text-pink-700 group-data-hover:bg-pink-400/25 dark:bg-pink-400/10 dark:text-pink-400 dark:group-data-hover:bg-pink-400/20',
@@ -36,11 +33,7 @@ const colors = {
 
 type BadgeProps = { color?: keyof typeof colors };
 
-export function Badge({
-  color = 'zinc',
-  className,
-  ...props
-}: BadgeProps & React.ComponentPropsWithoutRef<'span'>) {
+export function Badge({ color = 'zinc', className, ...props }: BadgeProps & React.ComponentPropsWithoutRef<'span'>) {
   return (
     <span
       {...props}
@@ -71,11 +64,7 @@ export const BadgeButton = forwardRef(function BadgeButton(
   );
 
   return 'href' in props ? (
-    <Link
-      {...props}
-      className={classes}
-      ref={ref as React.ForwardedRef<HTMLAnchorElement>}
-    >
+    <Link {...props} className={classes} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
       <TouchTarget>
         <Badge color={color}>{children}</Badge>
       </TouchTarget>

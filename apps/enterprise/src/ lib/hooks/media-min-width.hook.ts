@@ -15,9 +15,7 @@ export const useMediaMinWidth = (breakpoint: Breakpoint) => {
       xl: styles.getPropertyValue('--breakpoint-xl'),
       xxl: styles.getPropertyValue('--breakpoint-2xl'),
     } as Record<Breakpoint, string>;
-    const mediaQueryList = window.matchMedia(
-      `(min-width: ${breakpoints[breakpoint]})`
-    );
+    const mediaQueryList = window.matchMedia(`(min-width: ${breakpoints[breakpoint]})`);
     const handleChange = (event: MediaQueryListEvent) => {
       setMatches(event.matches);
     };

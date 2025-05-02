@@ -1,14 +1,6 @@
 import { InboxIcon, MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 
-import {
-  Avatar,
-  Navbar as CatalystNavbar,
-  Dropdown,
-  DropdownButton,
-  NavbarItem,
-  NavbarSection,
-  NavbarSpacer,
-} from './catalyst';
+import { Avatar, Navbar as CatalystNavbar, Dropdown, DropdownButton, NavbarItem, NavbarSection, NavbarSpacer } from './catalyst';
 import { ProfileDropdownMenu } from './profile-dropdown-menu';
 
 export const Navbar = () => {

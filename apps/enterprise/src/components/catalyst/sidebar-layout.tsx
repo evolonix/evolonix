@@ -24,11 +24,7 @@ function CloseMenuIcon() {
   );
 }
 
-function MobileSidebar({
-  open,
-  close,
-  children,
-}: React.PropsWithChildren<{ open: boolean; close: () => void }>) {
+function MobileSidebar({ open, close, children }: React.PropsWithChildren<{ open: boolean; close: () => void }>) {
   return (
     <Headless.Dialog open={open} onClose={close} className="lg:hidden">
       <Headless.DialogBackdrop
@@ -76,17 +72,14 @@ export function SidebarLayout({
   };
 
   // Set isExpanded prop for sidebar
-  sidebar = React.cloneElement<{ isExpanded?: boolean }>(
-    sidebar as React.ReactElement<{ isExpanded?: boolean }>,
-    { isExpanded }
-  );
+  sidebar = React.cloneElement<{ isExpanded?: boolean }>(sidebar as React.ReactElement<{ isExpanded?: boolean }>, { isExpanded });
 
   return (
     <div className="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
       {/* Sidebar on desktop */}
       <div
         className={clsx(
-          'fixed inset-y-0 left-0 max-lg:hidden transition-[width] duration-300 ease-in-out',
+          'fixed inset-y-0 left-0 transition-[width] duration-300 ease-in-out max-lg:hidden',
           isExpanded ? 'w-64' : 'w-[68px]'
         )}
         onMouseEnter={() => setShowToggleButton(true)}
@@ -94,14 +87,11 @@ export function SidebarLayout({
       >
         <div
           className={clsx(
-            'translate-x-1/2 absolute top-11 right-0 z-10 hidden lg:flex overflow-hidden transition-opacity duration-300 ease-in-out',
+            'absolute top-11 right-0 z-10 hidden translate-x-1/2 overflow-hidden transition-opacity duration-300 ease-in-out lg:flex',
             showToggleButton ? 'opacity-100' : 'opacity-0'
           )}
         >
-          <SidebarToggleButton
-            isExpanded={isExpanded}
-            onClick={handleToggleSidebar}
-          />
+          <SidebarToggleButton isExpanded={isExpanded} onClick={handleToggleSidebar} />
         </div>
 
         {sidebar}
@@ -115,10 +105,7 @@ export function SidebarLayout({
       {/* Navbar on mobile */}
       <header className="flex items-center px-4 lg:hidden">
         <div className="py-2.5">
-          <NavbarItem
-            onClick={() => setShowSidebar(true)}
-            aria-label="Open navigation"
-          >
+          <NavbarItem onClick={() => setShowSidebar(true)} aria-label="Open navigation">
             <OpenMenuIcon />
           </NavbarItem>
         </div>

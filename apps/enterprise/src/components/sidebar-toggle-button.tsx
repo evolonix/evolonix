@@ -60,12 +60,7 @@ export const SidebarToggleButton = forwardRef(function Button(
   { isExpanded = false, className, ...props }: SidebarToggleButtonProps,
   ref: React.ForwardedRef<HTMLElement>
 ) {
-  const classes = clsx(
-    className,
-    styles.base,
-    styles.solid,
-    styles.colors['dark/zinc']
-  );
+  const classes = clsx(className, styles.base, styles.solid, styles.colors['dark/zinc']);
 
   return (
     <Headless.Button
@@ -75,12 +70,7 @@ export const SidebarToggleButton = forwardRef(function Button(
       aria-label={isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
     >
       <TouchTarget>
-        <ChevronRightIcon
-          className={clsx(
-            'pointer-events-none h-5 w-5',
-            isExpanded ? 'rotate-y-180' : ''
-          )}
-        />
+        <ChevronRightIcon className={clsx('pointer-events-none h-5 w-5', isExpanded ? 'rotate-y-180' : '')} />
       </TouchTarget>
     </Headless.Button>
   );

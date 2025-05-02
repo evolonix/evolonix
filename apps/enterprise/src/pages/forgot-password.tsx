@@ -2,24 +2,11 @@ import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
 import { z } from 'zod';
 
-import {
-  Button,
-  ErrorMessage,
-  Field,
-  Heading,
-  Input,
-  Label,
-  Link,
-  Strong,
-  Text,
-  TextLink,
-} from '../components/catalyst';
+import { Button, ErrorMessage, Field, Heading, Input, Label, Link, Strong, Text, TextLink } from '../components/catalyst';
 import { Logo } from '../components/logo';
 
 const schema = z.object({
-  email: z
-    .string({ required_error: 'Email is required' })
-    .email('Invalid email address'),
+  email: z.string({ required_error: 'Email is required' }).email('Invalid email address'),
 });
 
 export const ForgotPassword = () => {
@@ -50,17 +37,12 @@ export const ForgotPassword = () => {
       noValidate={form.noValidate}
       onSubmit={form.onSubmit}
     >
-      <Link
-        href="/"
-        className="flex items-center gap-3 text-zinc-950 dark:text-white forced-colors:text-[CanvasText]"
-      >
+      <Link href="/" className="flex items-center gap-3 text-zinc-950 dark:text-white forced-colors:text-[CanvasText]">
         <Logo className="size-7 sm:size-6" />
         <span className="truncate">Enterprise</span>
       </Link>
       <Heading>Reset your password</Heading>
-      <Text>
-        Enter your email and we’ll send you a link to reset your password.
-      </Text>
+      <Text>Enter your email and we’ll send you a link to reset your password.</Text>
       <Field>
         <Label>Email</Label>
         <Input type="email" name={email.name} required={email.required} />

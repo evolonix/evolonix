@@ -20,9 +20,7 @@ import {
 import { Logo } from '../components/logo';
 
 const schema = z.object({
-  email: z
-    .string({ required_error: 'Email is required' })
-    .email('Invalid email address'),
+  email: z.string({ required_error: 'Email is required' }).email('Invalid email address'),
   name: z.string({ required_error: 'Full name is required' }),
   password: z.string({ required_error: 'Password is required' }),
   country: z.string({ required_error: 'Country is required' }),
@@ -57,10 +55,7 @@ export const Register = () => {
       noValidate={form.noValidate}
       onSubmit={form.onSubmit}
     >
-      <Link
-        href="/"
-        className="flex items-center gap-3 text-zinc-950 dark:text-white forced-colors:text-[CanvasText]"
-      >
+      <Link href="/" className="flex items-center gap-3 text-zinc-950 dark:text-white forced-colors:text-[CanvasText]">
         <Logo className="size-7 sm:size-6" />
         <span className="truncate">Enterprise</span>
       </Link>
@@ -77,15 +72,8 @@ export const Register = () => {
       </Field>
       <Field>
         <Label>Password</Label>
-        <Input
-          type="password"
-          autoComplete="new-password"
-          name={password.name}
-          required={password.required}
-        />
-        {password.errors ? (
-          <ErrorMessage>{password.errors}</ErrorMessage>
-        ) : null}
+        <Input type="password" autoComplete="new-password" name={password.name} required={password.required} />
+        {password.errors ? <ErrorMessage>{password.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Country</Label>
@@ -99,9 +87,7 @@ export const Register = () => {
       <CheckboxField>
         <Checkbox name={subscribe.name} />
         <Label>Get emails about product updates and news.</Label>
-        {subscribe.errors ? (
-          <ErrorMessage>{subscribe.errors}</ErrorMessage>
-        ) : null}
+        {subscribe.errors ? <ErrorMessage>{subscribe.errors}</ErrorMessage> : null}
       </CheckboxField>
       <Button type="submit" className="w-full">
         Create account

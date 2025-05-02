@@ -19,9 +19,7 @@ import {
 import { Logo } from '../components/logo';
 
 const schema = z.object({
-  email: z
-    .string({ required_error: 'Email is required' })
-    .email('Invalid email address'),
+  email: z.string({ required_error: 'Email is required' }).email('Invalid email address'),
   password: z.string({ required_error: 'Password is required' }),
 });
 
@@ -53,10 +51,7 @@ export const Login = () => {
       noValidate={form.noValidate}
       onSubmit={form.onSubmit}
     >
-      <Link
-        href="/"
-        className="flex items-center gap-3 text-zinc-950 dark:text-white forced-colors:text-[CanvasText]"
-      >
+      <Link href="/" className="flex items-center gap-3 text-zinc-950 dark:text-white forced-colors:text-[CanvasText]">
         <Logo className="size-7 sm:size-6" />
         <span className="truncate">Enterprise</span>
       </Link>
@@ -68,14 +63,8 @@ export const Login = () => {
       </Field>
       <Field>
         <Label>Password</Label>
-        <Input
-          type="password"
-          name={password.name}
-          required={password.required}
-        />
-        {password.errors ? (
-          <ErrorMessage>{password.errors}</ErrorMessage>
-        ) : null}
+        <Input type="password" name={password.name} required={password.required} />
+        {password.errors ? <ErrorMessage>{password.errors}</ErrorMessage> : null}
       </Field>
       <div className="flex items-center justify-between">
         <CheckboxField>

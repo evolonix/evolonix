@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { useMediaMinWidth } from '../ lib';
 import { Divider } from '../components/catalyst';
 import { GridLayoutItem, GridLayout as Layout } from '../components/grid-layout';
 import { PageHeader } from '../components/page-header';
+import { useMediaMinWidth } from '../lib';
 
 export const GridLayout = () => {
   const sm = useMediaMinWidth('sm');

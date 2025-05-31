@@ -1,0 +1,7 @@
+overwrite: true
+schema: 'https://swapi-graphql.netlify.app/graphql'
+documents: 'apps/enterprise/src/lib/data-access/star-wars/starships/graphql/*.graphql'
+generates:
+  apps/enterprise/src/lib/data-access/star-wars/starships/graphql/__generated__/:
+    preset: 'client'
+    plugins: []

@@ -1,0 +1,22 @@
+query GetAllStarships($first: Int, $after: String) {
+  allStarships(first: $first, after: $after) {
+    edges {
+      cursor
+      node {
+        id
+        name
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    starships {
+      id
+      name
+    }
+    totalCount
+  }
+}

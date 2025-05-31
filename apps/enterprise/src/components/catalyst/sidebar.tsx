@@ -63,10 +63,16 @@ export function SidebarSpacer({ className, ...props }: React.ComponentPropsWitho
   return <div aria-hidden="true" {...props} className={clsx(className, 'mt-8 flex-1')} />;
 }
 
-export function SidebarHeading({ className, children, ...props }: React.ComponentPropsWithoutRef<'h3'>) {
+export function SidebarHeading({
+  className,
+  isExpanded = false,
+  initials,
+  children,
+  ...props
+}: React.ComponentPropsWithoutRef<'h3'> & { isExpanded?: boolean; initials?: string }) {
   return (
-    <h3 {...props} className={clsx(className, 'mb-1 px-2 text-xs/6 font-medium text-zinc-500 dark:text-zinc-400')}>
-      {children}
+    <h3 {...props} className={clsx(className, 'mb-1 px-2 text-xs/6 font-medium whitespace-nowrap text-zinc-500 dark:text-zinc-400')}>
+      {isExpanded ? children : initials}
     </h3>
   );
 }

@@ -3,6 +3,9 @@ import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router';
 
 import App from './app/app';
+import { buildInjector } from './lib';
+
+buildInjector();
 
 const router = createBrowserRouter(createRoutesFromElements(<Route path="*" element={<App />} errorElement={<div>App Error</div>} />));
 

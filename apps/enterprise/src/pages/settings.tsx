@@ -4,7 +4,7 @@ import { PageHeader } from '../components/page-header';
 export const Settings = () => {
   return (
     <>
-      <PageHeader label="Settings" />
+      <PageHeader label="My Settings" />
       <Divider className="mt-4" />
     </>
   );

@@ -16,7 +16,7 @@ export const ProfileDropdownMenu = ({ anchor }: ProfileMenuProps) => {
       </DropdownItem>
       <DropdownItem href="/settings">
         <Cog8ToothIcon />
-        <DropdownLabel>Settings</DropdownLabel>
+        <DropdownLabel>My Settings</DropdownLabel>
       </DropdownItem>
       <DropdownDivider />
       <DropdownItem href="/privacy">

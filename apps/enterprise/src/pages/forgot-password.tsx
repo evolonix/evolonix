@@ -10,7 +10,7 @@ const schema = z.object({
 });
 
 export const ForgotPassword = () => {
-  const [form, { email }] = useForm({
+  const [form, fields] = useForm({
     shouldValidate: 'onSubmit',
     shouldRevalidate: 'onBlur',
     onValidate({ formData }) {
@@ -45,8 +45,8 @@ export const ForgotPassword = () => {
       <Text>Enter your email and we’ll send you a link to reset your password.</Text>
       <Field>
         <Label>Email</Label>
-        <Input type="email" name={email.name} required={email.required} invalid={!!email.errors} />
-        {email.errors ? <ErrorMessage>{email.errors}</ErrorMessage> : null}
+        <Input type="email" name={fields.email.name} required={fields.email.required} invalid={!!fields.email.errors} />
+        {fields.email.errors ? <ErrorMessage>{fields.email.errors}</ErrorMessage> : null}
       </Field>
       <Button type="submit" className="w-full">
         Reset password

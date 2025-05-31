@@ -28,7 +28,7 @@ const schema = z.object({
 });
 
 export const Register = () => {
-  const [form, { email, name, password, country, subscribe }] = useForm({
+  const [form, fields] = useForm({
     shouldValidate: 'onSubmit',
     shouldRevalidate: 'onBlur',
     onValidate({ formData }) {
@@ -62,30 +62,41 @@ export const Register = () => {
       <Heading>Create your account</Heading>
       <Field>
         <Label>Email</Label>
-        <Input type="email" name={email.name} required={email.required} invalid={!!email.errors} />
-        {email.errors ? <ErrorMessage>{email.errors}</ErrorMessage> : null}
+        <Input type="email" name={fields.email.name} required={fields.email.required} invalid={!!fields.email.errors} />
+        {fields.email.errors ? <ErrorMessage>{fields.email.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Full name</Label>
-        <Input name={name.name} required={name.required} invalid={!!name.errors} />
-        {name.errors ? <ErrorMessage>{name.errors}</ErrorMessage> : null}
+        <Input name={fields.name.name} required={fields.name.required} invalid={!!fields.name.errors} />
+        {fields.name.errors ? <ErrorMessage>{fields.name.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Password</Label>
-        <Input type="password" autoComplete="new-password" name={password.name} required={password.required} invalid={!!password.errors} />
-        {password.errors ? <ErrorMessage>{password.errors}</ErrorMessage> : null}
+        <Input
+          type="password"
+          autoComplete="new-password"
+          name={fields.password.name}
+          required={fields.password.required}
+          invalid={!!fields.password.errors}
+        />
+        {fields.password.errors ? <ErrorMessage>{fields.password.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Country</Label>
-        <Select name={country.name} required={country.required} invalid={!!country.errors} defaultValue="United States">
+        <Select
+          name={fields.country.name}
+          required={fields.country.required}
+          invalid={!!fields.country.errors}
+          defaultValue="United States"
+        >
           <option>Canada</option>
           <option>Mexico</option>
           <option>United States</option>
         </Select>
-        {country.errors ? <ErrorMessage>{country.errors}</ErrorMessage> : null}
+        {fields.country.errors ? <ErrorMessage>{fields.country.errors}</ErrorMessage> : null}
       </Field>
       <CheckboxField>
-        <Checkbox name={subscribe.name} />
+        <Checkbox name={fields.subscribe.name} />
         <Label>Get emails about product updates and news.</Label>
       </CheckboxField>
       <Button type="submit" className="w-full">

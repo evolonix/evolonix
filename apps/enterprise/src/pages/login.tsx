@@ -24,7 +24,7 @@ const schema = z.object({
 });
 
 export const Login = () => {
-  const [form, { email, password }] = useForm({
+  const [form, fields] = useForm({
     shouldValidate: 'onSubmit',
     shouldRevalidate: 'onBlur',
     onValidate({ formData }) {
@@ -58,13 +58,13 @@ export const Login = () => {
       <Heading>Sign in to your account</Heading>
       <Field>
         <Label>Email</Label>
-        <Input type="email" name={email.name} required={email.required} invalid={!!email.errors} />
-        {email.errors ? <ErrorMessage>{email.errors}</ErrorMessage> : null}
+        <Input type="email" name={fields.email.name} required={fields.email.required} invalid={!!fields.email.errors} />
+        {fields.email.errors ? <ErrorMessage>{fields.email.errors}</ErrorMessage> : null}
       </Field>
       <Field>
         <Label>Password</Label>
-        <Input type="password" name={password.name} required={password.required} invalid={!!password.errors} />
-        {password.errors ? <ErrorMessage>{password.errors}</ErrorMessage> : null}
+        <Input type="password" name={fields.password.name} required={fields.password.required} invalid={!!fields.password.errors} />
+        {fields.password.errors ? <ErrorMessage>{fields.password.errors}</ErrorMessage> : null}
       </Field>
       <div className="flex items-center justify-between">
         <CheckboxField>

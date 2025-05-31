@@ -19,11 +19,13 @@ import {
   SidebarBody,
   SidebarFooter,
   SidebarHeader,
+  SidebarHeading,
   SidebarItem,
   SidebarLabel,
   SidebarSection,
   SidebarSpacer,
 } from './catalyst';
+import { BobaFettIcon, MillenniumFalconIcon, RickAndMortyIcon, RickIcon } from './icons';
 import { Logo } from './logo';
 import { ProfileDropdownMenu } from './profile-dropdown-menu';
 
@@ -66,9 +68,39 @@ export const Sidebar = ({ isExpanded = false }: SidebarProps) => {
             <HomeIcon />
             <SidebarLabel>Home</SidebarLabel>
           </SidebarItem>
-          <SidebarItem href="/settings" title={isExpanded ? undefined : 'Settings'} current={isCurrent('/settings')}>
+          <SidebarItem href="/admin/settings" title={isExpanded ? undefined : 'Settings'} current={isCurrent('/admin/settings')}>
             <Cog6ToothIcon />
             <SidebarLabel>Settings</SidebarLabel>
+          </SidebarItem>
+        </SidebarSection>
+        <SidebarSection>
+          <SidebarHeading isExpanded={isExpanded} initials="SW" aria-label="Star Wars">
+            Star Wars
+          </SidebarHeading>
+          <SidebarItem href="/star-wars" title={isExpanded ? undefined : 'Dashboard'} current={isCurrent('/star-wars', true)}>
+            <BobaFettIcon />
+            <SidebarLabel>Dashboard</SidebarLabel>
+          </SidebarItem>
+          <SidebarItem href="/star-wars/starships" title={isExpanded ? undefined : 'Starships'} current={isCurrent('/star-wars/starships')}>
+            <MillenniumFalconIcon />
+            <SidebarLabel>Starships</SidebarLabel>
+          </SidebarItem>
+        </SidebarSection>
+        <SidebarSection>
+          <SidebarHeading isExpanded={isExpanded} initials="RM" aria-label="Rick & Morty">
+            Rick & Morty
+          </SidebarHeading>
+          <SidebarItem href="/rick-and-morty" title={isExpanded ? undefined : 'Dashboard'} current={isCurrent('/rick-and-morty', true)}>
+            <RickAndMortyIcon />
+            <SidebarLabel>Dashboard</SidebarLabel>
+          </SidebarItem>
+          <SidebarItem
+            href="/rick-and-morty/characters"
+            title={isExpanded ? undefined : 'Characters'}
+            current={isCurrent('/rick-and-morty/characters')}
+          >
+            <RickIcon />
+            <SidebarLabel>Characters</SidebarLabel>
           </SidebarItem>
         </SidebarSection>
         <SidebarSpacer />

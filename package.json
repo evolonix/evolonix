@@ -4,16 +4,21 @@
   "license": "MIT",
   "scripts": {
     "enterprise": "nx serve enterprise",
-    "enterprise:storybook": "nx run enterprise:storybook --ci"
+    "enterprise:storybook": "nx run enterprise:storybook --ci",
+    "codegen:star-wars": "graphql-codegen --config star-wars.codegen.yml",
+    "codegen:rick-and-morty": "graphql-codegen --config rick-and-morty.codegen.yml"
   },
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.13.8",
     "@conform-to/react": "^1.4.0",
     "@conform-to/zod": "^1.4.0",
+    "@evolonix/react": "^2.1.1",
     "@headlessui/react": "^2.2.1",
     "@heroicons/react": "^2.2.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.7.3",
+    "graphql": "^16.11.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router": "^7.5.0",
@@ -22,6 +27,10 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.6",
     "@eslint/js": "^9.8.0",
+    "@graphql-codegen/cli": "5.0.6",
+    "@graphql-codegen/client-preset": "4.8.1",
+    "@graphql-codegen/typescript": "^4.1.6",
+    "@graphql-codegen/typescript-resolvers": "^4.5.1",
     "@nx/devkit": "20.8.0",
     "@nx/eslint": "20.8.0",
     "@nx/eslint-plugin": "20.8.0",

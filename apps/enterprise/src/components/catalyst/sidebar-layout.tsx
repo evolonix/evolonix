@@ -75,54 +75,67 @@ export function SidebarLayout({
   sidebar = React.cloneElement<{ isExpanded?: boolean }>(sidebar as React.ReactElement<{ isExpanded?: boolean }>, { isExpanded });
 
   return (
-    <div className="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
-      {/* Sidebar on desktop */}
-      <div
-        className={clsx(
-          'fixed inset-y-0 left-0 transition-[width] duration-300 ease-in-out max-lg:hidden',
-          isExpanded ? 'w-64' : 'w-[68px]'
-        )}
-        onMouseEnter={() => setShowToggleButton(true)}
-        onMouseLeave={() => setShowToggleButton(false)}
-      >
+    <>
+      {/* Skip link */}
+      <a href="#main" className="absolute -top-10 left-0 z-20 m-1 inline-block bg-white p-1.5 focus:top-0 dark:bg-zinc-900">
+        Skip to main content
+      </a>
+
+      <div className="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
+        {/* Sidebar on desktop */}
         <div
           className={clsx(
-            'absolute top-11 right-0 z-10 hidden translate-x-1/2 overflow-hidden transition-opacity duration-300 ease-in-out lg:flex',
-            showToggleButton ? 'opacity-100' : 'opacity-0'
+            'fixed inset-y-0 left-0 transition-[width] duration-300 ease-in-out max-lg:hidden',
+            isExpanded ? 'w-64' : 'w-[68px]'
+          )}
+          onMouseEnter={() => setShowToggleButton(true)}
+          onMouseLeave={() => setShowToggleButton(false)}
+        >
+          <div
+            className={clsx(
+              'absolute top-11 right-0 z-10 hidden translate-x-1/2 overflow-hidden transition-opacity duration-300 ease-in-out lg:flex',
+              showToggleButton ? 'opacity-100' : 'opacity-0 [&:has([data-focus])]:opacity-100'
+            )}
+          >
+            <SidebarToggleButton isExpanded={isExpanded} onClick={handleToggleSidebar} />
+          </div>
+
+          {sidebar}
+        </div>
+
+        {/* Sidebar on mobile */}
+        <MobileSidebar open={showSidebar} close={() => setShowSidebar(false)}>
+          {sidebar}
+        </MobileSidebar>
+
+        {/* Navbar on mobile */}
+        <header className="flex items-center px-4 lg:hidden">
+          <div className="py-2.5">
+            <NavbarItem onClick={() => setShowSidebar(true)} aria-label="Open navigation">
+              <OpenMenuIcon />
+            </NavbarItem>
+          </div>
+          <div className="min-w-0 flex-1">{navbar}</div>
+        </header>
+
+        <header className="hidden lg:block"></header>
+
+        {/* Content */}
+        <main
+          id="main"
+          tabIndex={-1}
+          className={clsx(
+            'flex flex-1 flex-col pb-2 lg:min-w-0 lg:pt-2 lg:pr-2 lg:transition-[padding] lg:duration-300 lg:ease-in-out',
+            isExpanded ? 'lg:pl-64' : 'lg:pl-[68px]'
           )}
         >
-          <SidebarToggleButton isExpanded={isExpanded} onClick={handleToggleSidebar} />
-        </div>
+          <div className="grow p-6 lg:rounded-lg lg:bg-white lg:p-10 lg:shadow-xs lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10">
+            {children}
+          </div>
+        </main>
 
-        {sidebar}
+        <footer></footer>
       </div>
-
-      {/* Sidebar on mobile */}
-      <MobileSidebar open={showSidebar} close={() => setShowSidebar(false)}>
-        {sidebar}
-      </MobileSidebar>
-
-      {/* Navbar on mobile */}
-      <header className="flex items-center px-4 lg:hidden">
-        <div className="py-2.5">
-          <NavbarItem onClick={() => setShowSidebar(true)} aria-label="Open navigation">
-            <OpenMenuIcon />
-          </NavbarItem>
-        </div>
-        <div className="min-w-0 flex-1">{navbar}</div>
-      </header>
-
-      {/* Content */}
-      <main
-        className={clsx(
-          'flex flex-1 flex-col pb-2 lg:min-w-0 lg:pt-2 lg:pr-2 lg:transition-[padding] lg:duration-300 lg:ease-in-out',
-          isExpanded ? 'lg:pl-64' : 'lg:pl-[68px]'
-        )}
-      >
-        <div className="grow p-6 lg:rounded-lg lg:bg-white lg:p-10 lg:shadow-xs lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10">
-          {children}
-        </div>
-      </main>
-    </div>
+    </>
   );
 }

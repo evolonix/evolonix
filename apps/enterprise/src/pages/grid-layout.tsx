@@ -111,7 +111,7 @@ export const GridLayout = () => {
         </GridLayoutItem>
       </Layout>
       <footer className="mt-4">
-        <p className="text-center text-sm text-gray-500">
+        <p className="text-center text-sm text-zinc-500">
           <span>Current breakpoint:</span>{' '}
           <span>{xxl ? 'XX-Large' : xl ? 'X-Large' : lg ? 'Large' : md ? 'Medium' : sm ? 'Small' : 'X-Small'}</span>{' '}
           <span>{`@ ${width}px`}</span>

@@ -1,5 +1,4 @@
 import { Preview } from '@storybook/react';
-import React from 'react';
 import { MemoryRouter } from 'react-router';
 
 import '../src/styles.css';
@@ -27,6 +26,14 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    // docs: {
+    //   source: {
+    //     transform: (src: string) => {
+    //       const cleanedSource = src.replace(/<>\s*|<\/>/g, '').replace(/<React.Fragment.*>\s*|<\/React.Fragment>/g, '');
+    //       return prettier.format(cleanedSource, { parser: 'babel', plugins: [pluginBabel, pluginEstree, pluginHtml] });
+    //     },
+    //   },
+    // },
     viewport: {
       viewports: {
         phone: {

@@ -37,6 +37,8 @@ const styles = {
     'after:shadow-[shadow:inset_0_1px_--theme(--color-white/15%)]',
     // White overlay on hover
     'data-active:after:bg-(--btn-hover-overlay) data-hover:after:bg-(--btn-hover-overlay)',
+    // White overlay on focus
+    'data-focus:after:bg-(--btn-hover-overlay)',
     // Dark mode: `after` layer expands to cover entire button
     'dark:after:-inset-px dark:after:rounded-full',
     // Disabled
@@ -47,6 +49,7 @@ const styles = {
       'text-white [--btn-bg:var(--color-zinc-900)] [--btn-border:var(--color-zinc-950)]/90 [--btn-hover-overlay:var(--color-white)]/10',
       'dark:text-white dark:[--btn-bg:var(--color-zinc-600)] dark:[--btn-hover-overlay:var(--color-white)]/5',
       '[--btn-icon:var(--color-zinc-400)] data-active:[--btn-icon:var(--color-zinc-300)] data-hover:[--btn-icon:var(--color-zinc-300)]',
+      'data-focus:[--btn-icon:var(--color-zinc-300)]',
     ],
   },
 };

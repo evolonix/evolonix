@@ -38,8 +38,8 @@ export const GridLayout = ({
         'gap-4 xl:gap-6',
         'xxl:px-12 px-4 xl:px-6',
         disableTopPadding ? '' : 'pt-4 xl:pt-6',
-        fullWidth ? '' : '2xl:mx-auto',
-        'w-full 2xl:max-w-[var(--breakpoint-2xl)]'
+        fullWidth ? '' : '2xl:mx-auto 2xl:max-w-[var(--breakpoint-2xl)]',
+        'w-full'
       )}
       {...props}
     />
@@ -47,12 +47,66 @@ export const GridLayout = ({
 };
 
 export interface GridLayoutItemProps {
+  /**
+   * The number of columns the item should span on extra small screens (default: 4).
+   * @default 4
+   */
   xs?: 1 | 2 | 3 | 4;
+  /**
+   * The number of columns the item should span on small screens (default: 8).
+   * @default 8
+   */
   sm?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  /**
+   * The number of columns the item should span on medium screens (default: 8).
+   * @default 8
+   */
   md?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  /**
+   * The number of columns the item should span on large screens (default: 12).
+   * @default 12
+   */
   lg?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  /**
+   * The number of columns the item should span on extra large screens (default: 12).
+   * @default 12
+   */
   xl?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  /**
+   * The number of columns the item should span on extra extra large screens (default: 12).
+   * @default 12
+   */
   xxl?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  /**
+   * The number of columns to offset on extra small screens (default: 0).
+   * @default 0
+   */
+  xsOffset?: 0 | 1 | 2 | 3;
+  /**
+   * The number of columns to offset on small screens (default: 0).
+   * @default 0
+   */
+  smOffset?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  /**
+   * The number of columns to offset on medium screens (default: 0).
+   * @default 0
+   */
+  mdOffset?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  /**
+   * The number of columns to offset on large screens (default: 0).
+   * @default 0
+   */
+  lgOffset?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+  /**
+   * The number of columns to offset on extra large screens (default: 0).
+   * @default 0
+   */
+  xlOffset?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+  /**
+   * The number of columns to offset on extra extra large screens (default: 0).
+   * @default 0
+   */
+  xxlOffset?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 }
 
 export const GridLayoutItem = ({

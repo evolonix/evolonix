@@ -10,13 +10,13 @@ interface CharacterListProps {
 }
 
 export const CharacterList = ({ characters }: CharacterListProps) => {
-  return (
+  return characters.length ? (
     <ul className="flex h-full flex-col items-center">
       {characters.map((character, index) => (
         <Fragment key={character.id}>
           <li className="w-full">
             <NavLink
-              to={`/star-wars/characters/${character.id}`}
+              to={`/rick-and-morty/characters/${character.id}`}
               className={({ isActive }) =>
                 clsx(
                   'block w-full p-4 font-bold',
@@ -32,6 +32,10 @@ export const CharacterList = ({ characters }: CharacterListProps) => {
         </Fragment>
       ))}
     </ul>
+  ) : (
+    <div className="flex h-full">
+      <p className="p-4 text-zinc-500 dark:text-zinc-400">No characters found.</p>
+    </div>
   );
 };
 

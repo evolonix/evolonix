@@ -17,10 +17,10 @@ export const computedWith =
   <T extends StoreState>(compute: (state: T) => Partial<T>) =>
   (config: StateCreator<T>): StateCreator<T> =>
   (set, get, api) => {
+    // Grab the latest state (which may already include some computed fields)
+    const latest = get() as T;
     // Wrap the original `set` so that before every update, we recompute & merge.
     const setWithComputed: typeof set = (partial, replace) => {
-      // Grab the latest state (which may already include some computed fields)
-      const latest = get() as T;
       let updated: Partial<T> | undefined = undefined;
 
       const isFunction = typeof partial === 'function';

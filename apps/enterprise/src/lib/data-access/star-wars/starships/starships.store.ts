@@ -1,9 +1,9 @@
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { InjectionToken } from '@evolonix/react';
 import { createStore, StoreApi } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
+import { StarWarsApolloClient } from '../../../apollo-client';
 import { computedWith } from '../../store.computed';
 import { trackStatusWith } from '../../store.state';
 import { GetAllStarshipsDocument, GetStarshipByIdDocument } from './graphql/__generated__/graphql';
@@ -12,7 +12,7 @@ import { initStarshipState, QueryOptions, StarshipActions, StarshipState, Starsh
 
 export const StarshipStoreToken = new InjectionToken('Starship Store');
 
-export function buildStarshipStore(client: ApolloClient<NormalizedCacheObject>) {
+export function buildStarshipStore(client: StarWarsApolloClient) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const configureStore = (set: (state: any) => any, get: () => StarshipViewModel, store: StoreApi<StarshipViewModel>) => {
     const trackStatus = trackStatusWith<StarshipViewModel>(store);

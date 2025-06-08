@@ -21,7 +21,7 @@ export interface CharacterActions {
   select: (id?: string) => Promise<void>;
   save: (character: Character) => Promise<Character | undefined>;
   delete: (id: string) => Promise<void>;
-  search: (search: string) => Promise<void>;
+  search: (query?: string) => Promise<void>;
   previousPage: () => Promise<void>;
   nextPage: () => Promise<void>;
 }

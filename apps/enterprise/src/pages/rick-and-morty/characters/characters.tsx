@@ -35,7 +35,7 @@ export const Characters = () => {
     async (character: Character) => {
       const updated = await vm.save(character);
       setIsOpen(false);
-      navigate(`/star-wars/characters/${updated?.id}`);
+      navigate(`/rick-and-morty/characters/${updated?.id}`);
     },
     [vm, navigate]
   );
@@ -44,15 +44,21 @@ export const Characters = () => {
     // eslint-disable-next-line no-restricted-globals
     if (vm.selected?.id && confirm(`Are you sure you want to delete the character "${vm.selected.name}"?`)) {
       vm.delete(vm.selected.id);
-      navigate('/star-wars/characters', { replace: true });
+      navigate('/rick-and-morty/characters', { replace: true });
     }
   };
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const search = formData.get('search') as string;
-    vm.search(search);
+    const query = (formData.get('query') ?? undefined) as string | undefined;
+    vm.search(query);
+  };
+
+  const handleClearSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === '') {
+      vm.search();
+    }
   };
 
   return (
@@ -60,71 +66,60 @@ export const Characters = () => {
       <PageHeader label="Characters" actions={<Button onClick={handleAdd}>Add character</Button>} />
       <Divider className="mt-4" />
       <GridLayout>
-        {vm.showSkeleton || vm.characters.length ? (
-          <>
-            <GridLayoutItem md={4} lg={5} xl={4}>
-              <div
-                ref={listRef}
-                style={{ '--list-scroll-height': listHeight } as React.CSSProperties}
-                className="flex h-full flex-col overflow-hidden rounded border border-zinc-200 md:h-[var(--list-scroll-height)] dark:border-zinc-600"
-              >
-                <form noValidate method="POST" onSubmit={handleSearch} className="flex items-center gap-2 p-4">
-                  <Input name="search" placeholder="Search" defaultValue={vm.filter.name || ''} autoFocus />
-                  <Button type="submit" disabled={vm.showSkeleton}>
-                    Search
-                  </Button>
-                </form>
-                <Divider />
-                <div className="grow overflow-y-auto">
-                  {vm.showSkeleton ? <CharacterListSkeleton /> : <CharacterList characters={vm.characters} />}
-                </div>
-                <Divider />
-                <Pagination className="p-4">
-                  <PaginationPrevious
-                    disabled={vm.showSkeleton || !vm.info.prev}
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    onClick={() => vm.loadAll(vm.info.prev!)}
-                  />
-                  <PaginationNext
-                    disabled={vm.showSkeleton || !vm.info.next}
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    onClick={() => vm.loadAll(vm.info.next!)}
-                  />
-                </Pagination>
-              </div>
-            </GridLayoutItem>
-            <GridLayoutItem md={4} lg={7} xl={8}>
-              <div
-                ref={detailsRef}
-                style={{ '--details-scroll-height': detailsHeight } as React.CSSProperties}
-                className="h-full overflow-hidden md:max-h-[var(--details-scroll-height)]"
-              >
-                <div className="flex h-full flex-col">
-                  {id ? (
-                    vm.showSkeleton ? (
-                      <CharacterDetailsSkeleton />
-                    ) : vm.selected ? (
-                      <CharacterDetails character={vm.selected} onEdit={handleEdit} onDelete={handleDelete} />
-                    ) : null
-                  ) : (
-                    <>
-                      <h2 className="font-bold">Characters</h2>
-                      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        Explore the various characters from the Star Wars universe. Click on a character to learn more about it.
-                      </p>
-                    </>
-                  )}
-                </div>
-              </div>
-            </GridLayoutItem>
-          </>
-        ) : (
-          <GridLayoutItem>
-            <div className="flex flex-col items-center justify-center">
-              <p className="text-zinc-500 dark:text-zinc-400">No characters found.</p>
+        <GridLayoutItem md={4} lg={5} xl={4}>
+          <div
+            ref={listRef}
+            style={{ '--list-scroll-height': listHeight } as React.CSSProperties}
+            className="flex h-full flex-col overflow-hidden rounded border border-zinc-200 md:h-[var(--list-scroll-height)] dark:border-zinc-600"
+          >
+            <form noValidate method="POST" onSubmit={handleSearch} className="flex items-center gap-2 p-4">
+              <Input
+                type="search"
+                name="query"
+                placeholder="Search"
+                defaultValue={vm.filter.name || ''}
+                autoFocus
+                onInput={handleClearSearch}
+              />
+              <Button type="submit" disabled={vm.isLoading}>
+                Search
+              </Button>
+            </form>
+            <Divider />
+            <div className="grow overflow-y-auto">
+              {vm.showSkeleton ? <CharacterListSkeleton /> : <CharacterList characters={vm.characters} />}
             </div>
-          </GridLayoutItem>
-        )}
+            <Divider />
+            <Pagination className="p-4">
+              <PaginationPrevious disabled={vm.isLoading || !vm.info.prev} onClick={() => vm.previousPage()} />
+              <PaginationNext disabled={vm.isLoading || !vm.info.next} onClick={() => vm.nextPage()} />
+            </Pagination>
+          </div>
+        </GridLayoutItem>
+        <GridLayoutItem md={4} lg={7} xl={8}>
+          <div
+            ref={detailsRef}
+            style={{ '--details-scroll-height': detailsHeight } as React.CSSProperties}
+            className="h-full overflow-hidden md:max-h-[var(--details-scroll-height)]"
+          >
+            <div className="flex h-full flex-col">
+              {id ? (
+                vm.showSkeleton ? (
+                  <CharacterDetailsSkeleton />
+                ) : vm.selected ? (
+                  <CharacterDetails character={vm.selected} onEdit={handleEdit} onDelete={handleDelete} />
+                ) : null
+              ) : (
+                <>
+                  <h2 className="font-bold">Characters</h2>
+                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                    Explore the various characters from the Star Wars universe. Click on a character to learn more about it.
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
+        </GridLayoutItem>
       </GridLayout>
 
       <CharacterDialog character={character.current} isOpen={isOpen} onClose={() => setIsOpen(false)} onSave={handleSave} />

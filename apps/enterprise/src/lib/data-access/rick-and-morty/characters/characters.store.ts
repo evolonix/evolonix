@@ -1,18 +1,17 @@
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { InjectionToken } from '@evolonix/react';
 import { createStore, StoreApi } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
 
-import { computedWith } from '../../store.computed';
+import { immer } from 'zustand/middleware/immer';
+import { computeWith } from '../../store.compute-with';
 import { trackStatusWith } from '../../store.state';
 import { Character } from './characters.model';
+import { CharactersService } from './characters.service';
 import { CharacterActions, CharacterState, CharacterViewModel, initCharacterState } from './characters.state';
-import { FilterCharacter, GetAllCharactersDocument, GetCharacterByIdDocument } from './graphql/__generated__/graphql';
 
 export const CharacterStoreToken = new InjectionToken('Character Store');
 
-export function buildCharacterStore(client: ApolloClient<NormalizedCacheObject>) {
+export function buildCharacterStore(service: CharactersService) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const configureStore = (set: (state: any) => any, get: () => CharacterViewModel, store: StoreApi<CharacterViewModel>) => {
     const trackStatus = trackStatusWith<CharacterViewModel>(store);
@@ -20,17 +19,10 @@ export function buildCharacterStore(client: ApolloClient<NormalizedCacheObject>)
     const state: CharacterState = initCharacterState();
 
     const actions: CharacterActions = {
-      loadAll: async (page = 1, filter?: FilterCharacter) => {
+      loadAll: async (page = 1, filter = {}) => {
         await trackStatus(
           async () => {
-            const results = await client.query({
-              query: GetAllCharactersDocument,
-              variables: { page, filter },
-              fetchPolicy: 'no-cache',
-            });
-
-            const characters = (results.data.characters?.results as Character[] | undefined) ?? [];
-            const info = results.data.characters?.info ?? {};
+            const [characters, info] = await service.getAllCharacters(page, filter);
 
             return { page, filter, characters, info };
           },
@@ -45,27 +37,25 @@ export function buildCharacterStore(client: ApolloClient<NormalizedCacheObject>)
 
         const character = get().characters.find((s) => s.id === id);
         if (character) {
-          set({ selectedId: character.id });
+          set((draft: CharacterViewModel) => {
+            draft.selectedId = character.id;
+            // return { selectedId: character.id };
+          });
           return;
         }
 
         await trackStatus(
           async () => {
-            const results = await client.query({
-              query: GetCharacterByIdDocument,
-              variables: { id },
-              fetchPolicy: 'no-cache',
-            });
-            const character = results.data.character as Character;
+            const character = await service.getCharacterById(id);
 
-            return { selectedId: character.id };
+            return { selectedId: character?.id };
           },
           { waitForId: 'selectCharacter', minimumWaitTime: 1000 }
         );
       },
       save: async (character: Character) => {
         // Here you would typically send a mutation to save the character
-        // For now, we will just update the state directly
+        // For now, we will just update the state
         set((draft: CharacterViewModel) => {
           const index = draft.characters.findIndex((s) => s.id === character.id);
           if (index !== -1) {
@@ -81,7 +71,7 @@ export function buildCharacterStore(client: ApolloClient<NormalizedCacheObject>)
       },
       delete: async (id: string) => {
         // Here you would typically send a mutation to delete the character
-        // For now, we will just update the state directly
+        // For now, we will just update the state
         set((draft: CharacterViewModel) => {
           draft.characters = draft.characters.filter((s) => s.id !== id);
           if (draft.selectedId === id) {
@@ -89,11 +79,11 @@ export function buildCharacterStore(client: ApolloClient<NormalizedCacheObject>)
           }
         });
       },
-      search: async (search: string) => {
+      search: async (query?: string) => {
         set((draft: CharacterViewModel) => {
-          draft.filter.name = search;
+          draft.filter.name = query;
         });
-        await actions.loadAll(get().page, get().filter);
+        await actions.loadAll(1, get().filter);
       },
       previousPage: async () => {
         const page = get().info.prev;
@@ -115,17 +105,18 @@ export function buildCharacterStore(client: ApolloClient<NormalizedCacheObject>)
     } as CharacterViewModel;
   };
 
-  const computed = computedWith<CharacterViewModel>((state) => {
-    const selectedId = state.selectedId;
-    const selected = state.characters?.find((s) => s.id === selectedId);
-
-    return { selected };
-  });
-
   const store = createStore<CharacterViewModel>()(
-    devtools(immer(computed(configureStore)), {
-      trace: true,
-    })
+    devtools(
+      computeWith((state) => {
+        const selectedId = state.selectedId;
+        const selected = state.characters?.find((s) => s.id === selectedId);
+
+        return { selected };
+      }, immer(configureStore)),
+      {
+        trace: true,
+      }
+    )
   );
 
   return store;

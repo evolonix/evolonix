@@ -6,7 +6,7 @@ import { useLocation } from 'react-router';
 import { StarshipViewModel } from './starships.state';
 import { StarshipStoreToken } from './starships.store';
 
-export function useStarships(id?: string, take?: number) {
+export function useStarships(id?: string) {
   const store = inject<StoreApi<StarshipViewModel>>(StarshipStoreToken);
   const vm = useStore(store); // , useShallow(selectStarshipById(id)));
   const { pathname } = useLocation();
@@ -14,13 +14,13 @@ export function useStarships(id?: string, take?: number) {
   useEffect(() => {
     (async () => {
       try {
-        if (!id) await vm.loadAll({ search: undefined, pagination: { take } });
+        if (!id) await vm.loadAll({ search: undefined, pagination: { take: 20 } });
       } catch (error) {
         console.error('Failed to load starships:', error);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, take, pathname]);
+  }, [id, pathname]);
 
   useEffect(() => {
     (async () => {

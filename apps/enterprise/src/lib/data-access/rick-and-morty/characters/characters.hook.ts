@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { CharacterViewModel } from './characters.state';
 import { CharacterStoreToken } from './characters.store';
 
-export function useCharacters(id?: string, take?: number) {
+export function useCharacters(id?: string) {
   const store = inject<StoreApi<CharacterViewModel>>(CharacterStoreToken);
   const vm = useStore(store); // , useShallow(selectCharacterById(id)));
 
@@ -18,7 +18,7 @@ export function useCharacters(id?: string, take?: number) {
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [take]);
+  }, []);
 
   useEffect(() => {
     (async () => {

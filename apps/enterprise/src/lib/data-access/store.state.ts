@@ -23,11 +23,6 @@ export type StoreState = {
   forceSkeleton?: boolean; // if we want to force the skeleton to show
 };
 
-// export type GetState<T> = StoreApi<T>['getState'];
-export type SetState<T> = StoreApi<T>['setState'] & {
-  <K extends keyof T>(partial: Pick<T, K> | ((state: T) => Pick<T, K> | void), replace?: boolean): void;
-};
-
 export function initStoreState(): StoreState {
   return {
     requestStatus: { value: 'initializing' },

@@ -26,6 +26,10 @@ interface CharacterDialogProps {
 const schema = z.object({
   id: z.string().optional(),
   name: z.string({ required_error: 'Name is required' }),
+  status: z.string({ required_error: 'Status is required' }),
+  species: z.string({ required_error: 'Species is required' }),
+  type: z.string().optional(),
+  gender: z.string({ required_error: 'Gender is required' }),
 });
 
 export const CharacterDialog = ({ character, isOpen, onClose, onSave }: CharacterDialogProps) => {
@@ -48,7 +52,7 @@ export const CharacterDialog = ({ character, isOpen, onClose, onSave }: Characte
 
       if (submission.status === 'success') {
         console.log('Form submitted:', submission.value);
-        onSave(submission.value);
+        onSave({ ...character, ...submission.value });
       }
       if (submission.status === 'error') {
         console.error('Form error:', submission.error);
@@ -74,8 +78,28 @@ export const CharacterDialog = ({ character, isOpen, onClose, onSave }: Characte
         <DialogBody>
           <Field>
             <Label>Name</Label>
-            <Input name={fields.name.name} placeholder="Millennium Falcon" defaultValue={fields.name.value} required autoFocus />
+            <Input name={fields.name.name} placeholder="Rick Sanchez" defaultValue={fields.name.value} required autoFocus />
             {fields.name.errors ? <ErrorMessage>{fields.name.errors}</ErrorMessage> : null}
+          </Field>
+          <Field>
+            <Label>Status</Label>
+            <Input name={fields.status.name} placeholder="Alive" defaultValue={fields.status.value} required autoFocus />
+            {fields.status.errors ? <ErrorMessage>{fields.status.errors}</ErrorMessage> : null}
+          </Field>
+          <Field>
+            <Label>Species</Label>
+            <Input name={fields.species.name} placeholder="Human" defaultValue={fields.species.value} required autoFocus />
+            {fields.species.errors ? <ErrorMessage>{fields.species.errors}</ErrorMessage> : null}
+          </Field>
+          <Field>
+            <Label>Type</Label>
+            <Input name={fields.type.name} placeholder="" defaultValue={fields.type.value} required autoFocus />
+            {fields.type.errors ? <ErrorMessage>{fields.type.errors}</ErrorMessage> : null}
+          </Field>
+          <Field>
+            <Label>Gender</Label>
+            <Input name={fields.gender.name} placeholder="Male" defaultValue={fields.gender.value} required autoFocus />
+            {fields.gender.errors ? <ErrorMessage>{fields.gender.errors}</ErrorMessage> : null}
           </Field>
         </DialogBody>
         <DialogActions>

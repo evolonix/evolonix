@@ -12,7 +12,7 @@ import { StarshipList, StarshipListSkeleton } from './starship.list';
 
 export const Starships = () => {
   const { id } = useParams();
-  const vm = useStarships(id, 20);
+  const vm = useStarships(id);
   const navigate = useNavigate();
   const listRef = useRef<HTMLDivElement | null>(null);
   const listHeight = useScrollHeight(listRef, 48);

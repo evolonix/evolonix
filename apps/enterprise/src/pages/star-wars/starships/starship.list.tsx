@@ -10,7 +10,7 @@ interface StarshipListProps {
 }
 
 export const StarshipList = ({ starships }: StarshipListProps) => {
-  return (
+  return starships.length ? (
     <ul className="flex h-full flex-col items-center">
       {starships.map((starship, index) => (
         <Fragment key={starship.id}>
@@ -32,6 +32,10 @@ export const StarshipList = ({ starships }: StarshipListProps) => {
         </Fragment>
       ))}
     </ul>
+  ) : (
+    <div className="flex h-full">
+      <p className="p-4 text-zinc-500 dark:text-zinc-400">No starships found.</p>
+    </div>
   );
 };
 

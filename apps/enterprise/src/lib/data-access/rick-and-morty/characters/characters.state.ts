@@ -1,14 +1,12 @@
-import { StoreState } from '@evolonix/react';
-
-import { initStoreState } from '../../store.state';
+import { StoreState, initStoreState } from '../../store.state';
 import { Character } from './characters.model';
 import { FilterCharacter, Info } from './graphql/__generated__/graphql';
 
-export interface CharacterState {
-  page: number;
-  filter: FilterCharacter;
+export interface CharacterState extends StoreState {
   characters: Character[];
-  info: Info;
+  page?: number;
+  filter?: FilterCharacter;
+  info?: Info;
   selectedId?: string;
 }
 
@@ -26,20 +24,11 @@ export interface CharacterActions {
   nextPage: () => Promise<void>;
 }
 
-export type CharacterViewModel = StoreState & CharacterState & CharacterComputedState & CharacterActions;
+export type CharacterViewModel = CharacterState & CharacterComputedState & CharacterActions;
 
 export const initCharacterState = (): CharacterState => ({
   ...initStoreState(),
 
   // Initial state
-  page: 1,
-  filter: {},
   characters: [],
-  info: {},
 });
-
-export const selectCharacterById = (id?: string) => (vm: CharacterViewModel) => {
-  const found = vm.characters.find((s) => s.id === id);
-
-  return [found ?? undefined, vm] as const;
-};

@@ -4,13 +4,22 @@ import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import { StarWarsApolloClient } from '../../../apollo-client';
-import { computedWith } from '../../store.computed';
+import { computeWith } from '../../store.compute-with';
 import { trackStatusWith } from '../../store.state';
+import { waitForAnother } from '../../store.utils';
 import { GetAllStarshipsDocument, GetStarshipByIdDocument } from './graphql/__generated__/graphql';
 import { Starship } from './starships.model';
-import { initStarshipState, QueryOptions, StarshipActions, StarshipState, StarshipViewModel } from './starships.state';
+import { initStarshipState, StarshipActions, StarshipState, StarshipViewModel } from './starships.state';
 
 export const StarshipStoreToken = new InjectionToken('Starship Store');
+
+/**
+ * These ACTIONS enable waitFor() to look up existing, async request (if any)
+ */
+const ACTIONS = {
+  loadAll: () => 'CharacterStore:loadAll',
+  select: (id: string) => `CharacterStore:select:${id}`,
+};
 
 export function buildStarshipStore(client: StarWarsApolloClient) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,28 +29,18 @@ export function buildStarshipStore(client: StarWarsApolloClient) {
     const state: StarshipState = initStarshipState();
 
     const actions: StarshipActions = {
-      loadAll: async (options: QueryOptions = {}) => {
+      loadAll: async () => {
         await trackStatus(
           async () => {
             const results = await client.query({
               query: GetAllStarshipsDocument,
-              variables: options.pagination?.previous
-                ? { last: options.pagination.take, before: options.pagination.previous }
-                : { first: options.pagination?.take, after: options.pagination?.next },
               fetchPolicy: 'no-cache',
             });
-            // Mimic server-side search
-            let starships = (results.data.allStarships?.starships as Starship[]) || [];
-            if (options.search) {
-              const searchLower = options.search.toLowerCase();
-              starships = starships.filter((s) => s.name?.toLowerCase().includes(searchLower));
-            }
+            const starships = (results.data.allStarships?.starships || []) as Starship[];
 
-            const starshipsPageInfo = results.data.allStarships?.pageInfo;
-
-            return { options, starships, pageInfo: starshipsPageInfo };
+            return { starships };
           },
-          { waitForId: 'loadStarships', minimumWaitTime: 1000 }
+          { waitForId: ACTIONS.loadAll(), minimumWaitTime: 1000 }
         );
       },
       select: async (id?: string) => {
@@ -49,6 +48,8 @@ export function buildStarshipStore(client: StarWarsApolloClient) {
           set({ selectedId: undefined });
           return;
         }
+
+        await waitForAnother(ACTIONS.loadAll());
 
         const starship = get().starships.find((s) => s.id === id);
         if (starship) {
@@ -63,26 +64,30 @@ export function buildStarshipStore(client: StarWarsApolloClient) {
               variables: { id },
               fetchPolicy: 'no-cache',
             });
-            const starship = results.data.starship as Starship;
+            const starship = results.data.starship;
 
-            return { selectedId: starship.id };
+            return { selectedId: starship?.id };
           },
-          { waitForId: 'selectStarship', minimumWaitTime: 1000 }
+          { waitForId: ACTIONS.select(id), minimumWaitTime: 1000 }
         );
       },
       save: async (starship: Starship) => {
         // Here you would typically send a mutation to save the starship
         // For now, we will just update the state directly
-        set((draft: StarshipViewModel) => {
-          const index = draft.starships.findIndex((s) => s.id === starship.id);
-          if (index !== -1) {
-            draft.starships[index] = starship;
-          } else {
-            starship.id = starship.id || crypto.randomUUID();
-            draft.starships.push(starship);
-          }
-          draft.selectedId = starship.id;
-        });
+        if (starship.id) {
+          const [updated] = [starship];
+          set((draft: StarshipViewModel) => {
+            const index = draft.starships.findIndex((s) => s.id === starship.id);
+            if (updated && index > -1) draft.starships[index] = updated;
+            draft.selectedId = starship.id;
+          });
+        } else {
+          const [created] = [starship];
+          set((draft: StarshipViewModel) => {
+            if (created) draft.starships.push(created);
+            draft.selectedId = starship.id;
+          });
+        }
 
         return get().selected;
       },
@@ -96,40 +101,6 @@ export function buildStarshipStore(client: StarWarsApolloClient) {
           }
         });
       },
-      search: async (search: string) => {
-        set((draft: StarshipViewModel) => {
-          draft.options.search = search;
-          if (draft.options.pagination) {
-            draft.options.pagination.previous = undefined;
-            draft.options.pagination.next = undefined;
-          }
-        });
-        await actions.loadAll(get().options);
-      },
-      nextPage: async () => {
-        const nextPageInfo = get().pageInfo.endCursor;
-        if (!nextPageInfo) return;
-
-        set((draft: StarshipViewModel) => {
-          if (draft.options.pagination) {
-            draft.options.pagination.previous = undefined;
-            draft.options.pagination.next = nextPageInfo;
-          }
-        });
-        await actions.loadAll(get().options);
-      },
-      previousPage: async () => {
-        const previousPageInfo = get().pageInfo.startCursor;
-        if (!previousPageInfo) return;
-
-        set((draft: StarshipViewModel) => {
-          if (draft.options.pagination) {
-            draft.options.pagination.previous = previousPageInfo;
-            draft.options.pagination.next = undefined;
-          }
-        });
-        await actions.loadAll(get().options);
-      },
     };
 
     return {
@@ -138,15 +109,15 @@ export function buildStarshipStore(client: StarWarsApolloClient) {
     } as StarshipViewModel;
   };
 
-  const computed = computedWith<StarshipViewModel>((state) => {
+  const compute = (state: StarshipViewModel): Partial<StarshipViewModel> => {
     const selectedId = state.selectedId;
-    const selected = state.starships?.find((s) => s.id === selectedId);
+    const selected = state.starships?.find((s) => s.id === selectedId) ?? state.selected;
 
     return { selected };
-  });
+  };
 
   const store = createStore<StarshipViewModel>()(
-    devtools(immer(computed(configureStore)), {
+    devtools(computeWith(compute, immer(configureStore)), {
       trace: true,
     })
   );

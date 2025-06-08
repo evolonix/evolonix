@@ -1,14 +1,17 @@
+import { useParams } from 'react-router';
 import { Button, Divider } from '../../../components/catalyst';
 import { Starship } from '../../../lib/data-access';
 
 interface StarshipDetailsProps {
-  starship: Starship;
+  starship?: Starship;
   onEdit: () => void;
   onDelete: () => void;
 }
 
 export const StarshipDetails = ({ starship, onEdit, onDelete }: StarshipDetailsProps) => {
-  return (
+  const { id } = useParams();
+
+  return starship ? (
     <>
       <header className="mb-2 bg-zinc-100 dark:bg-zinc-900">
         <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
@@ -64,6 +67,10 @@ export const StarshipDetails = ({ starship, onEdit, onDelete }: StarshipDetailsP
         </p>
       </div>
     </>
+  ) : (
+    <span>
+      No starship found with ID <b>{id}</b>.
+    </span>
   );
 };
 

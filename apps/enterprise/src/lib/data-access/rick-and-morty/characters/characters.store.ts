@@ -1,32 +1,49 @@
 import { InjectionToken } from '@evolonix/react';
 import { createStore, StoreApi } from 'zustand';
 import { devtools } from 'zustand/middleware';
-
 import { immer } from 'zustand/middleware/immer';
+
 import { computeWith } from '../../store.compute-with';
 import { trackStatusWith } from '../../store.state';
+import { syncWithSearchParams } from '../../store.sync-with-search-params';
+import { waitForAnother } from '../../store.utils';
 import { Character } from './characters.model';
 import { CharactersService } from './characters.service';
 import { CharacterActions, CharacterState, CharacterViewModel, initCharacterState } from './characters.state';
+import { FilterCharacter } from './graphql/__generated__/graphql';
 
 export const CharacterStoreToken = new InjectionToken('Character Store');
 
+/**
+ * These ACTIONS enable waitFor() to look up existing, async request (if any)
+ */
+const ACTIONS = {
+  loadAll: (page = 1, filter?: FilterCharacter) => `CharacterStore:loadAll:${page}:${JSON.stringify(filter)}`,
+  select: (id: string) => `CharacterStore:select:${id}`,
+};
+
 export function buildCharacterStore(service: CharactersService) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const configureStore = (set: (state: any) => any, get: () => CharacterViewModel, store: StoreApi<CharacterViewModel>) => {
+  const configureStore = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    set: (state: any) => any,
+    get: () => CharacterViewModel,
+    store: StoreApi<CharacterViewModel>
+  ): CharacterViewModel => {
     const trackStatus = trackStatusWith<CharacterViewModel>(store);
 
-    const state: CharacterState = initCharacterState();
+    const state: CharacterState = {
+      ...initCharacterState(),
+      ...get(), // Include any existing state initialized by middleware
+    };
 
     const actions: CharacterActions = {
-      loadAll: async (page = 1, filter = {}) => {
+      loadAll: async (page = get().page, filter = get().filter) => {
         await trackStatus(
           async () => {
             const [characters, info] = await service.getAllCharacters(page, filter);
-
             return { page, filter, characters, info };
           },
-          { waitForId: 'loadCharacters', minimumWaitTime: 1000 }
+          { waitForId: ACTIONS.loadAll(page, filter) }
         );
       },
       select: async (id?: string) => {
@@ -35,88 +52,101 @@ export function buildCharacterStore(service: CharactersService) {
           return;
         }
 
+        await waitForAnother(ACTIONS.loadAll(get().page, get().filter));
+
         const character = get().characters.find((s) => s.id === id);
         if (character) {
-          set((draft: CharacterViewModel) => {
-            draft.selectedId = character.id;
-            // return { selectedId: character.id };
-          });
+          set({ selectedId: character.id });
           return;
         }
 
         await trackStatus(
           async () => {
-            const character = await service.getCharacterById(id);
-
+            const [character] = await service.getCharacterById(id);
             return { selectedId: character?.id };
           },
-          { waitForId: 'selectCharacter', minimumWaitTime: 1000 }
+          { waitForId: ACTIONS.select(id) }
         );
       },
       save: async (character: Character) => {
-        // Here you would typically send a mutation to save the character
-        // For now, we will just update the state
-        set((draft: CharacterViewModel) => {
-          const index = draft.characters.findIndex((s) => s.id === character.id);
-          if (index !== -1) {
-            draft.characters[index] = character;
-          } else {
-            character.id = character.id || crypto.randomUUID();
-            draft.characters.push(character);
-          }
-          draft.selectedId = character.id;
-        });
+        if (character.id) {
+          const [updated] = await service.update(character);
+          set((draft: CharacterViewModel) => {
+            const index = draft.characters.findIndex((s) => s.id === character.id);
+            if (updated && index > -1) draft.characters[index] = updated;
+            draft.selectedId = character.id;
+          });
+        } else {
+          const [created] = await service.create(character);
+          set((draft: CharacterViewModel) => {
+            if (created) draft.characters.push(created);
+            draft.selectedId = character.id;
+          });
+        }
 
         return get().selected;
       },
       delete: async (id: string) => {
-        // Here you would typically send a mutation to delete the character
-        // For now, we will just update the state
+        const [deleted] = await service.delete(id);
         set((draft: CharacterViewModel) => {
-          draft.characters = draft.characters.filter((s) => s.id !== id);
-          if (draft.selectedId === id) {
-            draft.selectedId = undefined;
+          if (deleted) {
+            draft.characters = draft.characters.filter((s) => s.id !== id);
+            if (draft.selectedId === id) {
+              draft.selectedId = undefined;
+            }
           }
         });
       },
       search: async (query?: string) => {
         set((draft: CharacterViewModel) => {
+          if (!draft.filter) draft.filter = {};
+
           draft.filter.name = query;
         });
-        await actions.loadAll(1, get().filter);
+        await actions.loadAll(1);
       },
       previousPage: async () => {
-        const page = get().info.prev;
+        const page = get().info?.prev;
         if (!page) return;
 
-        await actions.loadAll(page, get().filter);
+        await actions.loadAll(page);
       },
       nextPage: async () => {
-        const page = get().info.next;
+        const page = get().info?.next;
         if (!page) return;
 
-        await actions.loadAll(page, get().filter);
+        await actions.loadAll(page);
       },
     };
 
     return {
       ...state,
       ...actions,
-    } as CharacterViewModel;
+    };
+  };
+
+  const compute = (state: CharacterViewModel): Partial<CharacterViewModel> => {
+    const selectedId = state.selectedId;
+    const selected = state.characters?.find((s) => s.id === selectedId) ?? state.selected;
+
+    return { selected };
+  };
+
+  const syncOptions = {
+    keys: ['page', 'filter.name'],
+    serialize: {
+      page: (value: number) => (value > 1 ? String(value) : undefined),
+      'filter.name': (value: string) => value || undefined,
+    },
+    deserialize: {
+      page: (value: string) => parseInt(value, 10),
+    },
   };
 
   const store = createStore<CharacterViewModel>()(
-    devtools(
-      computeWith((state) => {
-        const selectedId = state.selectedId;
-        const selected = state.characters?.find((s) => s.id === selectedId);
-
-        return { selected };
-      }, immer(configureStore)),
-      {
-        trace: true,
-      }
-    )
+    devtools(computeWith(compute, immer(syncWithSearchParams(syncOptions, configureStore))), {
+      trace: import.meta.env.DEV,
+    })
   );
 
   return store;

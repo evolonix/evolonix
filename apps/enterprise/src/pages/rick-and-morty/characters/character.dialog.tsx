@@ -19,7 +19,7 @@ import { Character } from '../../../lib/data-access';
 interface CharacterDialogProps {
   character?: Character;
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (value: boolean) => void;
   onSave: (character: Character) => void;
 }
 
@@ -103,7 +103,7 @@ export const CharacterDialog = ({ character, isOpen, onClose, onSave }: Characte
           </Field>
         </DialogBody>
         <DialogActions>
-          <Button plain onClick={() => onClose()}>
+          <Button plain onClick={() => onClose(false)}>
             Cancel
           </Button>
           <Button type="submit">Save</Button>

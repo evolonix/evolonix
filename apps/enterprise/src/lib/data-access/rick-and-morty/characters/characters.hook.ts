@@ -1,13 +1,13 @@
 import { inject } from '@evolonix/react';
+import { useEffect } from 'react';
 import { StoreApi, useStore } from 'zustand';
 
-import { useEffect } from 'react';
 import { CharacterViewModel } from './characters.state';
 import { CharacterStoreToken } from './characters.store';
 
 export function useCharacters(id?: string) {
   const store = inject<StoreApi<CharacterViewModel>>(CharacterStoreToken);
-  const vm = useStore(store); // , useShallow(selectCharacterById(id)));
+  const vm = useStore(store);
 
   useEffect(() => {
     (async () => {

@@ -23,12 +23,6 @@ const computeWithImpl: ComputeWithImpl = (compute, f) => (set, get, store) => {
           },
           replace ? true : undefined
         );
-
-        // const args = [partial, replace] as Parameters<typeof set>;
-        // set(...args);
-        // const computed = compute(get());
-        // const computedArgs = [computed, replace] as Parameters<typeof set>;
-        // set(...computedArgs);
       } else {
         const computed = compute({ ...get(), ...updated });
         const computedArgs = [{ ...updated, ...computed }, replace] as Parameters<typeof set>;

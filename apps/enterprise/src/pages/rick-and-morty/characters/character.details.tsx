@@ -1,14 +1,17 @@
+import { useParams } from 'react-router';
 import { Button, Divider } from '../../../components/catalyst';
-import { Character } from '../../../lib/data-access';
+import { Character } from '../../../lib';
 
 interface CharacterDetailsProps {
-  character: Character;
+  character?: Character;
   onEdit: () => void;
   onDelete: () => void;
 }
 
 export const CharacterDetails = ({ character, onEdit, onDelete }: CharacterDetailsProps) => {
-  return (
+  const { id } = useParams();
+
+  return character ? (
     <>
       <header className="mb-2 bg-zinc-100 dark:bg-zinc-900">
         <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
@@ -42,6 +45,10 @@ export const CharacterDetails = ({ character, onEdit, onDelete }: CharacterDetai
         </dl>
       </div>
     </>
+  ) : (
+    <span>
+      No character found with ID <b>{id}</b>.
+    </span>
   );
 };
 

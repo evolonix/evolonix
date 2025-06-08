@@ -1,8 +1,18 @@
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
 import { GridLayout, GridLayoutItem } from '../../../components';
-import { Button, Divider, Input, Pagination, PaginationNext, PaginationPrevious } from '../../../components/catalyst';
+import {
+  Alert,
+  AlertActions,
+  AlertTitle,
+  Button,
+  Divider,
+  Input,
+  Pagination,
+  PaginationNext,
+  PaginationPrevious,
+} from '../../../components/catalyst';
 import { PageHeader } from '../../../components/page-header';
 import { useScrollHeight } from '../../../lib';
 import { Character, useCharacters } from '../../../lib/data-access';
@@ -12,38 +22,36 @@ import { CharacterList, CharacterListSkeleton } from './character.list';
 
 export const Characters = () => {
   const { id } = useParams();
-  const vm = useCharacters(id, 20);
+  const vm = useCharacters(id);
   const navigate = useNavigate();
   const listRef = useRef<HTMLDivElement | null>(null);
   const listHeight = useScrollHeight(listRef, 48);
   const detailsRef = useRef<HTMLDivElement | null>(null);
   const detailsHeight = useScrollHeight(detailsRef, 48);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const character = useRef<Character | undefined>(undefined);
 
   const handleAdd = () => {
     character.current = undefined;
-    setIsOpen(true);
+    setIsDialogOpen(true);
   };
 
   const handleEdit = () => {
     character.current = vm.selected;
-    setIsOpen(true);
+    setIsDialogOpen(true);
   };
 
-  const handleSave = useCallback(
-    async (character: Character) => {
-      const updated = await vm.save(character);
-      setIsOpen(false);
-      navigate(`/rick-and-morty/characters/${updated?.id}`);
-    },
-    [vm, navigate]
-  );
+  const handleSave = async (character: Character) => {
+    const updated = await vm.save(character);
+    setIsDialogOpen(false);
+    navigate(`/rick-and-morty/characters/${updated?.id}`);
+  };
 
   const handleDelete = () => {
-    // eslint-disable-next-line no-restricted-globals
-    if (vm.selected?.id && confirm(`Are you sure you want to delete the character "${vm.selected.name}"?`)) {
+    if (vm.selected?.id) {
       vm.delete(vm.selected.id);
+      setIsAlertOpen(false);
       navigate('/rick-and-morty/characters', { replace: true });
     }
   };
@@ -61,8 +69,27 @@ export const Characters = () => {
     }
   };
 
+  const handlePreviousPage = async () => {
+    await vm.previousPage();
+    const list = listRef.current?.querySelector('.overflow-y-auto');
+    list?.scrollTo({ top: 0 });
+  };
+
+  const handleNextPage = async () => {
+    await vm.nextPage();
+    const list = listRef.current?.querySelector('.overflow-y-auto');
+    list?.scrollTo({ top: 0 });
+  };
+
   return (
     <>
+      {/* {vm.hasErrors
+        ? vm.errors.map((error, index) => (
+            <div key={index} className="text-red-500">
+              {error.message}
+            </div>
+          ))
+        : null} */}
       <PageHeader label="Characters" actions={<Button onClick={handleAdd}>Add character</Button>} />
       <Divider className="mt-4" />
       <GridLayout>
@@ -77,7 +104,7 @@ export const Characters = () => {
                 type="search"
                 name="query"
                 placeholder="Search"
-                defaultValue={vm.filter.name || ''}
+                defaultValue={vm.filter?.name || ''}
                 autoFocus
                 onInput={handleClearSearch}
               />
@@ -91,8 +118,8 @@ export const Characters = () => {
             </div>
             <Divider />
             <Pagination className="p-4">
-              <PaginationPrevious disabled={vm.isLoading || !vm.info.prev} onClick={() => vm.previousPage()} />
-              <PaginationNext disabled={vm.isLoading || !vm.info.next} onClick={() => vm.nextPage()} />
+              <PaginationPrevious disabled={vm.isLoading || !vm.info?.prev} onClick={handlePreviousPage} />
+              <PaginationNext disabled={vm.isLoading || !vm.info?.next} onClick={handleNextPage} />
             </Pagination>
           </div>
         </GridLayoutItem>
@@ -104,16 +131,16 @@ export const Characters = () => {
           >
             <div className="flex h-full flex-col">
               {id ? (
-                vm.showSkeleton ? (
+                vm.showSkeleton || (vm.isLoading && !vm.selected) ? (
                   <CharacterDetailsSkeleton />
-                ) : vm.selected ? (
-                  <CharacterDetails character={vm.selected} onEdit={handleEdit} onDelete={handleDelete} />
-                ) : null
+                ) : (
+                  <CharacterDetails character={vm.selected} onEdit={handleEdit} onDelete={() => setIsAlertOpen(true)} />
+                )
               ) : (
                 <>
                   <h2 className="font-bold">Characters</h2>
                   <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                    Explore the various characters from the Star Wars universe. Click on a character to learn more about it.
+                    Explore the various characters from Rick & Morty. Click on a character to learn more about it.
                   </p>
                 </>
               )}
@@ -122,7 +149,17 @@ export const Characters = () => {
         </GridLayoutItem>
       </GridLayout>
 
-      <CharacterDialog character={character.current} isOpen={isOpen} onClose={() => setIsOpen(false)} onSave={handleSave} />
+      <CharacterDialog character={character.current} isOpen={isDialogOpen} onClose={setIsDialogOpen} onSave={handleSave} />
+
+      <Alert open={isAlertOpen} onClose={setIsAlertOpen}>
+        <AlertTitle>Are you sure you want to delete this character?</AlertTitle>
+        <AlertActions>
+          <Button plain onClick={() => setIsAlertOpen(false)}>
+            Cancel
+          </Button>
+          <Button onClick={handleDelete}>Confirm</Button>
+        </AlertActions>
+      </Alert>
     </>
   );
 };

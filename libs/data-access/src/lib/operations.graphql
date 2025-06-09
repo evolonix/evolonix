@@ -1,0 +1,32 @@
+query GetAllSets {
+  allSets {
+    id
+    name
+    numParts
+    year
+  }
+}
+
+mutation CreateSet($name: String!, $year: String!, $numParts: Int!) {
+  createSet(name: $name, year: $year, numParts: $numParts) {
+    id
+    name
+    numParts
+    year
+  }
+}
+
+mutation UpdateSet($id: ID!, $name: String!, $year: String!, $numParts: Int!) {
+  updateSet(name: $name, year: $year, numParts: $numParts) {
+    id
+    name
+    numParts
+    year
+  }
+}
+
+mutation DeleteSet($id: ID!) {
+  deleteSet(id: $id) {
+    id
+  }
+}

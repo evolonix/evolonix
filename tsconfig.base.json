@@ -16,6 +16,11 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["development"]
+    "customConditions": ["development"],
+    "paths": {
+      "@evolonix/data-access": ["../../data-access/src/index.ts"],
+      "@evolonix/feature-sets": ["../../feature-sets/src/index.ts"],
+      "@evolonix/models-graphql": ["../../models-graphql/src/index.ts"]
+    }
   }
 }

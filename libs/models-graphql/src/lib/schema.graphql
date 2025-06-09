@@ -1,0 +1,16 @@
+type Set {
+  id: Int!
+  name: String
+  year: Int
+  numParts: Int
+}
+
+type Query {
+  allSets: [Set]
+}
+
+type Mutation {
+  createSet(name: String, year: String, numParts: Int): Set
+  updateSet(id: ID, name: String, year: String, numParts: Int): Set
+  deleteSet(id: ID): Set
+}

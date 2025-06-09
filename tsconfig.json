@@ -8,6 +8,18 @@
     },
     {
       "path": "./apps/enterprise"
+    },
+    {
+      "path": "./libs/models-graphql"
+    },
+    {
+      "path": "./apps/api"
+    },
+    {
+      "path": "./libs/feature-sets"
+    },
+    {
+      "path": "./libs/data-access"
     }
   ],
   "ts-node": {

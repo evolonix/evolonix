@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["es2020"],
+    "target": "es2020",
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "module": "esnext",
+    "types": ["node"],
+    "rootDir": "src",
+    "moduleResolution": "node",
+    "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
+    "customConditions": null
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [],
+  "references": [
+    {
+      "path": "../../libs/models-graphql/tsconfig.lib.json"
+    }
+  ]
+}

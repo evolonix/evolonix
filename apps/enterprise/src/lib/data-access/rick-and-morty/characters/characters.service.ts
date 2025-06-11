@@ -1,13 +1,12 @@
 import { RickAndMortyApolloClient } from '../../../apollo-client';
-import { Character } from './characters.model';
-import { FilterCharacter, GetAllCharactersDocument, GetCharacterByIdDocument, Info } from './graphql/__generated__/graphql';
+import { FilterCharacter, GetCharacterByIdDocument, GetPagedCharactersDocument } from './graphql/__generated__/graphql';
 
 export class CharactersService {
   constructor(private readonly client: RickAndMortyApolloClient) {}
 
-  async getAllCharacters(page?: number, filter?: FilterCharacter): Promise<[Character[], Info, Error | undefined]> {
+  async getPagedCharacters<T, F>(page?: number, filter?: FilterCharacter): Promise<[T[], F, Error | undefined]> {
     const { data, error } = await this.client.query({
-      query: GetAllCharactersDocument,
+      query: GetPagedCharactersDocument,
       variables: {
         page: page,
         filter: filter,
@@ -15,56 +14,60 @@ export class CharactersService {
       fetchPolicy: 'no-cache',
     });
 
-    const characters = (data.characters?.results ?? []) as Character[];
-    const info = (data.characters?.info || {}) as Info;
+    const characters = (data.characters?.results ?? []) as T[];
+    const info = (data.characters?.info || {}) as F;
 
     return [characters, info, error];
   }
 
-  async getCharacterById(id: string): Promise<[Character | undefined, Error | undefined]> {
+  async getCharacterById<T>(id: string): Promise<[T | undefined, Error | undefined]> {
     const { data, error } = await this.client.query({
       query: GetCharacterByIdDocument,
       variables: { id },
       fetchPolicy: 'no-cache',
     });
-    const character = data.character as Character | undefined;
+    const character = data.character as T | undefined;
     return [character, error];
   }
 
-  async create(character: Omit<Character, 'id'>): Promise<[Character | undefined, Error | undefined]> {
-    // const { data, error } = await this.client.mutate({
+  async createCharacter<T>(character: Omit<T, 'id'>): Promise<[T | undefined, Error[] | undefined]> {
+    // const { data, errors } = await this.client.mutate({
     //   mutation: CreateCharacterDocument,
     //   variables: { character },
     //   fetchPolicy: 'no-cache',
     // });
-    // const created = data.character as Character | undefined;
-    // return [created, error];
+    // const created = data.character.create as T | undefined;
+    // const errorList = errors ? errors.map(e => new Error(e.message)) : undefined;
+    // return [created, errorList];
 
-    const created = { ...character, id: crypto.randomUUID() } as Character;
+    const created = { ...character, id: crypto.randomUUID() } as T;
     return [created, undefined];
   }
 
-  async update(character: Character): Promise<[Character | undefined, Error | undefined]> {
-    // const { data, error } = await this.client.mutate({
+  async updateCharacter<T>(character: T): Promise<[T | undefined, Error[] | undefined]> {
+    // const { __typename, ...payload } = track as Character;
+    // const { data, errors } = await this.client.mutate({
     //   mutation: UpdateCharacterDocument,
-    //   variables: { character },
+    //   variables: { character: payload },
     //   fetchPolicy: 'no-cache',
     // });
-    // const updated = data.character as Character | undefined;
-    // return [updated, error];
+    // const updated = data.character.update as T | undefined;
+    // const errorList = errors ? errors.map(e => new Error(e.message)) : undefined;
+    // return [updated, errorList];
 
     const updated = { ...character };
     return [updated, undefined];
   }
 
-  async delete(id: string): Promise<[boolean, Error | undefined]> {
-    // const { error } = await this.client.mutate({
+  async deleteCharacter(id: string): Promise<[boolean, Error[] | undefined]> {
+    // const { errors } = await this.client.mutate({
     //   mutation: DeleteCharacterDocument,
     //   variables: { id },
     //   fetchPolicy: 'no-cache',
     // });
-    // const deleted = error === undefined;
-    // return [deleted, error];
+    // const deleted = errors === undefined;
+    // const errorList = errors ? errors.map(e => new Error(e.message)) : undefined;
+    // return [deleted, errorList];
 
     const deleted = id !== '';
     return [deleted, undefined];

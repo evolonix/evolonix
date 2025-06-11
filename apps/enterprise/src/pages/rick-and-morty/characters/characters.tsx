@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
 import { GridLayout, GridLayoutItem } from '../../../components';
@@ -43,9 +43,9 @@ export const Characters = () => {
   };
 
   const handleSave = async (character: Character) => {
-    const updated = await vm.save(character);
+    const saved = await vm.save(character);
     setIsDialogOpen(false);
-    navigate(`/rick-and-morty/characters/${updated?.id}`);
+    navigate(`/rick-and-morty/characters/${saved?.id}`);
   };
 
   const handleDelete = () => {
@@ -59,8 +59,8 @@ export const Characters = () => {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const query = (formData.get('query') ?? undefined) as string | undefined;
-    vm.search(query);
+    const search = (formData.get('search') ?? undefined) as string | undefined;
+    vm.search(search);
   };
 
   const handleClearSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,20 +69,19 @@ export const Characters = () => {
     }
   };
 
-  const handlePreviousPage = async () => {
-    await vm.previousPage();
+  useEffect(() => {
     const list = listRef.current?.querySelector('.overflow-y-auto');
     list?.scrollTo({ top: 0 });
-  };
+  }, [vm.characters]);
 
-  const handleNextPage = async () => {
-    await vm.nextPage();
-    const list = listRef.current?.querySelector('.overflow-y-auto');
-    list?.scrollTo({ top: 0 });
-  };
+  useEffect(() => {
+    const details = detailsRef.current?.querySelector('.overflow-y-auto');
+    details?.scrollTo({ top: 0 });
+  }, [vm.selected]);
 
   return (
     <>
+      {/* TODO: Show errors in a toast */}
       {/* {vm.hasErrors
         ? vm.errors.map((error, index) => (
             <div key={index} className="text-red-500">
@@ -102,7 +101,7 @@ export const Characters = () => {
             <form noValidate method="POST" onSubmit={handleSearch} className="flex items-center gap-2 p-4">
               <Input
                 type="search"
-                name="query"
+                name="search"
                 placeholder="Search"
                 defaultValue={vm.filter?.name || ''}
                 autoFocus
@@ -118,8 +117,8 @@ export const Characters = () => {
             </div>
             <Divider />
             <Pagination className="p-4">
-              <PaginationPrevious disabled={vm.isLoading || !vm.info?.prev} onClick={handlePreviousPage} />
-              <PaginationNext disabled={vm.isLoading || !vm.info?.next} onClick={handleNextPage} />
+              <PaginationPrevious disabled={vm.isLoading || !vm.pagination?.prev} onClick={vm.previousPage} />
+              <PaginationNext disabled={vm.isLoading || !vm.pagination?.next} onClick={vm.nextPage} />
             </Pagination>
           </div>
         </GridLayoutItem>
@@ -127,24 +126,22 @@ export const Characters = () => {
           <div
             ref={detailsRef}
             style={{ '--details-scroll-height': detailsHeight } as React.CSSProperties}
-            className="h-full overflow-hidden md:max-h-[var(--details-scroll-height)]"
+            className="flex h-full flex-col overflow-hidden md:max-h-[var(--details-scroll-height)]"
           >
-            <div className="flex h-full flex-col">
-              {id ? (
-                vm.showSkeleton || (vm.isLoading && !vm.selected) ? (
-                  <CharacterDetailsSkeleton />
-                ) : (
-                  <CharacterDetails character={vm.selected} onEdit={handleEdit} onDelete={() => setIsAlertOpen(true)} />
-                )
+            {id ? (
+              vm.showSkeleton || (vm.isLoading && !vm.selected) ? (
+                <CharacterDetailsSkeleton />
               ) : (
-                <>
-                  <h2 className="font-bold">Characters</h2>
-                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                    Explore the various characters from Rick & Morty. Click on a character to learn more about it.
-                  </p>
-                </>
-              )}
-            </div>
+                <CharacterDetails character={vm.selected} onEdit={handleEdit} onDelete={() => setIsAlertOpen(true)} />
+              )
+            ) : (
+              <>
+                <h2 className="font-bold">Characters</h2>
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                  Explore the various characters from Rick & Morty. Click on a character to learn more about it.
+                </p>
+              </>
+            )}
           </div>
         </GridLayoutItem>
       </GridLayout>

@@ -1,12 +1,11 @@
-import { StoreState, initStoreState } from '../../store.state';
-import { Character } from './characters.model';
-import { FilterCharacter, Info } from './graphql/__generated__/graphql';
+import { StoreState } from '../../../rsm/store.state';
+import { Character, FilterCharacter, Pagination } from './characters.model';
 
 export interface CharacterState extends StoreState {
   characters: Character[];
   page?: number;
   filter?: FilterCharacter;
-  info?: Info;
+  pagination?: Pagination;
   selectedId?: string;
 }
 
@@ -25,10 +24,3 @@ export interface CharacterActions {
 }
 
 export type CharacterViewModel = CharacterState & CharacterComputedState & CharacterActions;
-
-export const initCharacterState = (): CharacterState => ({
-  ...initStoreState(),
-
-  // Initial state
-  characters: [],
-});

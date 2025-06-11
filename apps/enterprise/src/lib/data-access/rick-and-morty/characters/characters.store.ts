@@ -3,14 +3,12 @@ import { createStore, StoreApi } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { computeWith } from '../../store.compute-with';
-import { trackStatusWith } from '../../store.state';
-import { syncWithSearchParams } from '../../store.sync-with-search-params';
-import { waitForAnother } from '../../store.utils';
-import { Character } from './characters.model';
+import { computeWith, SyncOptions, syncWithUrl } from '../../../rsm';
+import { initStoreState, trackStatusWith } from '../../../rsm/store.state';
+import { waitForAnother } from '../../../rsm/store.utils';
+import { Character, FilterCharacter, Pagination } from './characters.model';
 import { CharactersService } from './characters.service';
-import { CharacterActions, CharacterState, CharacterViewModel, initCharacterState } from './characters.state';
-import { FilterCharacter } from './graphql/__generated__/graphql';
+import { CharacterActions, CharacterComputedState, CharacterState, CharacterViewModel } from './characters.state';
 
 export const CharacterStoreToken = new InjectionToken('Character Store');
 
@@ -31,17 +29,17 @@ export function buildCharacterStore(service: CharactersService) {
   ): CharacterViewModel => {
     const trackStatus = trackStatusWith<CharacterViewModel>(store);
 
-    const state: CharacterState = {
-      ...initCharacterState(),
-      ...get(), // Include any existing state initialized by middleware
-    };
+    // const state: CharacterState = initStoreState<CharacterState>(get, {
+    //   characters: [],
+    // });
+    const state: CharacterState = initStoreState(get);
 
     const actions: CharacterActions = {
       loadAll: async (page = get().page, filter = get().filter) => {
         await trackStatus(
           async () => {
-            const [characters, info] = await service.getAllCharacters(page, filter);
-            return { page, filter, characters, info };
+            const [characters, info, error] = await service.getPagedCharacters<Character, Pagination>(page, filter);
+            return { page, filter, characters, pagination: info, error };
           },
           { waitForId: ACTIONS.loadAll(page, filter) }
         );
@@ -62,33 +60,40 @@ export function buildCharacterStore(service: CharactersService) {
 
         await trackStatus(
           async () => {
-            const [character] = await service.getCharacterById(id);
-            return { selectedId: character?.id };
+            const [character, error] = await service.getCharacterById<Character>(id);
+            return { selectedId: character?.id, error };
           },
           { waitForId: ACTIONS.select(id) }
         );
       },
       save: async (character: Character) => {
         if (character.id) {
-          const [updated] = await service.update(character);
+          const [updated, errors] = await service.updateCharacter(character);
           set((draft: CharacterViewModel) => {
+            draft.errors = errors ?? [];
             const index = draft.characters.findIndex((s) => s.id === character.id);
-            if (updated && index > -1) draft.characters[index] = updated;
-            draft.selectedId = character.id;
+            if (updated && index > -1) {
+              draft.characters[index] = updated;
+              draft.selectedId = updated.id;
+            }
           });
         } else {
-          const [created] = await service.create(character);
+          const [created, errors] = await service.createCharacter<Character>(character);
           set((draft: CharacterViewModel) => {
-            if (created) draft.characters.push(created);
-            draft.selectedId = character.id;
+            draft.errors = errors ?? [];
+            if (created) {
+              draft.characters.push(created);
+              draft.selectedId = created.id;
+            }
           });
         }
 
         return get().selected;
       },
       delete: async (id: string) => {
-        const [deleted] = await service.delete(id);
+        const [deleted, errors] = await service.deleteCharacter(id);
         set((draft: CharacterViewModel) => {
+          draft.errors = errors ?? [];
           if (deleted) {
             draft.characters = draft.characters.filter((s) => s.id !== id);
             if (draft.selectedId === id) {
@@ -106,13 +111,13 @@ export function buildCharacterStore(service: CharactersService) {
         await actions.loadAll(1);
       },
       previousPage: async () => {
-        const page = get().info?.prev;
+        const page = get().pagination?.prev;
         if (!page) return;
 
         await actions.loadAll(page);
       },
       nextPage: async () => {
-        const page = get().info?.next;
+        const page = get().pagination?.next;
         if (!page) return;
 
         await actions.loadAll(page);
@@ -125,26 +130,29 @@ export function buildCharacterStore(service: CharactersService) {
     };
   };
 
-  const compute = (state: CharacterViewModel): Partial<CharacterViewModel> => {
+  const compute = (state: CharacterViewModel): Partial<CharacterComputedState> => {
     const selectedId = state.selectedId;
-    const selected = state.characters?.find((s) => s.id === selectedId) ?? state.selected;
+    const selected = state.characters?.find((s) => s.id === selectedId) ?? (selectedId ? state.selected : undefined);
 
     return { selected };
   };
 
-  const syncOptions = {
-    keys: ['page', 'filter.name'],
+  const syncOptions: SyncOptions = {
+    keys: ['page', { stateKey: 'filter.name', urlKey: 'search' }],
     serialize: {
       page: (value: number) => (value > 1 ? String(value) : undefined),
       'filter.name': (value: string) => value || undefined,
     },
     deserialize: {
-      page: (value: string) => parseInt(value, 10),
+      page: (value: string) => {
+        const v = parseInt(value, 10);
+        return v > 0 ? v : 1;
+      },
     },
   };
 
   const store = createStore<CharacterViewModel>()(
-    devtools(computeWith(compute, immer(syncWithSearchParams(syncOptions, configureStore))), {
+    devtools(computeWith(compute, immer(syncWithUrl(syncOptions, configureStore))), {
       trace: import.meta.env.DEV,
     })
   );

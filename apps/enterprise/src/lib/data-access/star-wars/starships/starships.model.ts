@@ -1,5 +1,4 @@
-import { Starship as ExternalStarship } from './graphql/__generated__/graphql';
-
-export type Starship = Omit<ExternalStarship, 'id'> & {
+export interface Starship {
   id?: string;
-};
+  name: string;
+}

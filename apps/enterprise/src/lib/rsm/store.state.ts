@@ -21,8 +21,8 @@ export type StoreState = {
   forceSkeleton: boolean; // if we want to force the skeleton to show
 };
 
-export function initStoreState(): StoreState {
-  return {
+export const initStoreState = <T extends StoreState>(get: () => T, initialState?: Partial<T>): T => {
+  const defaultState = {
     requestStatus: { value: 'initializing' },
     errors: [],
     showSkeleton: true,
@@ -31,7 +31,13 @@ export function initStoreState(): StoreState {
     hasErrors: false,
     forceSkeleton: false,
   };
-}
+
+  return {
+    ...defaultState,
+    ...initialState,
+    ...get(),
+  } as unknown as T;
+};
 
 // ****************************************************
 // Status State

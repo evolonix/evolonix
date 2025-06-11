@@ -4,12 +4,12 @@ import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import { StarWarsApolloClient } from '../../../apollo-client';
-import { computeWith } from '../../store.compute-with';
-import { trackStatusWith } from '../../store.state';
-import { waitForAnother } from '../../store.utils';
+import { computeWith } from '../../../rsm';
+import { trackStatusWith } from '../../../rsm/store.state';
+import { waitForAnother } from '../../../rsm/store.utils';
 import { GetAllStarshipsDocument, GetStarshipByIdDocument } from './graphql/__generated__/graphql';
 import { Starship } from './starships.model';
-import { initStarshipState, StarshipActions, StarshipState, StarshipViewModel } from './starships.state';
+import { initStarshipState, StarshipActions, StarshipComputedState, StarshipState, StarshipViewModel } from './starships.state';
 
 export const StarshipStoreToken = new InjectionToken('Starship Store');
 
@@ -78,14 +78,18 @@ export function buildStarshipStore(client: StarWarsApolloClient) {
           const [updated] = [starship];
           set((draft: StarshipViewModel) => {
             const index = draft.starships.findIndex((s) => s.id === starship.id);
-            if (updated && index > -1) draft.starships[index] = updated;
-            draft.selectedId = starship.id;
+            if (updated && index > -1) {
+              draft.starships[index] = updated;
+              draft.selectedId = updated.id;
+            }
           });
         } else {
           const [created] = [starship];
           set((draft: StarshipViewModel) => {
-            if (created) draft.starships.push(created);
-            draft.selectedId = starship.id;
+            if (created) {
+              draft.starships.push(created);
+              draft.selectedId = created.id;
+            }
           });
         }
 
@@ -109,9 +113,9 @@ export function buildStarshipStore(client: StarWarsApolloClient) {
     } as StarshipViewModel;
   };
 
-  const compute = (state: StarshipViewModel): Partial<StarshipViewModel> => {
+  const compute = (state: StarshipViewModel): Partial<StarshipComputedState> => {
     const selectedId = state.selectedId;
-    const selected = state.starships?.find((s) => s.id === selectedId) ?? state.selected;
+    const selected = state.starships?.find((s) => s.id === selectedId) ?? (selectedId ? state.selected : undefined);
 
     return { selected };
   };

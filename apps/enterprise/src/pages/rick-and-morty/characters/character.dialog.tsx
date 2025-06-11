@@ -52,7 +52,7 @@ export const CharacterDialog = ({ character, isOpen, onClose, onSave }: Characte
 
       if (submission.status === 'success') {
         console.log('Form submitted:', submission.value);
-        onSave({ ...character, ...submission.value });
+        onSave({ ...character, ...submission.value } as Character);
       }
       if (submission.status === 'error') {
         console.error('Form error:', submission.error);

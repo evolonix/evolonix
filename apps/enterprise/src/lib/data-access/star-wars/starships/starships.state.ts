@@ -1,4 +1,4 @@
-import { initStoreState, StoreState } from '../../store.state';
+import { initStoreState, StoreState } from '../../../rsm/store.state';
 import { Starship } from './starships.model';
 
 export interface StarshipState extends StoreState {

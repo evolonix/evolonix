@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StateCreator, StoreMutatorIdentifier } from 'zustand';
 
 type ComputeWith = <T, Mps extends [StoreMutatorIdentifier, unknown][] = [], Mcs extends [StoreMutatorIdentifier, unknown][] = []>(
@@ -13,9 +14,7 @@ const computeWithImpl: ComputeWithImpl = (compute, f) => (set, get, store) => {
       // Check if partial is an immer-style mutation
       const updated = partial(get());
       if (updated === undefined) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (set as any)(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (draft: any) => {
             partial(draft);
             const computed = compute(draft);
@@ -35,13 +34,13 @@ const computeWithImpl: ComputeWithImpl = (compute, f) => (set, get, store) => {
     }
   };
 
-  const setWithComputed: typeof set = (partial, replace) => {
+  const setWithComputedState: typeof set = (partial, replace) => {
     updateState(partial, replace);
   };
 
-  store.setState = setWithComputed;
+  store.setState = setWithComputedState;
 
-  const baseState = f(setWithComputed, get, store);
+  const baseState = f(setWithComputedState, get, store);
   const initialComputed = compute(baseState);
 
   return {

@@ -1,6 +1,6 @@
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { expressMiddleware } from '@as-integrations/express4';
+import { expressMiddleware } from '@as-integrations/express5';
 import cors from 'cors';
 import express from 'express';
 import { readFileSync } from 'fs';
@@ -19,7 +19,7 @@ interface MyContext {
 // if the server is executed using `npm run`.
 const typeDefs = readFileSync(
   join('libs/models-graphql/src/lib', 'schema.graphql'),
-  { encoding: 'utf-8' }
+  { encoding: 'utf-8' },
 );
 
 let sets: Set[] = [
@@ -104,7 +104,7 @@ app.use(
   // an Apollo Server instance and optional configuration options
   expressMiddleware(server, {
     context: async ({ req }) => ({ token: req.headers.token }),
-  })
+  }),
 );
 
 await new Promise<void>((resolve) => httpServer.listen({ port }, resolve));

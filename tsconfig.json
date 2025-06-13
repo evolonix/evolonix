@@ -11,6 +11,12 @@
     },
     {
       "path": "./libs/models-graphql"
+    },
+    {
+      "path": "./apps/enterprise-e2e"
+    },
+    {
+      "path": "./apps/enterprise"
     }
   ]
 }

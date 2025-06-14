@@ -17,6 +17,12 @@
     },
     {
       "path": "./apps/enterprise"
+    },
+    {
+      "path": "./libs/ui"
+    },
+    {
+      "path": "./libs/data-access"
     }
   ]
 }

@@ -15,4 +15,5 @@ import * as types from "@evolonix/models-graphql"`,
     },
   },
 };
+
 export default config;

@@ -8,6 +8,7 @@
     "@apollo/client": "^3.13.8",
     "@apollo/server": "^4.12.2",
     "@as-integrations/express5": "^1.1.0",
+    "@evolonix/react": "^2.3.0",
     "axios": "^1.6.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
@@ -81,6 +82,7 @@
   },
   "workspaces": [
     "apps/*",
-    "libs/*"
+    "libs/*",
+    "libs/rick-and-morty/*"
   ]
 }

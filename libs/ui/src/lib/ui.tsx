@@ -1,9 +1,9 @@
-export function EvolonixUi() {
+export function Ui() {
   return (
-    <div className={styles['container']}>
+    <div>
       <h1>Welcome to EvolonixUi!</h1>
     </div>
   );
 }
 
-export default EvolonixUi;
+export default Ui;

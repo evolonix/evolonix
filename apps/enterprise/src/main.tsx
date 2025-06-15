@@ -6,12 +6,13 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import App from './app/app';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  // uri: 'http://localhost:4000/graphql',
+  uri: 'https://rickandmortyapi.com/graphql',
   cache: new InMemoryCache(),
 });
 
 const router = createBrowserRouter(createRoutesFromElements(
-  <Route path="/" element={<App />} errorElement={<div>Error loading app</div>} />
+  <Route path="*" element={<App />} errorElement={<div>Error loading app</div>} />
 ));
 
 const root = ReactDOM.createRoot(

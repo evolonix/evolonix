@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/rick-and-morty/feature-characters"
+    },
+    {
       "path": "./tsconfig.app.json"
     }
   ],

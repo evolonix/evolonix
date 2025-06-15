@@ -1,0 +1,32 @@
+{
+  "name": "@evolonix/rick-and-morty-data-access-characters",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@graphql-codegen/cli": "^5.0.7",
+    "@evolonix/react": "^2.3.0",
+    "react": "19.0.0",
+    "zustand": "5.0.5",
+    "@apollo/client": "^3.13.8"
+  },
+  "nx": {
+    "targets": {
+      "codegen": {
+        "command": "npx graphql-codegen --config {projectRoot}/codegen.ts"
+      }
+    }
+  }
+}

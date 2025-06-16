@@ -8,6 +8,18 @@
     },
     {
       "path": "./apps/api"
+    },
+    {
+      "path": "./libs/rick-and-morty/data-access-characters"
+    },
+    {
+      "path": "./libs/rick-and-morty/feature-characters"
+    },
+    {
+      "path": "./apps/enterprise-e2e"
+    },
+    {
+      "path": "./apps/enterprise"
     }
   ]
 }

@@ -25,7 +25,7 @@ import {
   SidebarSection,
   SidebarSpacer,
 } from './catalyst';
-import { RickAndMortyIcon, RickIcon } from './icons';
+import { MortyIcon, RickAndMortyIcon, RickIcon } from './icons';
 import { Logo } from './logo';
 import { ProfileDropdownMenu } from './profile-dropdown-menu';
 
@@ -122,6 +122,14 @@ export const CustomSidebar = ({ isExpanded = false }: SidebarProps) => {
           >
             <RickIcon />
             <SidebarLabel>Characters</SidebarLabel>
+          </SidebarItem>
+          <SidebarItem
+            href="/rick-and-morty/episodes"
+            title={isExpanded ? undefined : 'Episodes'}
+            current={isCurrent('/rick-and-morty/episodes')}
+          >
+            <MortyIcon />
+            <SidebarLabel>Episodes</SidebarLabel>
           </SidebarItem>
         </SidebarSection>
         <SidebarSpacer />

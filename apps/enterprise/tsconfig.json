@@ -6,6 +6,9 @@
       "path": "../../libs/util"
     },
     {
+      "path": "../../libs/rick-and-morty/episodes/feature"
+    },
+    {
       "path": "../../libs/rick-and-morty/characters/feature"
     },
     {

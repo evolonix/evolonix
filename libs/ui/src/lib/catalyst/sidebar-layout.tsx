@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router';
 
 import { SidebarToggleButton } from '../sidebar-toggle-button';
+import { Link } from './link';
 import { NavbarItem } from './navbar';
 
 function OpenMenuIcon() {
@@ -24,7 +25,11 @@ function CloseMenuIcon() {
   );
 }
 
-function MobileSidebar({ open, close, children }: React.PropsWithChildren<{ open: boolean; close: () => void }>) {
+function MobileSidebar({
+  open,
+  close,
+  children,
+}: React.PropsWithChildren<{ open: boolean; close: () => void }>) {
   return (
     <Headless.Dialog open={open} onClose={close} className="lg:hidden">
       <Headless.DialogBackdrop
@@ -72,21 +77,27 @@ export function SidebarLayout({
   };
 
   // Set isExpanded prop for sidebar
-  sidebar = React.cloneElement<{ isExpanded?: boolean }>(sidebar as React.ReactElement<{ isExpanded?: boolean }>, { isExpanded });
+  sidebar = React.cloneElement<{ isExpanded?: boolean }>(
+    sidebar as React.ReactElement<{ isExpanded?: boolean }>,
+    { isExpanded },
+  );
 
   return (
     <>
       {/* Skip link */}
-      <a href="#main" className="absolute -top-10 left-0 z-20 m-1 inline-block bg-white p-1.5 focus:top-0 dark:bg-zinc-900">
+      <Link
+        href="#main"
+        className="absolute -top-10 left-0 z-20 m-1 inline-block bg-white p-1.5 focus:top-0 dark:bg-zinc-900"
+      >
         Skip to main content
-      </a>
+      </Link>
 
       <div className="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
         {/* Sidebar on desktop */}
         <div
           className={clsx(
             'fixed inset-y-0 left-0 transition-[width] duration-300 ease-in-out max-lg:hidden',
-            isExpanded ? 'w-64' : 'w-[68px]'
+            isExpanded ? 'w-64' : 'w-[68px]',
           )}
           onMouseEnter={() => setShowToggleButton(true)}
           onMouseLeave={() => setShowToggleButton(false)}
@@ -94,10 +105,15 @@ export function SidebarLayout({
           <div
             className={clsx(
               'absolute top-11 right-0 z-10 hidden translate-x-1/2 overflow-hidden transition-opacity duration-300 ease-in-out lg:flex',
-              showToggleButton ? 'opacity-100' : 'opacity-0 [&:has([data-focus])]:opacity-100'
+              showToggleButton
+                ? 'opacity-100'
+                : 'opacity-0 [&:has([data-focus])]:opacity-100',
             )}
           >
-            <SidebarToggleButton isExpanded={isExpanded} onClick={handleToggleSidebar} />
+            <SidebarToggleButton
+              isExpanded={isExpanded}
+              onClick={handleToggleSidebar}
+            />
           </div>
 
           {sidebar}
@@ -111,7 +127,10 @@ export function SidebarLayout({
         {/* Navbar on mobile */}
         <header className="flex items-center px-4 lg:hidden">
           <div className="py-2.5">
-            <NavbarItem onClick={() => setShowSidebar(true)} aria-label="Open navigation">
+            <NavbarItem
+              onClick={() => setShowSidebar(true)}
+              aria-label="Open navigation"
+            >
               <OpenMenuIcon />
             </NavbarItem>
           </div>
@@ -126,7 +145,7 @@ export function SidebarLayout({
           tabIndex={-1}
           className={clsx(
             'flex flex-1 flex-col pb-2 lg:min-w-0 lg:pt-2 lg:pr-2 lg:transition-[padding] lg:duration-300 lg:ease-in-out',
-            isExpanded ? 'lg:pl-64' : 'lg:pl-[68px]'
+            isExpanded ? 'lg:pl-64' : 'lg:pl-[68px]',
           )}
         >
           <div className="grow p-6 lg:rounded-lg lg:bg-white lg:p-10 lg:shadow-xs lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10">

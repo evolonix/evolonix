@@ -2,9 +2,9 @@ import clsx from 'clsx';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { NavLink, useParams } from 'react-router';
 
-import { Avatar, Divider } from '@evolonix/ui';
+import { Divider } from '@evolonix/ui';
 
-import { useCharacters } from '@evolonix/rick-and-morty-characters-data-access';
+import { useEpisodes } from '@evolonix/rick-and-morty-episodes-data-access';
 import {
   Button,
   Input,
@@ -14,9 +14,9 @@ import {
 } from '@evolonix/ui';
 import { useScrollHeight } from '@evolonix/util';
 
-export const CharacterList = () => {
+export const EpisodeList = () => {
   const { id } = useParams();
-  const vm = useCharacters(id);
+  const vm = useEpisodes(id);
   const listRef = useRef<HTMLDivElement | null>(null);
   const listHeight = useScrollHeight(listRef, 48);
   const [search, setSearch] = useState<string>(vm.query || '');
@@ -39,7 +39,7 @@ export const CharacterList = () => {
   useEffect(() => {
     const list = listRef.current?.querySelector('.overflow-y-auto');
     list?.scrollTo({ top: 0 });
-  }, [vm.characters]);
+  }, [vm.episodes]);
 
   // useEffect(() => {
   //   setSearch('');
@@ -73,15 +73,15 @@ export const CharacterList = () => {
       <Divider />
       <div className="grow overflow-y-auto">
         {vm.showSkeleton ? (
-          <CharacterListSkeleton />
-        ) : vm.characters.length ? (
+          <EpisodeListSkeleton />
+        ) : vm.episodes.length ? (
           <ul className="flex h-full flex-col items-center">
-            {vm.characters.map((character, index) =>
-              character ? (
-                <Fragment key={character.id}>
+            {vm.episodes.map((episode, index) =>
+              episode ? (
+                <Fragment key={episode.id}>
                   <li className="w-full">
                     <NavLink
-                      to={`/rick-and-morty/characters/${character.id}`}
+                      to={`/rick-and-morty/episodes/${episode.id}`}
                       className={({ isActive }) =>
                         clsx(
                           'flex items-center gap-2 w-full p-4 font-bold',
@@ -90,18 +90,9 @@ export const CharacterList = () => {
                         )
                       }
                     >
-                      <Avatar
-                        src={character.image ?? ''}
-                        alt={character.name ?? ''}
-                        initials={character.name
-                          ?.split(' ')
-                          ?.map((name) => name.charAt(0))
-                          .join('')}
-                        className="size-10"
-                      />
-                      <span className="truncate">{character.name}</span>
+                      <span className="truncate">{episode.name}</span>
                     </NavLink>
-                    {index < vm.characters.length - 1 ? <Divider /> : null}
+                    {index < vm.episodes.length - 1 ? <Divider /> : null}
                   </li>
                 </Fragment>
               ) : null,
@@ -110,7 +101,7 @@ export const CharacterList = () => {
         ) : (
           <div className="flex h-full">
             <p className="p-4 text-zinc-500 dark:text-zinc-400">
-              No characters found.
+              No episodes found.
             </p>
           </div>
         )}
@@ -130,7 +121,7 @@ export const CharacterList = () => {
   );
 };
 
-export const CharacterListSkeleton = () => {
+export const EpisodeListSkeleton = () => {
   return (
     <ul className="flex h-full flex-col items-center">
       {Array.from({ length: 20 }).map((_, index) => (

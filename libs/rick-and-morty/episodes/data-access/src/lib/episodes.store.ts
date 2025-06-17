@@ -11,47 +11,47 @@ import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import {
-  Character,
+  Episode,
   Pagination,
 } from '@evolonix/rick-and-morty-shared-data-access';
-import { CharactersService } from './characters.service';
+import { EpisodesService } from './episodes.service';
 import {
-  CharacterActions,
-  CharacterComputedState,
-  CharacterState,
-  CharacterViewModel,
-} from './characters.state';
+  EpisodeActions,
+  EpisodeComputedState,
+  EpisodeState,
+  EpisodeViewModel,
+} from './episodes.state';
 
 /**
  * These ACTIONS enable waitFor() to look up existing, async request (if any)
  */
 const ACTIONS = {
-  loadAll: (page = 1, query = '') => `CharacterStore:loadAll:${page}:${query}`,
-  select: (id: string) => `CharacterStore:select:${id}`,
+  loadAll: (page = 1, query = '') => `EpisodeStore:loadAll:${page}:${query}`,
+  select: (id: string) => `EpisodeStore:select:${id}`,
 };
 
-export function buildCharacterStore(service: CharactersService) {
+export function buildEpisodeStore(service: EpisodesService) {
   const configureStore = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     set: (state: any) => any,
-    get: () => CharacterViewModel,
-    store: StoreApi<CharacterViewModel>,
-  ): CharacterViewModel => {
-    const trackStatus = trackStatusWith<CharacterViewModel>(store);
+    get: () => EpisodeViewModel,
+    store: StoreApi<EpisodeViewModel>,
+  ): EpisodeViewModel => {
+    const trackStatus = trackStatusWith<EpisodeViewModel>(store);
 
-    const state: CharacterState = initStoreState(get, {
-      characters: [],
+    const state: EpisodeState = initStoreState(get, {
+      episodes: [],
     });
 
-    const actions: CharacterActions = {
+    const actions: EpisodeActions = {
       loadAll: async (page = 1, query?: string) => {
         await trackStatus(
           async () => {
-            const [characters, info, error] = await service.getPagedCharacters<
-              Character,
+            const [episodes, info, error] = await service.getPagedEpisodes<
+              Episode,
               Pagination
             >(page, query);
-            return { page, query, characters, pagination: info, error };
+            return { page, query, episodes, pagination: info, error };
           },
           { waitForId: ACTIONS.loadAll(page, query) },
         );
@@ -64,41 +64,38 @@ export function buildCharacterStore(service: CharactersService) {
 
         await waitForAnother(ACTIONS.loadAll(get().page, get().query));
 
-        const character = get().characters.find((s) => s.id === id);
-        if (character) {
-          set({ selectedId: character.id });
+        const episode = get().episodes.find((s) => s.id === id);
+        if (episode) {
+          set({ selectedId: episode.id });
           return;
         }
 
         await trackStatus(
           async () => {
-            const [character, error] =
-              await service.getCharacterById<Character>(id);
-            return { selectedId: character?.id, selected: character, error };
+            const [episode, error] = await service.getEpisodeById<Episode>(id);
+            return { selectedId: episode?.id, selected: episode, error };
           },
           { waitForId: ACTIONS.select(id) },
         );
       },
-      save: async (character: Character) => {
-        if (character.id) {
-          const [updated, errors] = await service.updateCharacter(character);
-          set((draft: CharacterViewModel) => {
+      save: async (episode: Episode) => {
+        if (episode.id) {
+          const [updated, errors] = await service.updateEpisode(episode);
+          set((draft: EpisodeViewModel) => {
             draft.errors = errors ?? [];
-            const index = draft.characters.findIndex(
-              (s) => s.id === character.id,
-            );
+            const index = draft.episodes.findIndex((s) => s.id === episode.id);
             if (updated && index > -1) {
-              draft.characters[index] = updated;
+              draft.episodes[index] = updated;
               draft.selectedId = updated.id;
             }
           });
         } else {
           const [created, errors] =
-            await service.createCharacter<Character>(character);
-          set((draft: CharacterViewModel) => {
+            await service.createEpisode<Episode>(episode);
+          set((draft: EpisodeViewModel) => {
             draft.errors = errors ?? [];
             if (created) {
-              draft.characters.push(created);
+              draft.episodes.push(created);
               draft.selectedId = created.id;
             }
           });
@@ -107,11 +104,11 @@ export function buildCharacterStore(service: CharactersService) {
         return get().selected;
       },
       delete: async (id: string) => {
-        const [deleted, errors] = await service.deleteCharacter(id);
-        set((draft: CharacterViewModel) => {
+        const [deleted, errors] = await service.deleteEpisode(id);
+        set((draft: EpisodeViewModel) => {
           draft.errors = errors ?? [];
           if (deleted) {
-            draft.characters = draft.characters.filter((s) => s.id !== id);
+            draft.episodes = draft.episodes.filter((s) => s.id !== id);
             if (draft.selectedId === id) {
               draft.selectedId = undefined;
             }
@@ -145,12 +142,10 @@ export function buildCharacterStore(service: CharactersService) {
     };
   };
 
-  const compute = (
-    state: CharacterViewModel,
-  ): Partial<CharacterComputedState> => {
+  const compute = (state: EpisodeViewModel): Partial<EpisodeComputedState> => {
     const selectedId = state.selectedId;
     const selected =
-      state.characters?.find((s) => s.id === selectedId) ??
+      state.episodes?.find((s) => s.id === selectedId) ??
       (selectedId ? state.selected : undefined);
 
     return { selected };
@@ -170,7 +165,7 @@ export function buildCharacterStore(service: CharactersService) {
     },
   };
 
-  const store = createStore<CharacterViewModel>()(
+  const store = createStore<EpisodeViewModel>()(
     devtools(
       computeWith(compute, immer(syncWithUrl(syncOptions, configureStore))),
       {

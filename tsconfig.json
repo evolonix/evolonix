@@ -35,6 +35,12 @@
     },
     {
       "path": "./libs/rick-and-morty/characters/feature"
+    },
+    {
+      "path": "./libs/rick-and-morty/episodes/data-access"
+    },
+    {
+      "path": "./libs/rick-and-morty/episodes/feature"
     }
   ]
 }

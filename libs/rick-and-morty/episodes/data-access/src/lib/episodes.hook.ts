@@ -2,11 +2,11 @@ import { inject } from '@evolonix/react';
 import { useEffect } from 'react';
 import { StoreApi, useStore } from 'zustand';
 
-import { CharacterStoreToken } from './characters.providers';
-import { CharacterViewModel } from './characters.state';
+import { EpisodeStoreToken } from './episodes.providers';
+import { EpisodeViewModel } from './episodes.state';
 
-export function useCharacters(id?: string) {
-  const store = inject<StoreApi<CharacterViewModel>>(CharacterStoreToken);
+export function useEpisodes(id?: string) {
+  const store = inject<StoreApi<EpisodeViewModel>>(EpisodeStoreToken);
   const vm = useStore(store);
 
   useEffect(() => {

@@ -1,0 +1,25 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../../../util"
+    },
+    {
+      "path": "../data-access"
+    },
+    {
+      "path": "../../../ui"
+    },
+    {
+      "path": "../../shared/data-access"
+    },
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ],
+  "extends": "../../../../tsconfig.base.json"
+}

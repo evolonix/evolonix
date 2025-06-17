@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @source '../../../libs/ui/src/lib';
 @source '../../../libs/rick-and-morty/characters/feature/src/lib';
+@source '../../../libs/rick-and-morty/episodes/feature/src/lib';
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,

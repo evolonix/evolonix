@@ -36,6 +36,9 @@
       "path": "../../libs/util/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/rick-and-morty/episodes/feature/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/rick-and-morty/characters/feature/tsconfig.lib.json"
     },
     {

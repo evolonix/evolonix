@@ -6,9 +6,6 @@
       "path": "../../libs/util"
     },
     {
-      "path": "../../libs/rick-and-morty/characters/data-access"
-    },
-    {
       "path": "../../libs/rick-and-morty/characters/feature"
     },
     {

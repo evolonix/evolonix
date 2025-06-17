@@ -66,8 +66,8 @@ export const Characters = () => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const search = (formData.get('search') ?? undefined) as string | undefined;
-    vm.search(search || undefined);
+    const query = (formData.get('query') ?? undefined) as string | undefined;
+    vm.search(query || undefined);
   };
 
   const handleClearSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,7 +118,7 @@ export const Characters = () => {
             >
               <Input
                 type="search"
-                name="search"
+                name="query"
                 placeholder="Search"
                 defaultValue={vm.query || ''}
                 autoFocus

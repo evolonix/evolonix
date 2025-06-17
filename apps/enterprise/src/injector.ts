@@ -1,16 +1,18 @@
-import { ApolloClient } from '@apollo/client';
+import {
+  ApolloClient,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from '@apollo/client';
 import { DependencyInjector, EventBus, makeInjector } from '@evolonix/react';
 
-import {
-  buildCharacterStore,
-  CharactersService,
-  CharacterStoreToken,
-} from '@evolonix/rick-and-morty-characters-data-access';
-import {
-  buildApolloClient,
-  buildRickAndMortyApolloClient,
-  RickAndMortyApolloClient,
-} from './apollo-clients';
+const buildApolloClient = (): ApolloClient<NormalizedCacheObject> => {
+  const client = new ApolloClient({
+    uri: 'http://localhost:4000/graphql',
+    cache: new InMemoryCache(),
+  });
+
+  return client;
+};
 
 export const buildInjector = (): DependencyInjector => {
   return makeInjector([
@@ -19,21 +21,6 @@ export const buildInjector = (): DependencyInjector => {
       provide: ApolloClient,
       useFactory: buildApolloClient,
       deps: [],
-    },
-    {
-      provide: RickAndMortyApolloClient,
-      useFactory: buildRickAndMortyApolloClient,
-      deps: [],
-    },
-    {
-      provide: CharactersService,
-      useClass: CharactersService,
-      deps: [RickAndMortyApolloClient],
-    },
-    {
-      provide: CharacterStoreToken,
-      useFactory: buildCharacterStore,
-      deps: [CharactersService],
     },
   ]);
 };

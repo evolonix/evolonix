@@ -3,19 +3,11 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
+import { addProviders, Provider } from '@evolonix/react';
 
 export class RickAndMortyApolloClient extends ApolloClient<NormalizedCacheObject> {}
 
 export const buildApolloClient = (): ApolloClient<NormalizedCacheObject> => {
-  const client = new ApolloClient({
-    uri: 'http://localhost:4000/graphql',
-    cache: new InMemoryCache(),
-  });
-
-  return client;
-};
-
-export const buildRickAndMortyApolloClient = (): RickAndMortyApolloClient => {
   const client = new ApolloClient({
     uri: 'https://rickandmortyapi.com/graphql',
     cache: new InMemoryCache(),
@@ -23,3 +15,13 @@ export const buildRickAndMortyApolloClient = (): RickAndMortyApolloClient => {
 
   return client;
 };
+
+export const providers: Provider[] = [
+  {
+    provide: RickAndMortyApolloClient,
+    useFactory: buildApolloClient,
+    deps: [],
+  },
+];
+
+addProviders(providers);

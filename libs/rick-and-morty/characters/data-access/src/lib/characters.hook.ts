@@ -2,8 +2,8 @@ import { inject } from '@evolonix/react';
 import { useEffect } from 'react';
 import { StoreApi, useStore } from 'zustand';
 
+import { CharacterStoreToken } from './characters.providers';
 import { CharacterViewModel } from './characters.state';
-import { CharacterStoreToken } from './characters.store';
 
 export function useCharacters(id?: string) {
   const store = inject<StoreApi<CharacterViewModel>>(CharacterStoreToken);

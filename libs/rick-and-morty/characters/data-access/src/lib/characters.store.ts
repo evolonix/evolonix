@@ -1,7 +1,6 @@
 import {
   computeWith,
   initStoreState,
-  InjectionToken,
   SyncOptions,
   syncWithUrl,
   trackStatusWith,
@@ -22,8 +21,6 @@ import {
   CharacterState,
   CharacterViewModel,
 } from './characters.state';
-
-export const CharacterStoreToken = new InjectionToken('Character Store');
 
 /**
  * These ACTIONS enable waitFor() to look up existing, async request (if any)
@@ -165,10 +162,10 @@ export function buildCharacterStore(service: CharactersService) {
   };
 
   const syncOptions: SyncOptions = {
-    keys: ['page', { stateKey: 'filter.name', urlKey: 'search' }],
+    keys: ['page', 'query'],
     serialize: {
       page: (value: number) => (value > 1 ? String(value) : undefined),
-      'filter.name': (value: string) => value || undefined,
+      query: (value: string) => value || undefined,
     },
     deserialize: {
       page: (value: string) => {

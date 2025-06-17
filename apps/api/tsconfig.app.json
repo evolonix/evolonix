@@ -1,11 +1,22 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "customConditions": null,
+    "lib": ["es2020"],
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "outDir": "dist",
     "types": ["node"],
     "rootDir": "src",
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"]
+  "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
+  "references": [
+    {
+      "path": "../../libs/models-graphql/tsconfig.lib.json"
+    }
+  ]
 }

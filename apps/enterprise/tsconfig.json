@@ -3,7 +3,16 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/util"
+    },
+    {
+      "path": "../../libs/rick-and-morty/data-access-characters"
+    },
+    {
       "path": "../../libs/rick-and-morty/feature-characters"
+    },
+    {
+      "path": "../../libs/ui"
     },
     {
       "path": "./tsconfig.app.json"

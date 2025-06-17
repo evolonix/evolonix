@@ -10,12 +10,6 @@
       "path": "./apps/api"
     },
     {
-      "path": "./libs/rick-and-morty/data-access-characters"
-    },
-    {
-      "path": "./libs/rick-and-morty/feature-characters"
-    },
-    {
       "path": "./apps/enterprise-e2e"
     },
     {
@@ -28,13 +22,19 @@
       "path": "./libs/data-access"
     },
     {
-      "path": "./libs/models-graphql"
-    },
-    {
       "path": "./libs/ui"
     },
     {
       "path": "./libs/util"
+    },
+    {
+      "path": "./libs/rick-and-morty/shared/data-access"
+    },
+    {
+      "path": "./libs/rick-and-morty/characters/data-access"
+    },
+    {
+      "path": "./libs/rick-and-morty/characters/feature"
     }
   ]
 }

@@ -92,6 +92,8 @@
   "workspaces": [
     "apps/*",
     "libs/*",
-    "libs/rick-and-morty/*"
+    "libs/rick-and-morty/*",
+    "libs/rick-and-morty/shared/*",
+    "libs/rick-and-morty/characters/*"
   ]
 }

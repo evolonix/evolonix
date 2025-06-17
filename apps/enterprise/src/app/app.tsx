@@ -20,10 +20,8 @@ const Changelog = React.lazy(() => import('../pages/changelog'));
 const RickAndMorty = React.lazy(
   () => import('../pages/rick-and-morty/rick-and-morty'),
 );
-const Characters = React.lazy(() =>
-  import('@evolonix/rick-and-morty-feature-characters').then((m) => ({
-    default: m.FeatureCharacters,
-  })),
+const RickAndMortyCharacters = React.lazy(
+  () => import('@evolonix/rick-and-morty-characters-feature'),
 );
 
 // User pages
@@ -68,7 +66,10 @@ export function App() {
             {/* Rick & Morty pages */}
             <Route path="rick-and-morty">
               <Route index element={<RickAndMorty />} />
-              <Route path="characters/:id?" element={<Characters />} />
+              <Route
+                path="characters/:id?"
+                element={<RickAndMortyCharacters />}
+              />
             </Route>
             {/* User pages */}
             <Route path="profile" element={<Profile />} />

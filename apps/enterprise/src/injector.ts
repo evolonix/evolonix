@@ -5,7 +5,7 @@ import {
   buildCharacterStore,
   CharactersService,
   CharacterStoreToken,
-} from '@evolonix/rick-and-morty-data-access-characters';
+} from '@evolonix/rick-and-morty-characters-data-access';
 import {
   buildApolloClient,
   buildRickAndMortyApolloClient,

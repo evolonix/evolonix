@@ -36,10 +36,10 @@
       "path": "../../libs/util/tsconfig.lib.json"
     },
     {
-      "path": "../../libs/rick-and-morty/data-access-characters/tsconfig.lib.json"
+      "path": "../../libs/rick-and-morty/characters/data-access/tsconfig.lib.json"
     },
     {
-      "path": "../../libs/rick-and-morty/feature-characters/tsconfig.lib.json"
+      "path": "../../libs/rick-and-morty/characters/feature/tsconfig.lib.json"
     },
     {
       "path": "../../libs/ui/tsconfig.lib.json"

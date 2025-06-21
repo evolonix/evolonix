@@ -44,7 +44,10 @@ export function buildEpisodeStore(service: EpisodesService) {
     });
 
     const actions: EpisodeActions = {
-      loadAll: async (page = 1, query?: string) => {
+      loadAll: async (page?: number, query?: string) => {
+        page = page ?? get().page ?? 1;
+        query = query ?? get().query;
+
         await trackStatus(
           async () => {
             const [episodes, info, error] = await service.getPagedEpisodes<

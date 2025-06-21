@@ -36,7 +36,7 @@ export const CharacterDetails = ({
       className="flex h-full flex-col overflow-hidden md:max-h-[var(--details-scroll-height)]"
     >
       {id ? (
-        vm.showSkeleton || (vm.isLoading && !vm.selected) ? (
+        vm.showSkeleton || (vm.isLoading && vm.selectedId !== id) ? (
           <CharacterDetailsSkeleton />
         ) : vm.selected ? (
           <>

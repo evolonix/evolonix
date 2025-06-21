@@ -44,7 +44,10 @@ export function buildCharacterStore(service: CharactersService) {
     });
 
     const actions: CharacterActions = {
-      loadAll: async (page = 1, query?: string) => {
+      loadAll: async (page?: number, query?: string) => {
+        page = page ?? get().page ?? 1;
+        query = query ?? get().query;
+
         await trackStatus(
           async () => {
             const [characters, info, error] = await service.getPagedCharacters<

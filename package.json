@@ -10,7 +10,7 @@
     "@as-integrations/express5": "^1.1.0",
     "@conform-to/react": "^1.7.0",
     "@conform-to/zod": "^1.7.0",
-    "@evolonix/react": "^2.4.1",
+    "@evolonix/react": "^2.4.3",
     "@headlessui/react": "^2.2.4",
     "@heroicons/react": "^2.2.0",
     "axios": "^1.6.0",

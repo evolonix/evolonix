@@ -1,6 +1,6 @@
 import { useCharacters } from '@evolonix/rick-and-morty-characters-data-access';
 import { Character } from '@evolonix/rick-and-morty-shared-data-access';
-import { Button, Divider } from '@evolonix/ui';
+import { Button, Divider, Link } from '@evolonix/ui';
 import { useScrollHeight } from '@evolonix/util';
 import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router';
@@ -60,17 +60,6 @@ export const CharacterDetails = ({
                 />
               ) : null}
               <dl className="grid max-w-min columns-2 gap-2">
-                <dt className="font-bold">Episode:</dt>
-                <dd className="col-start-2 whitespace-nowrap">
-                  {vm.selected.episode?.map((e) =>
-                    e ? (
-                      <span key={e.id} className="block">
-                        {e.name} ({e.episode})
-                      </span>
-                    ) : null,
-                  )}
-                </dd>
-
                 <dt className="font-bold">Location:</dt>
                 <dd className="col-start-2 whitespace-nowrap">
                   {vm.selected.location?.name}
@@ -99,6 +88,21 @@ export const CharacterDetails = ({
                 <dt className="font-bold">Type:</dt>
                 <dd className="col-start-2 whitespace-nowrap">
                   {vm.selected.type}
+                </dd>
+
+                <dt className="font-bold">Episode:</dt>
+                <dd className="col-start-2 whitespace-nowrap">
+                  {vm.selected.episode?.map((episode) =>
+                    episode ? (
+                      <Link
+                        href={`/rick-and-morty/episodes/${episode.id}`}
+                        key={episode.id}
+                        className="flex items-center gap-2 hover:text-cyan-700 dark:hover:text-cyan-500"
+                      >
+                        {episode.name} ({episode.episode})
+                      </Link>
+                    ) : null,
+                  )}
                 </dd>
               </dl>
             </div>

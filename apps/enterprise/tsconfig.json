@@ -6,6 +6,9 @@
       "path": "../../libs/util"
     },
     {
+      "path": "../../libs/react"
+    },
+    {
       "path": "../../libs/rick-and-morty/episodes/feature"
     },
     {

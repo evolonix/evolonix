@@ -11,14 +11,14 @@ export function useCharacters(id?: string) {
 
   useEffect(() => {
     (async () => {
-      await vm.loadAll();
+      await vm.loadAll(vm.page, vm.query);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [vm.page, vm.query]);
 
   useEffect(() => {
     (async () => {
-      if (id !== vm.selectedId) await vm.select(id);
+      await vm.select(id);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);

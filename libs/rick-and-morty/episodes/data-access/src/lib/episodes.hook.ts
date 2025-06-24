@@ -14,7 +14,7 @@ export function useEpisodes(id?: string) {
       await vm.loadAll();
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [vm.page, vm.query]);
 
   useEffect(() => {
     (async () => {

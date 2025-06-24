@@ -6,6 +6,9 @@
       "path": "../../shared/data-access"
     },
     {
+      "path": "../../../react"
+    },
+    {
       "path": "./tsconfig.lib.json"
     },
     {

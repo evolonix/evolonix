@@ -7,8 +7,8 @@ import {
 
 export interface CharacterState extends StoreState {
   characters: Character[];
+  query: string;
   page?: number;
-  query?: string;
   pagination?: Pagination;
   selectedId?: string;
 }
@@ -18,13 +18,14 @@ export interface CharacterComputedState {
 }
 
 export interface CharacterActions {
-  loadAll: (page?: number, query?: string) => Promise<void>;
+  loadAll: (page?: number, query?: string, replace?: boolean) => Promise<void>;
   select: (id?: string) => Promise<void>;
   save: (character: Character) => Promise<Character | undefined>;
   delete: (id: string) => Promise<void>;
   search: (query?: string) => Promise<void>;
   previousPage: () => Promise<void>;
   nextPage: () => Promise<void>;
+  reset: () => void;
 }
 
 export type CharacterViewModel = CharacterState &

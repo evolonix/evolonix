@@ -41,6 +41,9 @@
     },
     {
       "path": "./libs/rick-and-morty/episodes/feature"
+    },
+    {
+      "path": "./libs/react"
     }
   ]
 }

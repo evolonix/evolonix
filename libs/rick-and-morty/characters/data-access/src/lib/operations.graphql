@@ -1,3 +1,5 @@
+#import './fragments.graphql';
+
 query Characters($page: Int, $filter: FilterCharacter) {
   characters(page: $page, filter: $filter) {
     info {
@@ -7,27 +9,13 @@ query Characters($page: Int, $filter: FilterCharacter) {
       prev
     }
     results {
-      id
-      name
-      status
-      species
-      type
-      gender
-      image
-      created
+      ...CharacterDetails
     }
   }
 }
 
 query CharacterById($id: ID!) {
   character(id: $id) {
-    id
-    name
-    status
-    species
-    type
-    gender
-    image
-    created
+    ...CharacterDetails
   }
 }

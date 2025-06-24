@@ -45,6 +45,9 @@
   "references": [
     {
       "path": "../../shared/data-access/tsconfig.lib.json"
+    },
+    {
+      "path": "../../../react/tsconfig.lib.json"
     }
   ]
 }

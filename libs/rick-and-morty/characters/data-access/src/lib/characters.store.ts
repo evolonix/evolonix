@@ -30,6 +30,12 @@ const ACTIONS = {
   select: (id: string) => `CharacterStore:select:${id}`,
 };
 
+const initialState: Partial<CharacterState> = {
+  characters: [],
+  query: '',
+  page: 1,
+};
+
 export function buildCharacterStore(service: CharactersService) {
   const configureStore = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,15 +45,10 @@ export function buildCharacterStore(service: CharactersService) {
   ): CharacterViewModel => {
     const trackStatus = trackStatusWith<CharacterViewModel>(store);
 
-    const state: CharacterState = initStoreState(get, {
-      characters: [],
-    });
+    const state: CharacterState = initStoreState(get, initialState);
 
     const actions: CharacterActions = {
-      loadAll: async (page?: number, query?: string) => {
-        page = page ?? get().page ?? 1;
-        query = query ?? get().query;
-
+      loadAll: async (page = get().page ?? 1, query = get().query ?? '') => {
         await trackStatus(
           async () => {
             const [characters, info, error] = await service.getPagedCharacters<
@@ -63,6 +64,10 @@ export function buildCharacterStore(service: CharactersService) {
         if (!id) {
           set({ selectedId: undefined });
           return;
+        }
+
+        if (id === get().selectedId) {
+          return; // already selected
         }
 
         await waitForAnother(ACTIONS.loadAll(get().page, get().query));
@@ -121,25 +126,24 @@ export function buildCharacterStore(service: CharactersService) {
           }
         });
       },
-      search: async (query?: string) => {
+      search: async (query = '') => {
         if (query === get().query) return;
 
-        set({ query });
-
-        await actions.loadAll(1, get().query);
+        await actions.loadAll(1, query);
       },
       previousPage: async () => {
         const page = get().pagination?.prev;
         if (!page) return;
 
-        await actions.loadAll(page, get().query);
+        await actions.loadAll(page);
       },
       nextPage: async () => {
         const page = get().pagination?.next;
         if (!page) return;
 
-        await actions.loadAll(page, get().query);
+        await actions.loadAll(page);
       },
+      reset: () => set(initialState),
     };
 
     return {
@@ -160,16 +164,17 @@ export function buildCharacterStore(service: CharactersService) {
   };
 
   const syncOptions: SyncOptions = {
-    keys: ['page', 'query'],
+    keys: ['page', { stateKey: 'query', urlKey: 'q' }],
     serialize: {
       page: (value: number) => (value > 1 ? String(value) : undefined),
       query: (value: string) => value || undefined,
     },
     deserialize: {
-      page: (value: string) => {
-        const v = parseInt(value, 10);
+      page: (value?: string) => {
+        const v = value ? parseInt(value, 10) : 1;
         return v > 0 ? v : 1;
       },
+      q: (value?: string) => value ?? '',
     },
   };
 

@@ -10,9 +10,11 @@ export const PageHeader = ({ label, actions }: PageHeaderProps) => {
   return (
     <GridLayout disableTopPadding>
       <GridLayoutItem>
-        <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 min-h-9">
           <Heading level={1}>{label}</Heading>
-          {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
+          {actions ? (
+            <div className="flex flex-wrap items-center gap-2">{actions}</div>
+          ) : null}
         </div>
       </GridLayoutItem>
     </GridLayout>

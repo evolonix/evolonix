@@ -44,10 +44,7 @@ export function buildEpisodeStore(service: EpisodesService) {
     });
 
     const actions: EpisodeActions = {
-      loadAll: async (page?: number, query?: string) => {
-        page = page ?? get().page ?? 1;
-        query = query ?? get().query;
-
+      loadAll: async (page = get().page ?? 1, query = get().query) => {
         await trackStatus(
           async () => {
             const [episodes, info, error] = await service.getPagedEpisodes<
@@ -161,10 +158,11 @@ export function buildEpisodeStore(service: EpisodesService) {
       query: (value: string) => value || undefined,
     },
     deserialize: {
-      page: (value: string) => {
-        const v = parseInt(value, 10);
+      page: (value?: string) => {
+        const v = value ? parseInt(value, 10) : 1;
         return v > 0 ? v : 1;
       },
+      query: (value?: string) => value ?? '',
     },
   };
 

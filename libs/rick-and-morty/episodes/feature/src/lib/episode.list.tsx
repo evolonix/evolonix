@@ -41,9 +41,9 @@ export const EpisodeList = () => {
     list?.scrollTo({ top: 0 });
   }, [vm.episodes]);
 
-  // useEffect(() => {
-  //   setSearch('');
-  // }, []);
+  useEffect(() => {
+    setSearch(vm.query || '');
+  }, [vm.query]);
 
   return (
     <div
@@ -90,7 +90,9 @@ export const EpisodeList = () => {
                         )
                       }
                     >
-                      <span className="truncate">{episode.name}</span>
+                      <span className="truncate">
+                        {episode.name} ({episode.episode})
+                      </span>
                     </NavLink>
                     {index < vm.episodes.length - 1 ? <Divider /> : null}
                   </li>

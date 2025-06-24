@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { Fragment, useEffect, useRef, useState } from 'react';
-import { NavLink, useParams } from 'react-router';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { NavLink, useLocation, useParams } from 'react-router';
 
 import { Avatar, Divider } from '@evolonix/ui';
 
@@ -16,10 +16,15 @@ import { useScrollHeight } from '@evolonix/util';
 
 export const CharacterList = () => {
   const { id } = useParams();
+  const { search } = useLocation();
+  const searchParams = useMemo(() => {
+    const searchParams = new URLSearchParams(search);
+    return searchParams.size > 0 ? `?${searchParams.toString()}` : '';
+  }, [search]);
   const vm = useCharacters(id);
   const listRef = useRef<HTMLDivElement | null>(null);
   const listHeight = useScrollHeight(listRef, 48);
-  const [search, setSearch] = useState<string>(vm.query || '');
+  const [query, setQuery] = useState<string>(vm.query || '');
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +37,7 @@ export const CharacterList = () => {
   const handleClearSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     if ((e.target as HTMLInputElement).value === '') {
       vm.search();
-      setSearch('');
+      setQuery('');
     }
   };
 
@@ -41,9 +46,9 @@ export const CharacterList = () => {
     list?.scrollTo({ top: 0 });
   }, [vm.characters]);
 
-  // useEffect(() => {
-  //   setSearch('');
-  // }, []);
+  useEffect(() => {
+    setQuery(vm.query || '');
+  }, [vm.query]);
 
   return (
     <div
@@ -61,10 +66,10 @@ export const CharacterList = () => {
           type="search"
           name="query"
           placeholder="Search"
-          value={search}
+          value={query}
           autoFocus
           onInput={handleClearSearch}
-          onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
+          onChange={(e) => setQuery((e.target as HTMLInputElement).value)}
         />
         <Button type="submit" disabled={vm.isLoading}>
           Search
@@ -81,7 +86,7 @@ export const CharacterList = () => {
                 <Fragment key={character.id}>
                   <li className="w-full">
                     <NavLink
-                      to={`/rick-and-morty/characters/${character.id}`}
+                      to={`/rick-and-morty/characters/${character.id}${searchParams}`}
                       className={({ isActive }) =>
                         clsx(
                           'flex items-center gap-2 w-full p-4 font-bold',

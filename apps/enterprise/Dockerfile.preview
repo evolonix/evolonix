@@ -26,6 +26,8 @@ COPY --link . .
 RUN npm install --ignore-scripts
 
 # Set environment
+ARG VITE_FLAGSMITH_ENVIRONMENT_ID
+ENV VITE_FLAGSMITH_ENVIRONMENT_ID=$VITE_FLAGSMITH_ENVIRONMENT_ID
 ENV NODE_ENV="preview"
 
 # Build the application

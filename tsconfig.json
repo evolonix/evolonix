@@ -11,6 +11,9 @@
     },
     {
       "path": "./libs/enterprise/ui"
+    },
+    {
+      "path": "./libs/feature-feature-flags"
     }
   ]
 }

@@ -1,3 +1,4 @@
+import ReactGA from 'react-ga4';
 import {
   Links,
   Meta,
@@ -51,5 +52,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const measurementId = import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID;
+  if (measurementId) ReactGA.initialize(measurementId);
+
   return <Outlet />;
 }

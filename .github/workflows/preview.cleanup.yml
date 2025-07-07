@@ -1,0 +1,35 @@
+name: Preview
+
+on:
+  # Run this workflow on when PR is closed.
+  pull_request:
+    types: [closed]
+
+permissions:
+  actions: read
+  contents: read
+  deployments: write
+
+jobs:
+  cleanup-enterprise-preview:
+    runs-on: ubuntu-latest
+    # Only run one deployment at a time per PR.
+    concurrency:
+      group: pr-${{ github.event.number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - run: |
+          flyctl apps destroy "evolonix-enterprise-pr-${{ github.event.number }}" --yes
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      # If using the name `pr-${{ github.event.number }}` for the environment, you can use this action to delete the environment.
+      # - name: Clean up GitHub environment
+      #   uses: strumwolf/delete-deployment-environment@v2
+      #   with:
+      #     # ⚠️ The provided token needs permission for admin write:org
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     environment: pr-${{ github.event.number }}

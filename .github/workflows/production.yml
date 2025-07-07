@@ -1,0 +1,30 @@
+name: Production
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  deploy-enterprise:
+    environment:
+      name: Production
+      url: https://enterprise.fly.dev
+    runs-on: ubuntu-latest
+    concurrency: deploy-enterprise
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - run: |
+          flyctl deploy --config apps/enterprise/fly.production.toml --image-label enterprise-${{ github.ref_name }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

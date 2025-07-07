@@ -1,0 +1,21 @@
+# Run with:
+# docker compose up
+# Include --build to rebuild the image if there are changes to the Dockerfile or package.json files
+# Optionally, use -d to run the app in detached mode
+
+version: '3'
+
+services:
+  enterprise:
+    image: enterprise:dev
+    container_name: evolonix-enterprise-dev
+    build:
+      context: .
+      dockerfile: ./apps/enterprise/Dockerfile
+    ports:
+      - '4200:4200'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true # To fix an issue with HMR on Windows machines

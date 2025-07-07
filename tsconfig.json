@@ -8,6 +8,9 @@
     },
     {
       "path": "./apps/enterprise"
+    },
+    {
+      "path": "./libs/enterprise/ui"
     }
   ]
 }

@@ -93,7 +93,8 @@ jobs:
             --yes
 
       - run: |
-          flyctl deploy --config apps/enterprise/fly.preview.toml --app "evolonix-enterprise-pr-${{ github.event.number }}"
+          flyctl deploy --config apps/enterprise/fly.preview.toml --app "evolonix-enterprise-pr-${{ github.event.number }}" \
+            --build-arg VITE_FLAGSMITH_ENVIRONMENT_ID="${{ secrets.VITE_FLAGSMITH_ENVIRONMENT_ID }}"
 
       - id: deploy_status
         run: |

@@ -9,6 +9,10 @@ import {
   type MetaFunction,
 } from 'react-router';
 
+import {
+  FeatureFlagProvider,
+  FeatureFlagToggleDialog,
+} from '@evolonix/feature-feature-flags';
 import { AppNav } from './app-nav';
 
 import '../styles.css';
@@ -55,5 +59,13 @@ export default function App() {
   const measurementId = import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID;
   if (measurementId) ReactGA.initialize(measurementId);
 
-  return <Outlet />;
+  return (
+    <FeatureFlagProvider
+      flagsmithEnvironmentId={import.meta.env.VITE_FLAGSMITH_ENVIRONMENT_ID}
+    >
+      <Outlet />
+
+      <FeatureFlagToggleDialog />
+    </FeatureFlagProvider>
+  );
 }

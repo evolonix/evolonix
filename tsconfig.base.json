@@ -19,7 +19,10 @@
     "customConditions": ["development"],
     "baseUrl": ".",
     "paths": {
-      "@evolonix/enterprise-ui": ["libs/enterprise/ui/src/index.ts"]
+      "@evolonix/enterprise-ui": ["libs/enterprise/ui/src/index.ts"],
+      "@evolonix/feature-feature-flags": [
+        "libs/feature-feature-flags/src/index.ts"
+      ]
     }
   }
 }

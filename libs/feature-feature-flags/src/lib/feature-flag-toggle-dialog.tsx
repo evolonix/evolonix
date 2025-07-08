@@ -10,7 +10,7 @@ import {
   Label,
   Switch,
   SwitchField,
-} from '@evolonix/enterprise-ui';
+} from '@evolonix/ui';
 import { useEffect, useState } from 'react';
 import { useActionKey } from './action-key.hook';
 import { useFeatureFlags } from './feature-flag-provider';

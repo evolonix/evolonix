@@ -25,7 +25,7 @@ jobs:
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
       - run: |
-          flyctl deploy --config apps/enterprise/fly.production.toml --image-label enterprise-${{ github.ref_name }} \
+          flyctl deploy --config apps/enterprise/fly.production.toml --image-label evolonix-enterprise-${{ github.ref_name }} \
           --build-arg VITE_FLAGSMITH_ENVIRONMENT_ID="${{ secrets.VITE_FLAGSMITH_ENVIRONMENT_ID }}"
           # --build-arg VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID="${{ secrets.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID }}" \
         env:

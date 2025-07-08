@@ -4,10 +4,14 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky install",
+    "dev": "npx nx dev enterprise --host",
+    "start": "npm run dev",
     "update-deps": "bash scripts/cp-all-deps.sh"
   },
   "private": true,
   "dependencies": {
+    "@conform-to/react": "^1.8.1",
+    "@conform-to/zod": "^1.8.1",
     "@headlessui/react": "^2.2.4",
     "@heroicons/react": "^2.2.0",
     "@react-router/node": "^7.2.0",
@@ -20,7 +24,8 @@
     "react-dom": "19.0.0",
     "react-ga4": "^2.1.0",
     "react-router": "^7.2.0",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",

@@ -1,10 +1,11 @@
-import NxWelcome from './nx-welcome';
+import { CustomNavbar, CustomSidebar, SidebarLayout } from '@evolonix/ui';
+import { Outlet } from 'react-router';
 
 export function App() {
   return (
-    <div>
-      <NxWelcome title="@evolonix/enterprise" />
-    </div>
+    <SidebarLayout navbar={<CustomNavbar />} sidebar={<CustomSidebar />}>
+      <Outlet />
+    </SidebarLayout>
   );
 }
 

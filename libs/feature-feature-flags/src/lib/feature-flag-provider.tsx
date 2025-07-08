@@ -10,9 +10,12 @@ import React, {
   useState,
 } from 'react';
 import { useLocation, useRouteLoaderData } from 'react-router';
-import { defaultFlags, FeatureFlag, FeatureFlags } from './feature-flag.model';
 
-export const LOCAL_STORAGE_KEY = 'jasonruesch.featureFlags';
+// === Types ===
+
+export type FeatureFlags = Record<string, boolean>;
+
+export const LOCAL_STORAGE_KEY = 'featureFlags';
 
 // === Context ===
 
@@ -38,33 +41,33 @@ export function useFeatureFlags(): FeatureFlagContextType {
   return context;
 }
 
-export function useFeatureFlag(key: FeatureFlag | string): boolean {
+export function useFeatureFlag(key: string): boolean {
   const { flags } = useFeatureFlags();
   return Boolean(flags[key]);
 }
 
 // === Utilities ===
 
-function getStoredFlags(): FeatureFlags {
+function getStoredFlags(key = LOCAL_STORAGE_KEY): FeatureFlags {
   try {
-    const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const raw = localStorage.getItem(key);
     return raw ? JSON.parse(raw) : {};
   } catch {
     return {};
   }
 }
 
-function storeFlags(flags: FeatureFlags) {
+function storeFlags(flags: FeatureFlags, key = LOCAL_STORAGE_KEY) {
   try {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(flags));
+    localStorage.setItem(key, JSON.stringify(flags));
   } catch {
     // Ignore storage errors
   }
 }
 
-function clearStoredFlags() {
+function clearStoredFlags(key = LOCAL_STORAGE_KEY) {
   try {
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    localStorage.removeItem(key);
   } catch {
     // Ignore
   }
@@ -98,6 +101,7 @@ interface FeatureFlagProviderProps {
   initialFlags?: FeatureFlags;
   flagsmithEnvironmentId?: string;
   identity?: string;
+  storageKey?: string;
 }
 
 export const FeatureFlagProvider: React.FC<FeatureFlagProviderProps> = ({
@@ -105,6 +109,7 @@ export const FeatureFlagProvider: React.FC<FeatureFlagProviderProps> = ({
   initialFlags,
   flagsmithEnvironmentId,
   identity,
+  storageKey = LOCAL_STORAGE_KEY,
 }) => {
   const { pathname, search } = useLocation();
   const routeData = useRouteLoaderData('root') as
@@ -114,7 +119,6 @@ export const FeatureFlagProvider: React.FC<FeatureFlagProviderProps> = ({
   const loaderFlags = useMemo(() => routeData?.featureFlags ?? {}, [routeData]);
 
   const ssrSafeFlags = {
-    ...defaultFlags,
     ...loaderFlags,
     ...initialFlags,
   };
@@ -124,18 +128,18 @@ export const FeatureFlagProvider: React.FC<FeatureFlagProviderProps> = ({
 
   const setFlags = (newFlags: FeatureFlags) => {
     setFlagsInternal(newFlags);
-    storeFlags(newFlags);
+    storeFlags(newFlags, storageKey);
   };
 
   const resetFlags = () => {
-    clearStoredFlags();
+    clearStoredFlags(storageKey);
     clearFlagsInUrl(search, pathname);
     setFlagsInternal(ssrSafeFlags);
-    storeFlags(ssrSafeFlags);
+    storeFlags(ssrSafeFlags, storageKey);
   };
 
   const setAndStoreFlags = useCallback(() => {
-    const storedFlags = getStoredFlags();
+    const storedFlags = getStoredFlags(storageKey);
 
     const queryParams = new URLSearchParams(search);
     const enabled =
@@ -158,7 +162,7 @@ export const FeatureFlagProvider: React.FC<FeatureFlagProviderProps> = ({
     };
 
     setFlagsInternal(merged);
-    storeFlags(merged);
+    storeFlags(merged, storageKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 

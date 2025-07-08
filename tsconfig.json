@@ -10,10 +10,13 @@
       "path": "./apps/enterprise"
     },
     {
-      "path": "./libs/enterprise/ui"
+      "path": "./libs/feature-feature-flags"
     },
     {
-      "path": "./libs/feature-feature-flags"
+      "path": "./libs/ui"
+    },
+    {
+      "path": "./libs/util"
     }
   ]
 }

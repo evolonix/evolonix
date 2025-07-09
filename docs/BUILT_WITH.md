@@ -16,6 +16,7 @@
 1. [UI Library](./built-with/UI_LIBRARY.md)
 1. [Flagsmith](./built-with/FLAGSMITH.md)
 1. [Conform](./built-with/CONFORM.md)
+1. [Zustand](./built-with/ZUSTAND.md)
 1. [Other Tools](#other-tools)
 
 <div id="other-tools"></div>

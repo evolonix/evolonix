@@ -17,6 +17,7 @@
 1. [Flagsmith](./built-with/FLAGSMITH.md)
 1. [Conform](./built-with/CONFORM.md)
 1. [Zustand](./built-with/ZUSTAND.md)
+1. [GraphQL and Apollo Client](./built-with/GRAPHQL.md)
 1. [Other Tools](#other-tools)
 
 <div id="other-tools"></div>

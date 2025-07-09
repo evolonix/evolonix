@@ -3,10 +3,19 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/rick-and-morty/episodes/feature"
+    },
+    {
+      "path": "../../libs/rick-and-morty/characters/feature"
+    },
+    {
       "path": "../../libs/util"
     },
     {
       "path": "../../libs/feature-feature-flags"
+    },
+    {
+      "path": "../../libs/react"
     },
     {
       "path": "../../libs/ui"

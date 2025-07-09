@@ -20,6 +20,21 @@
     },
     {
       "path": "./libs/react"
+    },
+    {
+      "path": "./libs/rick-and-morty/shared/data-access"
+    },
+    {
+      "path": "./libs/rick-and-morty/characters/data-access"
+    },
+    {
+      "path": "./libs/rick-and-morty/episodes/data-access"
+    },
+    {
+      "path": "./libs/rick-and-morty/episodes/feature"
+    },
+    {
+      "path": "./libs/rick-and-morty/characters/feature"
     }
   ]
 }

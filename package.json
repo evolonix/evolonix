@@ -6,11 +6,11 @@
     "prepare": "husky install",
     "dev": "npx nx dev enterprise --host",
     "start": "npm run dev",
-    "update-deps": "bash scripts/cp-all-deps.sh",
-    "postinstall": "npm run update-deps"
+    "update-deps": "bash scripts/cp-all-deps.sh"
   },
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.13.8",
     "@conform-to/react": "^1.8.1",
     "@conform-to/zod": "^1.8.1",
     "@headlessui/react": "^2.2.4",
@@ -20,6 +20,8 @@
     "clsx": "^2.1.1",
     "flagsmith": "^9.3.0",
     "framer-motion": "^12.23.0",
+    "graphql": "^16.11.0",
+    "immer": "^10.1.1",
     "isbot": "^4.4.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
@@ -37,6 +39,8 @@
     "@commitlint/config-nx-scopes": "^19.8.1",
     "@commitlint/cz-commitlint": "^19.8.1",
     "@eslint/js": "^9.8.0",
+    "@graphql-codegen/cli": "^5.0.7",
+    "@graphql-codegen/client-preset": "^4.8.3",
     "@nx/devkit": "21.2.2",
     "@nx/eslint": "21.2.2",
     "@nx/eslint-plugin": "21.2.2",
@@ -88,7 +92,10 @@
   "workspaces": [
     "apps/*",
     "libs/enterprise/*",
-    "libs/*"
+    "libs/*",
+    "libs/rick-and-morty/shared/*",
+    "libs/rick-and-morty/characters/*",
+    "libs/rick-and-morty/episodes/*"
   ],
   "config": {
     "commitizen": {

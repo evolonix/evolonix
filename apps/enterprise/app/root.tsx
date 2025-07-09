@@ -16,6 +16,9 @@ import {
 } from '@evolonix/feature-feature-flags';
 
 import '../styles.css';
+import { buildInjector } from './injector';
+
+buildInjector();
 
 export const meta: MetaFunction = () => [
   {

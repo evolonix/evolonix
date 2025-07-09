@@ -112,6 +112,8 @@ function deepMerge<T>(target: T, source: Partial<T>): T {
 }
 
 const syncWithUrlImpl: SyncWithUrlImpl = (options, f) => (set, get, store) => {
+  if (typeof window === 'undefined') return f(set, get, store);
+
   assertUniqueKeys(options.keys);
 
   const applyParamsToStore = () => {
@@ -173,17 +175,10 @@ const syncWithUrlImpl: SyncWithUrlImpl = (options, f) => (set, get, store) => {
   const onPopState = () => applyParamsToStore();
   window.addEventListener('popstate', onPopState);
 
-  const onPageShow = () => {
-    console.log('onPageShow event triggered');
-    // applyParamsToStore();
-  };
-  window.addEventListener('pagereveal', onPageShow);
-
   // Support destroy (Zustand persist)
   const originalDestroy = (store as any).destroy;
   (store as any).destroy = () => {
     window.removeEventListener('popstate', onPopState);
-    window.removeEventListener('pagereveal', onPageShow);
     originalDestroy?.();
   };
 

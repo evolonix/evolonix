@@ -67,8 +67,17 @@
     }
   ],
   "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build", "codegen"]
+    },
     "test": {
       "dependsOn": ["^build"]
+    },
+    "codegen": {
+      "cache": true,
+      "outputs": ["{projectRoot}/src/__generated__"],
+      "inputs": ["{projectRoot}/**/*.graphql"],
+      "dependsOn": ["^codegen"]
     }
   },
   "generators": {

@@ -22,6 +22,7 @@
       "@evolonix/feature-feature-flags": [
         "libs/feature-feature-flags/src/index.ts"
       ],
+      "@evolonix/react": ["libs/react/src/index.ts"],
       "@evolonix/ui": ["libs/ui/src/index.ts"],
       "@evolonix/util": ["libs/util/src/index.ts"]
     }

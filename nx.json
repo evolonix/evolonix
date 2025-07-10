@@ -78,6 +78,9 @@
       "outputs": ["{projectRoot}/src/__generated__"],
       "inputs": ["{projectRoot}/**/*.graphql"],
       "dependsOn": ["^codegen"]
+    },
+    "docker-run": {
+      "dependsOn": ["docker-build"]
     }
   },
   "generators": {

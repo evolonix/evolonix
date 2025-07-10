@@ -30,6 +30,12 @@ const ACTIONS = {
   select: (id: string) => `EpisodeStore:select:${id}`,
 };
 
+const initialState: Partial<EpisodeState> = {
+  episodes: [],
+  query: '',
+  page: 1,
+};
+
 export function buildEpisodeStore(service: EpisodesService) {
   const configureStore = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,9 +45,7 @@ export function buildEpisodeStore(service: EpisodesService) {
   ): EpisodeViewModel => {
     const trackStatus = trackStatusWith<EpisodeViewModel>(store);
 
-    const state: EpisodeState = initStoreState(get, {
-      episodes: [],
-    });
+    const state: EpisodeState = initStoreState(get, initialState);
 
     const actions: EpisodeActions = {
       loadAll: async (page = get().page ?? 1, query = get().query) => {
@@ -60,6 +64,10 @@ export function buildEpisodeStore(service: EpisodesService) {
         if (!id) {
           set({ selectedId: undefined });
           return;
+        }
+
+        if (id === get().selectedId) {
+          return; // already selected
         }
 
         await waitForAnother(ACTIONS.loadAll(get().page, get().query));
@@ -118,8 +126,6 @@ export function buildEpisodeStore(service: EpisodesService) {
       search: async (query?: string) => {
         if (query === get().query) return;
 
-        set({ query });
-
         await actions.loadAll(1, get().query);
       },
       previousPage: async () => {
@@ -152,7 +158,7 @@ export function buildEpisodeStore(service: EpisodesService) {
   };
 
   const syncOptions: SyncOptions = {
-    keys: ['page', 'query'],
+    keys: ['page', { stateKey: 'query', urlKey: 'q' }],
     serialize: {
       page: (value: number) => (value > 1 ? String(value) : undefined),
       query: (value: string) => value || undefined,
@@ -162,7 +168,7 @@ export function buildEpisodeStore(service: EpisodesService) {
         const v = value ? parseInt(value, 10) : 1;
         return v > 0 ? v : 1;
       },
-      query: (value?: string) => value ?? '',
+      q: (value?: string) => value ?? '',
     },
   };
 

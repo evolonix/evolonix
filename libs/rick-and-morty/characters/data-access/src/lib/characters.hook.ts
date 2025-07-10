@@ -17,6 +17,8 @@ export function useCharacters(id?: string) {
   }, [vm.page, vm.query]);
 
   useEffect(() => {
+    if (id === 'new') return;
+
     (async () => {
       await vm.select(id);
     })();

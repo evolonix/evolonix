@@ -14,30 +14,30 @@ import {
   PageHeader,
 } from '@evolonix/ui';
 import { EpisodeDetails } from './episode.details';
-import { EpisodeDialog } from './episode.dialog';
+import { EpisodeDrawer } from './episode.drawer';
 import { EpisodeList } from './episode.list';
 
 export const Episodes = () => {
   const { id } = useParams();
   const vm = useEpisodes(id);
   const navigate = useNavigate();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const episode = useRef<Episode | undefined>(undefined);
 
   const handleAdd = () => {
     episode.current = undefined;
-    setIsDialogOpen(true);
+    setIsDrawerOpen(true);
   };
 
   const handleEdit = () => {
     episode.current = vm.selected;
-    setIsDialogOpen(true);
+    setIsDrawerOpen(true);
   };
 
   const handleSave = async (episode: Episode) => {
     const saved = await vm.save(episode);
-    setIsDialogOpen(false);
+    setIsDrawerOpen(false);
     navigate(`/rick-and-morty/episodes/${saved?.id}`);
   };
 
@@ -86,10 +86,10 @@ export const Episodes = () => {
         </GridLayoutItem>
       </GridLayout>
 
-      <EpisodeDialog
+      <EpisodeDrawer
         episode={episode.current}
-        isOpen={isDialogOpen}
-        onClose={setIsDialogOpen}
+        isOpen={isDrawerOpen}
+        onClose={setIsDrawerOpen}
         onSave={handleSave}
       />
 

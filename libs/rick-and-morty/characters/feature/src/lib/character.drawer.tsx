@@ -7,30 +7,29 @@ import {
 } from '@evolonix/rick-and-morty-shared-data-access';
 import {
   Button,
-  Dialog,
-  DialogActions,
-  DialogBody,
-  DialogDescription,
-  DialogTitle,
+  Drawer,
+  DrawerActions,
+  DrawerBody,
+  DrawerHeader,
   ErrorMessage,
   Field,
   Input,
   Label,
 } from '@evolonix/ui';
 
-interface CharacterDialogProps {
+interface CharacterDrawerProps {
   character?: Character;
   isOpen: boolean;
   onClose: (value: boolean) => void;
   onSave: (character: Character) => void;
 }
 
-export const CharacterDialog = ({
+export const CharacterDrawer = ({
   character,
   isOpen,
   onClose,
   onSave,
-}: CharacterDialogProps) => {
+}: CharacterDrawerProps) => {
   const [form, fields] = useForm<Character>({
     id: `character-${character?.id ?? 'new'}`,
     defaultValue: character,
@@ -62,26 +61,30 @@ export const CharacterDialog = ({
   });
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
+    <Drawer open={isOpen} onClose={onClose}>
       <form
         id={form.id}
         method="POST"
         noValidate={form.noValidate}
+        className="flex h-full flex-col"
         onSubmit={form.onSubmit}
       >
         <input type="hidden" name={fields.id.name} value={fields.id.value} />
-        <DialogTitle>{character ? 'Edit' : 'New'} character</DialogTitle>
-        <DialogDescription>
-          {character ? (
-            <>
-              Edit the details of the character{' '}
-              <span className="font-bold">{character?.name}</span>.
-            </>
-          ) : (
-            <>Add a new character.</>
-          )}
-        </DialogDescription>
-        <DialogBody>
+        <DrawerHeader
+          title={`${character ? 'Edit' : 'New'} character`}
+          description={
+            character ? (
+              <>
+                Edit the details of the character{' '}
+                <span className="font-bold">{character?.name}</span>.
+              </>
+            ) : (
+              <>Add a new character.</>
+            )
+          }
+          onClose={onClose}
+        />
+        <DrawerBody>
           <Field>
             <Label>Name</Label>
             <Input
@@ -147,14 +150,14 @@ export const CharacterDialog = ({
               <ErrorMessage>{fields.gender.errors}</ErrorMessage>
             ) : null}
           </Field>
-        </DialogBody>
-        <DialogActions>
+        </DrawerBody>
+        <DrawerActions>
+          <Button type="submit">Save</Button>
           <Button plain onClick={() => onClose(false)}>
             Cancel
           </Button>
-          <Button type="submit">Save</Button>
-        </DialogActions>
+        </DrawerActions>
       </form>
-    </Dialog>
+    </Drawer>
   );
 };

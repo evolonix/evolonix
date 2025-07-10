@@ -39,8 +39,12 @@ export const EpisodeDetails = ({ onEdit, onDelete }: EpisodeDetailsProps) => {
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="font-bold">{vm.selected.name}</h2>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Button onClick={onEdit}>Edit</Button>
-                  <Button onClick={onDelete}>Delete</Button>
+                  <Button outline onClick={onEdit}>
+                    Edit
+                  </Button>
+                  <Button color="red" onClick={onDelete}>
+                    Delete
+                  </Button>
                 </div>
               </div>
               <Divider />

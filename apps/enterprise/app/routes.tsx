@@ -15,8 +15,8 @@ export default [
     route('changelog', './routes/changelog.tsx'),
     ...prefix('rick-and-morty', [
       index('./routes/rick-and-morty/dashboard.tsx'),
-      route('characters/:id?', './routes/rick-and-morty/characters.tsx'),
-      route('episodes/:id?', './routes/rick-and-morty/episodes.tsx'),
+      route('characters/:id?/edit?', './routes/rick-and-morty/characters.tsx'),
+      route('episodes/:id?/edit?', './routes/rick-and-morty/episodes.tsx'),
     ]),
     route('profile', './routes/profile.tsx'),
     route('settings', './routes/settings.tsx'),

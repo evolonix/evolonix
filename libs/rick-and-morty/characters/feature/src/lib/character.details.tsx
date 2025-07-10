@@ -44,8 +44,12 @@ export const CharacterDetails = ({
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="font-bold">{vm.selected.name}</h2>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Button onClick={onEdit}>Edit</Button>
-                  <Button onClick={onDelete}>Delete</Button>
+                  <Button outline onClick={onEdit}>
+                    Edit
+                  </Button>
+                  <Button color="red" onClick={onDelete}>
+                    Delete
+                  </Button>
                 </div>
               </div>
               <Divider />
@@ -59,39 +63,27 @@ export const CharacterDetails = ({
                   className="h-48 w-48 rounded-lg object-cover"
                 />
               ) : null}
-              <dl className="grid max-w-min columns-2 gap-2">
+              <dl className="grid w-full columns-2 gap-2">
                 <dt className="font-bold">Location:</dt>
-                <dd className="col-start-2 whitespace-nowrap">
-                  {vm.selected.location?.name}
-                </dd>
+                <dd className="col-start-2">{vm.selected.location?.name}</dd>
 
                 <dt className="font-bold">Origin:</dt>
-                <dd className="col-start-2 whitespace-nowrap">
-                  {vm.selected.origin?.name}
-                </dd>
+                <dd className="col-start-2">{vm.selected.origin?.name}</dd>
 
                 <dt className="font-bold">Gender:</dt>
-                <dd className="col-start-2 whitespace-nowrap">
-                  {vm.selected.gender}
-                </dd>
+                <dd className="col-start-2">{vm.selected.gender}</dd>
 
                 <dt className="font-bold">Species:</dt>
-                <dd className="col-start-2 whitespace-nowrap">
-                  {vm.selected.species}
-                </dd>
+                <dd className="col-start-2">{vm.selected.species}</dd>
 
                 <dt className="font-bold">Status:</dt>
-                <dd className="col-start-2 whitespace-nowrap">
-                  {vm.selected.status}
-                </dd>
+                <dd className="col-start-2">{vm.selected.status}</dd>
 
                 <dt className="font-bold">Type:</dt>
-                <dd className="col-start-2 whitespace-nowrap">
-                  {vm.selected.type}
-                </dd>
+                <dd className="col-start-2">{vm.selected.type}</dd>
 
                 <dt className="font-bold">Episode:</dt>
-                <dd className="col-start-2 whitespace-nowrap">
+                <dd className="col-start-2">
                   {vm.selected.episode?.map((episode) =>
                     episode ? (
                       <Link

@@ -24,7 +24,8 @@
     "zustand": "^5.0.6",
     "@apollo/client": "^3.13.8",
     "graphql": "^16.11.0",
-    "immer": "^10.1.1"
+    "immer": "^10.1.1",
+    "rxjs": "^7.8.2"
   },
   "devDependencies": {
     "@react-router/dev": "^7.2.0",
@@ -45,6 +46,20 @@
           },
           "preview": {
             "command": "docker build -t enterprise:preview -f apps/enterprise/Dockerfile.preview ."
+          }
+        }
+      },
+      "docker-run": {
+        "command": "docker run -it --rm -p 4200:4200 --name evolonix-enterprise-dev --label com.docker.compose.project=evolonix enterprise:dev",
+        "configurations": {
+          "production": {
+            "command": "docker run -it --rm -p 3000:3000 --name evolonix-enterprise-production --label com.docker.compose.project=evolonix enterprise:production"
+          },
+          "staging": {
+            "command": "docker run -it --rm -p 3000:3000 --name evolonix-enterprise-staging --label com.docker.compose.project=evolonix enterprise:staging"
+          },
+          "preview": {
+            "command": "docker run -it --rm -p 3000:3000 --name evolonix-enterprise-preview --label com.docker.compose.project=evolonix enterprise:preview"
           }
         }
       },

@@ -7,30 +7,29 @@ import {
 } from '@evolonix/rick-and-morty-shared-data-access';
 import {
   Button,
-  Dialog,
-  DialogActions,
-  DialogBody,
-  DialogDescription,
-  DialogTitle,
+  Drawer,
+  DrawerActions,
+  DrawerBody,
+  DrawerHeader,
   ErrorMessage,
   Field,
   Input,
   Label,
 } from '@evolonix/ui';
 
-interface EpisodeDialogProps {
+interface EpisodeDrawerProps {
   episode?: Episode;
   isOpen: boolean;
   onClose: (value: boolean) => void;
   onSave: (episode: Episode) => void;
 }
 
-export const EpisodeDialog = ({
+export const EpisodeDrawer = ({
   episode,
   isOpen,
   onClose,
   onSave,
-}: EpisodeDialogProps) => {
+}: EpisodeDrawerProps) => {
   const [form, fields] = useForm<Episode>({
     id: `episode-${episode?.id ?? 'new'}`,
     defaultValue: episode,
@@ -62,26 +61,35 @@ export const EpisodeDialog = ({
   });
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
+    <Drawer open={isOpen} onClose={onClose}>
       <form
         id={form.id}
         method="POST"
         noValidate={form.noValidate}
+        className="flex h-full flex-col"
         onSubmit={form.onSubmit}
       >
         <input type="hidden" name={fields.id.name} value={fields.id.value} />
-        <DialogTitle>{episode ? 'Edit' : 'New'} episode</DialogTitle>
-        <DialogDescription>
-          {episode ? (
-            <>
-              Edit the details of the episode{' '}
-              <span className="font-bold">{episode?.name}</span>.
-            </>
-          ) : (
-            <>Add a new episode.</>
-          )}
-        </DialogDescription>
-        <DialogBody>
+        <input
+          type="hidden"
+          name={fields.created.name}
+          value={fields.created.value}
+        />
+        <DrawerHeader
+          title={`${episode ? 'Edit' : 'New'} episode`}
+          description={
+            episode ? (
+              <>
+                Edit the details of the character{' '}
+                <span className="font-bold">{episode?.name}</span>.
+              </>
+            ) : (
+              <>Add a new episode.</>
+            )
+          }
+          onClose={onClose}
+        />
+        <DrawerBody>
           <Field>
             <Label>Name</Label>
             <Input
@@ -121,14 +129,14 @@ export const EpisodeDialog = ({
               <ErrorMessage>{fields.episode.errors}</ErrorMessage>
             ) : null}
           </Field>
-        </DialogBody>
-        <DialogActions>
+        </DrawerBody>
+        <DrawerActions>
+          <Button type="submit">Save</Button>
           <Button plain onClick={() => onClose(false)}>
             Cancel
           </Button>
-          <Button type="submit">Save</Button>
-        </DialogActions>
+        </DrawerActions>
       </form>
-    </Dialog>
+    </Drawer>
   );
 };

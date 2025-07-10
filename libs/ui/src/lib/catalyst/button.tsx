@@ -168,8 +168,16 @@ type ButtonProps = (
   );
 
 export const Button = forwardRef(function Button(
-  { color, outline, plain, circle = false, className, children, ...props }: ButtonProps,
-  ref: React.ForwardedRef<HTMLElement>
+  {
+    color = 'dark/zinc',
+    outline,
+    plain,
+    circle = false,
+    className,
+    children,
+    ...props
+  }: ButtonProps,
+  ref: React.ForwardedRef<HTMLElement>,
 ) {
   const classes = clsx(
     className,
@@ -180,21 +188,29 @@ export const Button = forwardRef(function Button(
         ? styles.plain
         : clsx(
             styles.solid,
-            styles.colors[color ?? 'dark/zinc'],
+            styles.colors[color],
             circle
               ? 'before:rounded-full after:rounded-full dark:after:rounded-full'
-              : 'before:rounded-[calc(var(--radius-lg)-1px)] after:rounded-[calc(var(--radius-lg)-1px)] dark:after:rounded-lg'
+              : 'before:rounded-[calc(var(--radius-lg)-1px)] after:rounded-[calc(var(--radius-lg)-1px)] dark:after:rounded-lg',
           ),
     // Base
-    circle ? 'rounded-full' : 'rounded-lg'
+    circle ? 'rounded-full' : 'rounded-lg',
   );
 
   return 'href' in props ? (
-    <Link {...props} className={classes} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
+    <Link
+      {...props}
+      className={classes}
+      ref={ref as React.ForwardedRef<HTMLAnchorElement>}
+    >
       <TouchTarget>{children}</TouchTarget>
     </Link>
   ) : (
-    <Headless.Button {...props} className={clsx(classes, 'cursor-default')} ref={ref}>
+    <Headless.Button
+      {...props}
+      className={clsx(classes, 'cursor-default')}
+      ref={ref}
+    >
       <TouchTarget>{children}</TouchTarget>
     </Headless.Button>
   );

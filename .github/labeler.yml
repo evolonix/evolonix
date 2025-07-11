@@ -21,6 +21,11 @@ apps:
   - changed-files:
       - any-glob-to-any-file: apps/**
 
+# Changes to files in the libs folder
+libs:
+  - changed-files:
+      - any-glob-to-any-file: libs/**
+
 # PR is opened against the main branch
 release:
   - base-branch: 'main'
@@ -29,3 +34,13 @@ release:
 enterprise:
   - changed-files:
       - any-glob-to-any-file: '**/enterprise/**'
+
+# Changes to files in any ui folder
+ui:
+  - changed-files:
+      - any-glob-to-any-file: '**/ui/**'
+
+# Changes to files in any feature folder
+feature:
+  - changed-files:
+      - any-glob-to-any-file: '**/feature*/**'

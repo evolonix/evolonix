@@ -24,14 +24,25 @@ export function Drawer({
   size = 'lg',
   className,
   children,
+  onClose,
   ...props
 }: {
   size?: keyof typeof sizes;
   className?: string;
   children: React.ReactNode;
-} & Omit<Headless.DialogProps, 'as' | 'className'>) {
+  onClose?: (value: boolean) => void;
+} & Omit<Headless.DialogProps, 'as' | 'className' | 'onClose'>) {
   return (
-    <Headless.Dialog {...props} className="relative z-10">
+    <Headless.Dialog
+      {...props}
+      className="relative z-10"
+      onClose={
+        onClose ??
+        (() => {
+          /* Ignore clicks outside the drawer */
+        })
+      }
+    >
       <Headless.DialogBackdrop
         transition
         className="fixed inset-0 bg-zinc-950/75 transition-opacity duration-500 ease-in-out data-closed:opacity-0"

@@ -29,11 +29,11 @@ import { MortyIcon, RickAndMortyIcon, RickIcon } from './icons';
 import { Logo } from './logo';
 import { ProfileDropdownMenu } from './profile-dropdown-menu';
 
-export interface SidebarProps {
+export interface LayoutSidebarProps {
   isExpanded?: boolean;
 }
 
-export const CustomSidebar = ({ isExpanded = false }: SidebarProps) => {
+export const LayoutSidebar = ({ isExpanded = false }: LayoutSidebarProps) => {
   const { pathname } = useLocation();
 
   const isCurrent = useCallback(

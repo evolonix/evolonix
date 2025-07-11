@@ -10,11 +10,11 @@ import { useEffect, useState } from 'react';
 import { useMediaMinWidth } from '@evolonix/util';
 
 export const GridLayout = () => {
-  const sm = useMediaMinWidth('40rem'); // 'sm');
-  const md = useMediaMinWidth('48rem'); // 'md');
-  const lg = useMediaMinWidth('64rem'); // 'lg');
-  const xl = useMediaMinWidth('80rem'); // 'xl');
-  const xxl = useMediaMinWidth('96rem'); // 'xxl');
+  const sm = useMediaMinWidth('sm');
+  const md = useMediaMinWidth('md');
+  const lg = useMediaMinWidth('lg');
+  const xl = useMediaMinWidth('xl');
+  const xxl = useMediaMinWidth('xxl');
 
   const [width, setWidth] = useState(0);
 
@@ -31,6 +31,8 @@ export const GridLayout = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  if (width === 0) return null;
 
   return (
     <>

@@ -61,7 +61,7 @@ export const CharacterDrawer = ({
   });
 
   return (
-    <Drawer open={isOpen} onClose={onClose}>
+    <Drawer open={isOpen}>
       <form
         id={form.id}
         method="POST"

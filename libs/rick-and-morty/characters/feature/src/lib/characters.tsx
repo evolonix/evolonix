@@ -70,9 +70,7 @@ export const Characters = () => {
     if (pathname.endsWith('/edit') && vm.selected) handleEdit();
   }, [id, pathname, vm.selected]);
 
-  if (!isClient) {
-    return null; // Don't render on the server
-  }
+  if (!isClient) return null; // Don't render on the server
 
   return (
     <>

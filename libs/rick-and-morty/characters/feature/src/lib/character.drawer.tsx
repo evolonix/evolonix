@@ -19,15 +19,15 @@ import {
 
 interface CharacterDrawerProps {
   character?: Character;
-  isOpen: boolean;
-  onClose: (value: boolean) => void;
+  open: boolean;
+  close: (value: boolean) => void;
   onSave: (character: Character) => void;
 }
 
 export const CharacterDrawer = ({
   character,
-  isOpen,
-  onClose,
+  open,
+  close,
   onSave,
 }: CharacterDrawerProps) => {
   const [form, fields] = useForm<Character>({
@@ -61,7 +61,7 @@ export const CharacterDrawer = ({
   });
 
   return (
-    <Drawer open={isOpen}>
+    <Drawer open={open}>
       <form
         id={form.id}
         method="POST"
@@ -82,7 +82,7 @@ export const CharacterDrawer = ({
               <>Add a new character.</>
             )
           }
-          onClose={onClose}
+          onClose={close}
         />
         <DrawerBody>
           <Field>
@@ -153,7 +153,7 @@ export const CharacterDrawer = ({
         </DrawerBody>
         <DrawerActions>
           <Button type="submit">Save</Button>
-          <Button plain onClick={() => onClose(false)}>
+          <Button plain onClick={() => close(false)}>
             Cancel
           </Button>
         </DrawerActions>

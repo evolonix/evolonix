@@ -21,30 +21,30 @@ export const Episodes = () => {
   const { id } = useParams();
   const vm = useEpisodes(id);
   const navigate = useNavigate();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const episode = useRef<Episode | undefined>(undefined);
 
   const handleAdd = () => {
     episode.current = undefined;
-    setIsDrawerOpen(true);
+    setShowDrawer(true);
   };
 
   const handleEdit = () => {
     episode.current = vm.selected;
-    setIsDrawerOpen(true);
+    setShowDrawer(true);
   };
 
   const handleSave = async (episode: Episode) => {
     const saved = await vm.save(episode);
-    setIsDrawerOpen(false);
+    setShowDrawer(false);
     navigate(`/rick-and-morty/episodes/${saved?.id}`);
   };
 
   const handleDelete = () => {
     if (vm.selected?.id) {
       vm.delete(vm.selected.id);
-      setIsAlertOpen(false);
+      setShowAlert(false);
       navigate('/rick-and-morty/episodes', { replace: true });
     }
   };
@@ -79,22 +79,22 @@ export const Episodes = () => {
         <GridLayoutItem md={4} lg={7} xl={8}>
           <EpisodeDetails
             onEdit={handleEdit}
-            onDelete={() => setIsAlertOpen(true)}
+            onDelete={() => setShowAlert(true)}
           />
         </GridLayoutItem>
       </GridLayout>
 
       <EpisodeDrawer
         episode={episode.current}
-        isOpen={isDrawerOpen}
-        onClose={setIsDrawerOpen}
+        open={showDrawer}
+        close={setShowDrawer}
         onSave={handleSave}
       />
 
-      <Alert open={isAlertOpen} onClose={setIsAlertOpen}>
+      <Alert open={showAlert} onClose={setShowAlert}>
         <AlertTitle>Are you sure you want to delete this episode?</AlertTitle>
         <AlertActions>
-          <Button plain onClick={() => setIsAlertOpen(false)}>
+          <Button plain onClick={() => setShowAlert(false)}>
             Cancel
           </Button>
           <Button onClick={handleDelete}>Confirm</Button>

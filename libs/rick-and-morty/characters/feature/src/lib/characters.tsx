@@ -22,12 +22,12 @@ export const Characters = () => {
   const vm = useCharacters(id);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const character = useRef<Character | undefined>(undefined);
 
   const handleDrawerClose = useCallback(() => {
-    setIsDrawerOpen(false);
+    setShowDrawer(false);
     navigate(
       vm.selected
         ? `/rick-and-morty/characters/${vm.selected.id}`
@@ -37,14 +37,14 @@ export const Characters = () => {
 
   const handleSave = async (character: Character) => {
     const saved = await vm.save(character);
-    setIsDrawerOpen(false);
+    setShowDrawer(false);
     navigate(`/rick-and-morty/characters/${saved?.id}`);
   };
 
   const handleDelete = useCallback(() => {
     if (vm.selected?.id) {
       vm.delete(vm.selected.id);
-      setIsAlertOpen(false);
+      setShowAlert(false);
       navigate('/rick-and-morty/characters', { replace: true });
     }
   }, [vm, navigate]);
@@ -58,12 +58,12 @@ export const Characters = () => {
   useEffect(() => {
     const handleAdd = () => {
       character.current = undefined;
-      setIsDrawerOpen(true);
+      setShowDrawer(true);
     };
 
     const handleEdit = () => {
       character.current = vm.selected;
-      setIsDrawerOpen(true);
+      setShowDrawer(true);
     };
 
     if (id === 'new') handleAdd();
@@ -98,22 +98,22 @@ export const Characters = () => {
             onEdit={() =>
               navigate(`/rick-and-morty/characters/${vm.selected?.id}/edit`)
             }
-            onDelete={() => setIsAlertOpen(true)}
+            onDelete={() => setShowAlert(true)}
           />
         </GridLayoutItem>
       </GridLayout>
 
       <CharacterDrawer
         character={character.current}
-        isOpen={isDrawerOpen}
-        onClose={handleDrawerClose}
+        open={showDrawer}
+        close={handleDrawerClose}
         onSave={handleSave}
       />
 
-      <Alert open={isAlertOpen} onClose={setIsAlertOpen}>
+      <Alert open={showAlert} onClose={setShowAlert}>
         <AlertTitle>Are you sure you want to delete this character?</AlertTitle>
         <AlertActions>
-          <Button plain onClick={() => setIsAlertOpen(false)}>
+          <Button plain onClick={() => setShowAlert(false)}>
             Cancel
           </Button>
           <Button onClick={handleDelete}>Confirm</Button>

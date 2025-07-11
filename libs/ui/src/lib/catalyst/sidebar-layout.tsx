@@ -3,7 +3,7 @@
 import * as Headless from '@headlessui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Outlet } from 'react-router';
 
 import { Button } from './button';
@@ -63,25 +63,34 @@ export function SidebarLayout({
 }>) {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showToggleButton, setShowToggleButton] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(() => {
-    if (typeof window === 'undefined') return true;
-
-    const isExpanded = localStorage.getItem('sidebar-expanded');
-
-    return isExpanded === 'true' || isExpanded === null;
-  });
+  const [isExpanded, setIsExpanded] = useState(true);
   const mainContentRef = React.useRef<HTMLDivElement>(null);
 
   const handleToggleSidebar = () => {
     setIsExpanded((prev) => !prev);
-    localStorage.setItem('sidebar-expanded', String(!isExpanded));
+    localStorage.setItem('sidebarExpanded', String(!isExpanded));
   };
 
   // Set isExpanded prop for sidebar
-  sidebar = React.cloneElement<{ isExpanded?: boolean }>(
-    sidebar as React.ReactElement<{ isExpanded?: boolean }>,
-    { isExpanded },
+  sidebar = useMemo(
+    () =>
+      React.cloneElement<{ isExpanded?: boolean }>(
+        sidebar as React.ReactElement<{ isExpanded?: boolean }>,
+        { isExpanded },
+      ),
+    [sidebar, isExpanded],
   );
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+
+    const isExpanded = localStorage.getItem('sidebarExpanded');
+    setIsExpanded(isExpanded === 'true' || isExpanded === null);
+  }, []);
+
+  if (!isClient) return null;
 
   return (
     <>
@@ -147,8 +156,6 @@ export function SidebarLayout({
           <div className="min-w-0 flex-1">{navbar}</div>
         </header>
 
-        <header className="hidden lg:block"></header>
-
         {/* Content */}
         <main
           className={clsx(
@@ -156,6 +163,8 @@ export function SidebarLayout({
             isExpanded ? 'lg:pl-64' : 'lg:pl-[68px]',
           )}
         >
+          <header className="hidden lg:block"></header>
+
           <div
             ref={mainContentRef}
             id="main-content"
@@ -164,9 +173,9 @@ export function SidebarLayout({
           >
             {children}
           </div>
-        </main>
 
-        <footer></footer>
+          <footer></footer>
+        </main>
       </div>
     </>
   );

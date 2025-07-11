@@ -70,6 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: pr-${{ github.event.number }}
+      cancel-in-progress: false
     needs: preview
     if: github.event_name == 'workflow_dispatch' || needs.preview.outputs.affected_build_enterprise != ''
     steps:

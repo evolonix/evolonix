@@ -28,7 +28,7 @@ export const EpisodeDetails = ({ onEdit, onDelete }: EpisodeDetailsProps) => {
           '--details-scroll-height': detailsHeight,
         } as React.CSSProperties
       }
-      className="flex h-full flex-col overflow-hidden md:max-h-[var(--details-scroll-height)]"
+      className="flex h-full flex-col md:max-h-[var(--details-scroll-height)]"
     >
       {id ? (
         vm.showSkeleton || (vm.isLoading && vm.selectedId !== id) ? (

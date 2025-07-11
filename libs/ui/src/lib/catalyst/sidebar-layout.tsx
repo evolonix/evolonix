@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router';
 
 import { Button } from './button';
-import { Link } from './link';
 import { NavbarItem } from './navbar';
 
 function OpenMenuIcon() {
@@ -71,6 +70,7 @@ export function SidebarLayout({
 
     return isExpanded === 'true' || isExpanded === null;
   });
+  const mainContentRef = React.useRef<HTMLDivElement>(null);
 
   const handleToggleSidebar = () => {
     setIsExpanded((prev) => !prev);
@@ -86,12 +86,18 @@ export function SidebarLayout({
   return (
     <>
       {/* Skip link */}
-      <Link
-        href="#main"
+      <a
+        href="#main-content"
         className="absolute -top-10 left-0 z-20 m-1 inline-block bg-white p-1.5 focus:top-0 dark:bg-zinc-900"
+        onClick={(e) => {
+          e.preventDefault();
+
+          mainContentRef.current?.scrollIntoView();
+          mainContentRef.current?.focus();
+        }}
       >
         Skip to main content
-      </Link>
+      </a>
 
       <div className="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
         {/* Sidebar on desktop */}
@@ -105,7 +111,7 @@ export function SidebarLayout({
         >
           <div
             className={clsx(
-              'absolute top-11 right-0 z-10 hidden translate-x-1/2 overflow-hidden transition-opacity duration-300 ease-in-out lg:flex',
+              'absolute top-11 right-0 z-10 hidden translate-x-1/2 transition-opacity duration-300 ease-in-out lg:flex',
               showToggleButton
                 ? 'opacity-100'
                 : 'opacity-0 [&:has([data-focus])]:opacity-100',
@@ -145,14 +151,17 @@ export function SidebarLayout({
 
         {/* Content */}
         <main
-          id="main"
-          tabIndex={-1}
           className={clsx(
             'flex flex-1 flex-col pb-2 lg:min-w-0 lg:pt-2 lg:pr-2 lg:transition-[padding] lg:duration-300 lg:ease-in-out',
             isExpanded ? 'lg:pl-64' : 'lg:pl-[68px]',
           )}
         >
-          <div className="grow p-6 lg:rounded-lg lg:bg-white lg:p-10 lg:shadow-xs lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10">
+          <div
+            ref={mainContentRef}
+            id="main-content"
+            tabIndex={-1}
+            className="grow p-6 lg:rounded-lg lg:bg-white lg:p-10 lg:shadow-xs lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10"
+          >
             {children}
           </div>
         </main>

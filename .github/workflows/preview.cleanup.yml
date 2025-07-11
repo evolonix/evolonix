@@ -10,6 +10,9 @@ permissions:
   contents: read
   deployments: write
 
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
 jobs:
   cleanup-enterprise-preview:
     runs-on: ubuntu-latest
@@ -34,8 +37,6 @@ jobs:
       - if: ${{ steps.fly_status.outputs.exists == 'true' }}
         run: |
           flyctl apps destroy --org evolonix "evolonix-enterprise-pr-${{ github.event.number }}" --yes
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       # If using the name `pr-${{ github.event.number }}` for the environment, you can use this action to delete the environment.
       # - name: Clean up GitHub environment

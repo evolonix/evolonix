@@ -55,9 +55,7 @@ export const Episodes = () => {
     setIsClient(true);
   }, []);
 
-  if (!isClient) {
-    return null; // Don't render on the server
-  }
+  if (!isClient) return null; // Don't render on the server
 
   return (
     <>

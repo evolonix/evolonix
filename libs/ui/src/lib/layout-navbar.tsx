@@ -11,7 +11,7 @@ import {
 } from './catalyst';
 import { ProfileDropdownMenu } from './profile-dropdown-menu';
 
-export const CustomNavbar = () => {
+export const LayoutNavbar = () => {
   return (
     <Navbar>
       <NavbarSpacer />

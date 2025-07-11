@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 import { useEpisodes } from '@evolonix/rick-and-morty-episodes-data-access';
 import { Episode } from '@evolonix/rick-and-morty-shared-data-access';
@@ -20,20 +20,20 @@ import { EpisodeList } from './episode.list';
 export const Episodes = () => {
   const { id } = useParams();
   const vm = useEpisodes(id);
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const [showDrawer, setShowDrawer] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const episode = useRef<Episode | undefined>(undefined);
 
-  const handleAdd = () => {
-    episode.current = undefined;
-    setShowDrawer(true);
-  };
-
-  const handleEdit = () => {
-    episode.current = vm.selected;
-    setShowDrawer(true);
-  };
+  const handleDrawerClose = useCallback(() => {
+    setShowDrawer(false);
+    navigate(
+      vm.selected
+        ? `/rick-and-morty/episodes/${vm.selected.id}`
+        : '/rick-and-morty/episodes',
+    );
+  }, [vm.selected, navigate]);
 
   const handleSave = async (episode: Episode) => {
     const saved = await vm.save(episode);
@@ -41,19 +41,34 @@ export const Episodes = () => {
     navigate(`/rick-and-morty/episodes/${saved?.id}`);
   };
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     if (vm.selected?.id) {
       vm.delete(vm.selected.id);
       setShowAlert(false);
       navigate('/rick-and-morty/episodes', { replace: true });
     }
-  };
+  }, [vm, navigate]);
 
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    const handleAdd = () => {
+      episode.current = undefined;
+      setShowDrawer(true);
+    };
+
+    const handleEdit = () => {
+      episode.current = vm.selected;
+      setShowDrawer(true);
+    };
+
+    if (id === 'new') handleAdd();
+    if (pathname.endsWith('/edit') && vm.selected) handleEdit();
+  }, [id, pathname, vm.selected]);
 
   if (!isClient) return null; // Don't render on the server
 
@@ -69,7 +84,9 @@ export const Episodes = () => {
         : null} */}
       <PageHeader
         label="Episodes"
-        actions={<Button onClick={handleAdd}>Add episode</Button>}
+        actions={
+          <Button href="/rick-and-morty/episodes/new">Add episode</Button>
+        }
       />
       <Divider className="mt-4" />
       <GridLayout>
@@ -78,7 +95,9 @@ export const Episodes = () => {
         </GridLayoutItem>
         <GridLayoutItem md={4} lg={7} xl={8}>
           <EpisodeDetails
-            onEdit={handleEdit}
+            onEdit={() =>
+              navigate(`/rick-and-morty/episodes/${vm.selected?.id}/edit`)
+            }
             onDelete={() => setShowAlert(true)}
           />
         </GridLayoutItem>
@@ -87,7 +106,7 @@ export const Episodes = () => {
       <EpisodeDrawer
         episode={episode.current}
         open={showDrawer}
-        close={setShowDrawer}
+        close={handleDrawerClose}
         onSave={handleSave}
       />
 

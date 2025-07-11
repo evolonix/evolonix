@@ -61,7 +61,7 @@ export const EpisodeDrawer = ({
   });
 
   return (
-    <Drawer open={open} close={close}>
+    <Drawer open={open}>
       <form
         id={form.id}
         method="POST"

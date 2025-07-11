@@ -92,7 +92,9 @@ export const EpisodeDetails = ({ onEdit, onDelete }: EpisodeDetailsProps) => {
         )
       ) : (
         <>
-          <h2 className="font-bold">Episodes</h2>
+          <div className="flex h-9 items-center justify-between">
+            <h2 className="font-bold">Episodes</h2>
+          </div>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Explore the various episodes from Rick & Morty. Click on a episode
             to learn more about it.

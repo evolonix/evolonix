@@ -50,7 +50,7 @@ export function Drawer({
           'fixed inset-y-0 right-0 w-full p-2 transition duration-300 ease-in-out data-closed:translate-x-full',
         )}
       >
-        <div className="flex h-full flex-col rounded-lg bg-white py-6 shadow-xs ring-1 ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10">
+        <div className="flex h-full flex-col rounded-lg bg-white p-6 py-6 shadow-xs ring-1 ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10">
           {children}
         </div>
       </Headless.DialogPanel>

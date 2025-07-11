@@ -54,13 +54,13 @@ export const CharacterList = () => {
     <div
       ref={listRef}
       style={{ '--list-scroll-height': listHeight } as React.CSSProperties}
-      className="flex h-96 flex-col overflow-hidden rounded border border-zinc-200 md:h-[var(--list-scroll-height)] dark:border-zinc-600"
+      className="flex h-96 flex-col overflow-hidden md:h-[var(--list-scroll-height)]"
     >
       <form
         noValidate
         method="POST"
         onSubmit={handleSearch}
-        className="flex items-center gap-2 p-4"
+        className="flex items-center gap-2 px-4 pb-4"
       >
         <Input
           type="search"
@@ -121,7 +121,7 @@ export const CharacterList = () => {
         )}
       </div>
       <Divider />
-      <Pagination className="p-4">
+      <Pagination className="px-4 pt-4">
         <PaginationPrevious
           disabled={vm.isLoading || !vm.pagination?.prev}
           onClick={vm.previousPage}

@@ -106,7 +106,9 @@ export const CharacterDetails = ({
         )
       ) : (
         <>
-          <h2 className="font-bold">Characters</h2>
+          <div className="flex h-9 items-center justify-between">
+            <h2 className="font-bold">Characters</h2>
+          </div>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Explore the various characters from Rick & Morty. Click on a
             character to learn more about it.

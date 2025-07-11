@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { Fragment, useEffect, useRef, useState } from 'react';
-import { NavLink, useParams } from 'react-router';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { NavLink, useLocation, useParams } from 'react-router';
 
 import { Divider } from '@evolonix/ui';
 
@@ -16,10 +16,15 @@ import { useScrollHeight } from '@evolonix/util';
 
 export const EpisodeList = () => {
   const { id } = useParams();
+  const { search } = useLocation();
+  const searchParams = useMemo(() => {
+    const searchParams = new URLSearchParams(search);
+    return searchParams.size > 0 ? `?${searchParams.toString()}` : '';
+  }, [search]);
   const vm = useEpisodes(id);
   const listRef = useRef<HTMLDivElement | null>(null);
   const listHeight = useScrollHeight(listRef, 48);
-  const [search, setSearch] = useState<string>(vm.query || '');
+  const [query, setQuery] = useState<string>(vm.query || '');
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +37,7 @@ export const EpisodeList = () => {
   const handleClearSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     if ((e.target as HTMLInputElement).value === '') {
       vm.search();
-      setSearch('');
+      setQuery('');
     }
   };
 
@@ -42,29 +47,29 @@ export const EpisodeList = () => {
   }, [vm.episodes]);
 
   useEffect(() => {
-    setSearch(vm.query || '');
+    setQuery(vm.query || '');
   }, [vm.query]);
 
   return (
     <div
       ref={listRef}
       style={{ '--list-scroll-height': listHeight } as React.CSSProperties}
-      className="flex h-full flex-col overflow-hidden rounded border border-zinc-200 md:h-[var(--list-scroll-height)] dark:border-zinc-600"
+      className="flex h-96 flex-col overflow-hidden md:h-[var(--list-scroll-height)]"
     >
       <form
         noValidate
         method="POST"
         onSubmit={handleSearch}
-        className="flex items-center gap-2 p-4"
+        className="flex items-center gap-2 px-4 pb-4"
       >
         <Input
           type="search"
           name="query"
           placeholder="Search"
-          value={search}
+          value={query}
           autoFocus
           onInput={handleClearSearch}
-          onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
+          onChange={(e) => setQuery((e.target as HTMLInputElement).value)}
         />
         <Button type="submit" disabled={vm.isLoading}>
           Search
@@ -81,7 +86,7 @@ export const EpisodeList = () => {
                 <Fragment key={episode.id}>
                   <li className="w-full">
                     <NavLink
-                      to={`/rick-and-morty/episodes/${episode.id}`}
+                      to={`/rick-and-morty/episodes/${episode.id}${searchParams}`}
                       className={({ isActive }) =>
                         clsx(
                           'flex w-full items-center gap-2 p-4 font-bold',
@@ -109,7 +114,7 @@ export const EpisodeList = () => {
         )}
       </div>
       <Divider />
-      <Pagination className="p-4">
+      <Pagination className="px-4 pt-4">
         <PaginationPrevious
           disabled={vm.isLoading || !vm.pagination?.prev}
           onClick={vm.previousPage}

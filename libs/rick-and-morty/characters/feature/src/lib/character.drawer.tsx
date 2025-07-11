@@ -84,7 +84,7 @@ export const CharacterDrawer = ({
           }
           onClose={close}
         />
-        <DrawerBody>
+        <DrawerBody className="flex flex-col gap-8">
           <Field>
             <Label>Name</Label>
             <Input

@@ -4,6 +4,7 @@ export * from './grid-layout';
 export * from './icons';
 export * from './layout-navbar';
 export * from './layout-sidebar';
+export * from './lipsum';
 export * from './logo';
 export * from './page-header';
 export * from './profile-dropdown-menu';

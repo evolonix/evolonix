@@ -398,7 +398,7 @@ export function FeatureFlagToggleDialog() {
   const navigate = useNavigate();
   const { flags, setFlags, resetFlags } = useFeatureFlags();
   const { ctrlKey, metaKey } = useActionKey();
-  const [isOpen, setIsOpen] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   const handleToggle = (key: string, checked: boolean) => {
     setFlags({ ...flags, [key]: checked });
@@ -450,14 +450,14 @@ export function FeatureFlagToggleDialog() {
 
     const searchParams = new URLSearchParams(search);
     if (searchParams.get('dev') === 'true') {
-      setIsOpen(true);
+      setShowDialog(true);
     } else {
-      setIsOpen(false);
+      setShowDialog(false);
     }
   }, [search]);
 
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
+    <Dialog open={showDialog} onClose={handleClose}>
       <DialogTitle>Feature Flags</DialogTitle>
       <DialogDescription>
         Toggle feature flags for development purposes.

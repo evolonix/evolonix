@@ -1,10 +1,9 @@
 'use client';
 
 import * as Headless from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import type React from 'react';
-import { Button, Divider } from './catalyst';
+import { Divider, NavbarItem } from './catalyst';
 import { Text } from './catalyst/text';
 
 const sizes = {
@@ -20,52 +19,41 @@ const sizes = {
   full: 'sm:max-w-full',
 };
 
-export function Drawer({
-  size = 'lg',
-  className,
-  children,
-  onClose,
-  ...props
-}: {
-  size?: keyof typeof sizes;
-  className?: string;
-  children: React.ReactNode;
-  onClose?: (value: boolean) => void;
-} & Omit<Headless.DialogProps, 'as' | 'className' | 'onClose'>) {
+function CloseMenuIcon() {
   return (
-    <Headless.Dialog
-      {...props}
-      className="relative z-10"
-      onClose={
-        onClose ??
-        (() => {
-          /* Ignore clicks outside the drawer */
-        })
-      }
-    >
+    <svg data-slot="icon" viewBox="0 0 20 20" aria-hidden="true">
+      <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+    </svg>
+  );
+}
+
+export function Drawer({
+  open,
+  close,
+  size = 'lg',
+  children,
+}: React.PropsWithChildren<{
+  open: boolean;
+  close?: (value: boolean) => void;
+  size?: keyof typeof sizes;
+}>) {
+  return (
+    <Headless.Dialog open={open} onClose={(v) => close?.(v)}>
       <Headless.DialogBackdrop
         transition
-        className="fixed inset-0 bg-zinc-950/75 transition-opacity duration-500 ease-in-out data-closed:opacity-0"
+        className="fixed inset-0 bg-black/70 transition data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
       />
-
-      <div className="fixed inset-0 overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
-            <Headless.DialogPanel
-              transition
-              className={clsx(
-                className,
-                sizes[size],
-                'pointer-events-auto w-screen max-w-md transform transition duration-500 ease-in-out data-closed:translate-x-full sm:duration-700',
-              )}
-            >
-              <div className="flex h-full flex-col bg-white py-6 shadow-xl dark:bg-zinc-900 dark:shadow-black">
-                {children}
-              </div>
-            </Headless.DialogPanel>
-          </div>
+      <Headless.DialogPanel
+        transition
+        className={clsx(
+          sizes[size],
+          'fixed inset-y-0 right-0 w-full p-2 transition duration-300 ease-in-out data-closed:translate-x-full',
+        )}
+      >
+        <div className="flex h-full flex-col rounded-lg bg-white py-6 shadow-xs ring-1 ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10">
+          {children}
         </div>
-      </div>
+      </Headless.DialogPanel>
     </Headless.Dialog>
   );
 }
@@ -97,11 +85,13 @@ export function DrawerHeader({
             ) : null}
           </div>
           <div className="ml-3 flex h-7 items-center">
-            <Button plain onClick={() => onClose?.(false)}>
-              <span className="absolute -inset-2.5" />
-              <span className="sr-only">Close panel</span>
-              <XMarkIcon aria-hidden="true" className="size-6" />
-            </Button>
+            <Headless.CloseButton
+              as={NavbarItem}
+              aria-label="Close navigation"
+              onClick={() => onClose?.(false)}
+            >
+              <CloseMenuIcon />
+            </Headless.CloseButton>
           </div>
         </div>
       </div>

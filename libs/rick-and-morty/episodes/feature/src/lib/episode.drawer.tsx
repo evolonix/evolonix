@@ -19,15 +19,15 @@ import {
 
 interface EpisodeDrawerProps {
   episode?: Episode;
-  isOpen: boolean;
-  onClose: (value: boolean) => void;
+  open: boolean;
+  close: (value: boolean) => void;
   onSave: (episode: Episode) => void;
 }
 
 export const EpisodeDrawer = ({
   episode,
-  isOpen,
-  onClose,
+  open,
+  close,
   onSave,
 }: EpisodeDrawerProps) => {
   const [form, fields] = useForm<Episode>({
@@ -61,7 +61,7 @@ export const EpisodeDrawer = ({
   });
 
   return (
-    <Drawer open={isOpen} onClose={onClose}>
+    <Drawer open={open} close={close}>
       <form
         id={form.id}
         method="POST"
@@ -87,7 +87,7 @@ export const EpisodeDrawer = ({
               <>Add a new episode.</>
             )
           }
-          onClose={onClose}
+          onClose={close}
         />
         <DrawerBody>
           <Field>
@@ -132,7 +132,7 @@ export const EpisodeDrawer = ({
         </DrawerBody>
         <DrawerActions>
           <Button type="submit">Save</Button>
-          <Button plain onClick={() => onClose(false)}>
+          <Button plain onClick={() => close(false)}>
             Cancel
           </Button>
         </DrawerActions>

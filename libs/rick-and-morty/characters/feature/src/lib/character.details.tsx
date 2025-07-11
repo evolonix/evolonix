@@ -40,7 +40,7 @@ export const CharacterDetails = ({
           <CharacterDetailsSkeleton />
         ) : vm.selected ? (
           <>
-            <header className="bg-zinc-100 dark:bg-zinc-900">
+            <header>
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="font-bold">{vm.selected.name}</h2>
                 <div className="flex flex-wrap items-center gap-2">

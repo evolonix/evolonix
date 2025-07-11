@@ -1,13 +1,14 @@
 'use client';
 
 import * as Headless from '@headlessui/react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router';
 
+import { Button } from './button';
 import { Link } from './link';
 import { NavbarItem } from './navbar';
-import { SidebarToggleButton } from './sidebar-toggle-button';
 
 function OpenMenuIcon() {
   return (
@@ -110,10 +111,13 @@ export function SidebarLayout({
                 : 'opacity-0 [&:has([data-focus])]:opacity-100',
             )}
           >
-            <SidebarToggleButton
-              isExpanded={isExpanded}
+            <Button
+              circle
+              aria-label={isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
               onClick={handleToggleSidebar}
-            />
+            >
+              {isExpanded ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </Button>
           </div>
 
           {sidebar}

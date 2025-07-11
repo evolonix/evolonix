@@ -109,7 +109,7 @@ export function DrawerBody({
       {...props}
       className={clsx(
         className,
-        'relative my-6 flex-1 overflow-y-auto px-4 sm:px-6',
+        'relative flex-1 overflow-y-auto px-4 py-6 sm:px-6',
       )}
     ></div>
   );

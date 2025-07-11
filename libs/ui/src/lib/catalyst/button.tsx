@@ -194,7 +194,7 @@ export const Button = forwardRef(function Button(
               : 'before:rounded-[calc(var(--radius-lg)-1px)] after:rounded-[calc(var(--radius-lg)-1px)] dark:after:rounded-lg',
           ),
     // Base
-    circle ? 'scale-75 rounded-full' : 'rounded-lg',
+    circle ? 'rounded-full' : 'rounded-lg',
   );
 
   return 'href' in props ? (

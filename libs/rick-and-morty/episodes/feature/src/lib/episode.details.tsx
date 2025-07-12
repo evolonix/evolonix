@@ -30,7 +30,7 @@ export const EpisodeDetails = ({ onEdit, onDelete }: EpisodeDetailsProps) => {
       }
       className="flex h-full flex-col md:max-h-[var(--details-scroll-height)]"
     >
-      {id ? (
+      {id && id !== 'new' ? (
         vm.showSkeleton || (vm.isLoading && vm.selectedId !== id) ? (
           <EpisodeDetailsSkeleton />
         ) : vm.selected ? (

@@ -1,12 +1,10 @@
 import { useCharacters } from '@evolonix/rick-and-morty-characters-data-access';
-import { Character } from '@evolonix/rick-and-morty-shared-data-access';
 import { Button, Divider, Link } from '@evolonix/ui';
 import { useScrollHeight } from '@evolonix/util';
 import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router';
 
 interface CharacterDetailsProps {
-  character?: Character;
   onEdit: () => void;
   onDelete: () => void;
 }
@@ -35,7 +33,7 @@ export const CharacterDetails = ({
       }
       className="flex h-full flex-col md:max-h-[var(--details-scroll-height)]"
     >
-      {id ? (
+      {id && id !== 'new' ? (
         vm.showSkeleton || (vm.isLoading && vm.selectedId !== id) ? (
           <CharacterDetailsSkeleton />
         ) : vm.selected ? (

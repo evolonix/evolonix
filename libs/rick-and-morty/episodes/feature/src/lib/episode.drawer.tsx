@@ -7,10 +7,12 @@ import {
 } from '@evolonix/rick-and-morty-shared-data-access';
 import {
   Button,
+  DialogDescription,
   Drawer,
   DrawerActions,
   DrawerBody,
   DrawerHeader,
+  DrawerTitle,
   ErrorMessage,
   Field,
   Input,
@@ -61,34 +63,27 @@ export const EpisodeDrawer = ({
   });
 
   return (
-    <Drawer open={open}>
+    <Drawer open={open} close={close} preventCloseOnOutsideClick>
       <form
         id={form.id}
         method="POST"
         noValidate={form.noValidate}
-        className="flex h-full flex-col"
         onSubmit={form.onSubmit}
       >
         <input type="hidden" name={fields.id.name} value={fields.id.value} />
-        <input
-          type="hidden"
-          name={fields.created.name}
-          value={fields.created.value}
-        />
-        <DrawerHeader
-          title={`${episode ? 'Edit' : 'New'} episode`}
-          description={
-            episode ? (
+        <DrawerHeader>
+          <DrawerTitle>{`${episode ? 'Edit' : 'New'} episode`}</DrawerTitle>
+          <DialogDescription>
+            {episode ? (
               <>
-                Edit the details of the character{' '}
+                Edit the details of the episode{' '}
                 <span className="font-bold">{episode?.name}</span>.
               </>
             ) : (
               <>Add a new episode.</>
-            )
-          }
-          onClose={close}
-        />
+            )}
+          </DialogDescription>
+        </DrawerHeader>
         <DrawerBody className="flex flex-col gap-8">
           <Field>
             <Label>Name</Label>

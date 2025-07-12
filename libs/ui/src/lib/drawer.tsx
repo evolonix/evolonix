@@ -3,8 +3,8 @@
 import * as Headless from '@headlessui/react';
 import clsx from 'clsx';
 import type React from 'react';
-import { Divider, NavbarItem } from './catalyst';
-import { Text } from './catalyst/text';
+import { useRef } from 'react';
+import { NavbarItem, Text } from './catalyst';
 
 const sizes = {
   xs: 'sm:max-w-xs',
@@ -31,14 +31,27 @@ export function Drawer({
   open,
   close,
   size = 'lg',
+  preventCloseOnOutsideClick = false,
   children,
 }: React.PropsWithChildren<{
   open: boolean;
-  close?: (value: boolean) => void;
+  close: (value: boolean) => void;
   size?: keyof typeof sizes;
+  preventCloseOnOutsideClick?: boolean;
 }>) {
+  const closeButtonRef = useRef<HTMLElement>(null);
+
   return (
-    <Headless.Dialog open={open} onClose={(v) => close?.(v)}>
+    <Headless.Dialog
+      open={open}
+      onClose={
+        preventCloseOnOutsideClick
+          ? () => {
+              // Close on outside click is prevented
+            }
+          : close
+      }
+    >
       <Headless.DialogBackdrop
         transition
         className="fixed inset-0 bg-black/70 transition data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
@@ -47,10 +60,30 @@ export function Drawer({
         transition
         className={clsx(
           sizes[size],
-          'fixed inset-y-0 right-0 w-full p-2 transition duration-300 ease-in-out data-closed:translate-x-full',
+          'fixed inset-y-0 right-0 w-full max-w-80 p-2 transition duration-300 ease-in-out data-closed:translate-x-full',
         )}
+        style={
+          {
+            '--close-button-height': `${closeButtonRef.current?.offsetHeight ?? 0}px`,
+          } as React.CSSProperties
+        }
       >
-        <div className="flex h-full flex-col rounded-lg bg-white p-6 py-6 shadow-xs ring-1 ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10">
+        <div
+          className={clsx(
+            'flex h-full flex-col rounded-lg bg-white shadow-xs ring-1 ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10',
+            '[&>form]:flex [&>form]:h-[calc(100%-var(--close-button-height))] [&>form]:flex-col',
+          )}
+        >
+          <div className="-mb-3 self-end px-4 pt-3">
+            <Headless.CloseButton
+              ref={closeButtonRef}
+              as={NavbarItem}
+              aria-label="Close navigation"
+              onClick={() => close(false)}
+            >
+              <CloseMenuIcon />
+            </Headless.CloseButton>
+          </div>
           {children}
         </div>
       </Headless.DialogPanel>
@@ -59,44 +92,59 @@ export function Drawer({
 }
 
 export function DrawerHeader({
-  title,
-  description,
   className,
-  onClose,
   ...props
-}: {
-  title: React.ReactNode;
-  description?: React.ReactNode;
-  className?: string;
-  onClose?: (value: boolean) => void;
-} & Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>) {
+}: React.ComponentPropsWithoutRef<'div'>) {
   return (
-    <>
-      <div {...props} className={clsx(className, 'px-4 sm:px-6')}>
-        <div className="flex items-start justify-between">
-          <div className="flex flex-col">
-            <Headless.DialogTitle className="text-lg/6 font-semibold text-balance text-zinc-950 sm:text-base/6 dark:text-white">
-              {title}
-            </Headless.DialogTitle>
-            {description ? (
-              <Headless.Description as={Text} className="mt-2 text-pretty">
-                {description}
-              </Headless.Description>
-            ) : null}
-          </div>
-          <div className="ml-3 flex h-7 items-center">
-            <Headless.CloseButton
-              as={NavbarItem}
-              aria-label="Close navigation"
-              onClick={() => onClose?.(false)}
-            >
-              <CloseMenuIcon />
-            </Headless.CloseButton>
-          </div>
-        </div>
-      </div>
-      <Divider className="mt-6" />
-    </>
+    <div
+      {...props}
+      className={clsx(
+        className,
+        'flex flex-col border-b border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5',
+      )}
+    />
+  );
+}
+
+export function DrawerTitle({
+  className,
+  children,
+  ...props
+}: { children: React.ReactNode } & Omit<
+  React.ComponentPropsWithoutRef<'h2'>,
+  'children'
+>) {
+  return (
+    <h2
+      {...props}
+      className={clsx(
+        className,
+        'text-lg font-semibold text-zinc-950 dark:text-white',
+      )}
+    >
+      {children}
+    </h2>
+  );
+}
+
+export function DrawerDescription({
+  className,
+  children,
+  ...props
+}: { children: React.ReactNode } & Omit<
+  React.ComponentPropsWithoutRef<'p'>,
+  'children'
+>) {
+  return (
+    <Text
+      {...props}
+      className={clsx(
+        className,
+        'mt-1 text-sm/6 text-zinc-600 dark:text-zinc-400',
+      )}
+    >
+      {children}
+    </Text>
   );
 }
 
@@ -107,10 +155,7 @@ export function DrawerBody({
   return (
     <div
       {...props}
-      className={clsx(
-        className,
-        'relative flex-1 overflow-y-auto px-4 py-6 sm:px-6',
-      )}
+      className={clsx(className, 'relative flex-1 overflow-y-auto px-4 py-6')}
     ></div>
   );
 }
@@ -120,15 +165,13 @@ export function DrawerActions({
   ...props
 }: React.ComponentPropsWithoutRef<'div'>) {
   return (
-    <>
-      <Divider />
-      <div
-        {...props}
-        className={clsx(
-          className,
-          'mt-6 flex flex-col items-center justify-start gap-3 px-4 *:w-full sm:flex-row-reverse sm:px-6 sm:*:w-auto',
-        )}
-      />
-    </>
+    <div
+      {...props}
+      className={clsx(
+        className,
+        'flex flex-col border-t border-zinc-950/5 p-4 dark:border-white/5',
+        'items-center justify-start gap-3 *:w-full sm:flex-row-reverse sm:*:w-auto',
+      )}
+    />
   );
 }

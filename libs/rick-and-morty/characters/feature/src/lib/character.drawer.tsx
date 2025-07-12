@@ -7,10 +7,12 @@ import {
 } from '@evolonix/rick-and-morty-shared-data-access';
 import {
   Button,
+  DialogDescription,
   Drawer,
   DrawerActions,
   DrawerBody,
   DrawerHeader,
+  DrawerTitle,
   ErrorMessage,
   Field,
   Input,
@@ -61,29 +63,27 @@ export const CharacterDrawer = ({
   });
 
   return (
-    <Drawer open={open}>
+    <Drawer open={open} close={close} preventCloseOnOutsideClick>
       <form
         id={form.id}
         method="POST"
         noValidate={form.noValidate}
-        className="flex h-full flex-col"
         onSubmit={form.onSubmit}
       >
         <input type="hidden" name={fields.id.name} value={fields.id.value} />
-        <DrawerHeader
-          title={`${character ? 'Edit' : 'New'} character`}
-          description={
-            character ? (
+        <DrawerHeader>
+          <DrawerTitle>{`${character ? 'Edit' : 'New'} character`}</DrawerTitle>
+          <DialogDescription>
+            {character ? (
               <>
                 Edit the details of the character{' '}
                 <span className="font-bold">{character?.name}</span>.
               </>
             ) : (
               <>Add a new character.</>
-            )
-          }
-          onClose={close}
-        />
+            )}
+          </DialogDescription>
+        </DrawerHeader>
         <DrawerBody className="flex flex-col gap-8">
           <Field>
             <Label>Name</Label>

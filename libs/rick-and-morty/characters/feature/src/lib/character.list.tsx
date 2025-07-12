@@ -54,7 +54,7 @@ export const CharacterList = () => {
     <div
       ref={listRef}
       style={{ '--list-scroll-height': listHeight } as React.CSSProperties}
-      className="flex h-96 flex-col md:h-[var(--list-scroll-height)]"
+      className="flex h-[var(--list-scroll-height)] flex-col"
     >
       <form
         noValidate

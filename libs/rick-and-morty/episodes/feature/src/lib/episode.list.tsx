@@ -1,17 +1,11 @@
 import clsx from 'clsx';
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef } from 'react';
 import { NavLink, useLocation, useParams } from 'react-router';
 
-import { Divider } from '@evolonix/ui';
+import { Divider, Search } from '@evolonix/ui';
 
 import { useEpisodes } from '@evolonix/rick-and-morty-episodes-data-access';
-import {
-  Button,
-  Input,
-  Pagination,
-  PaginationNext,
-  PaginationPrevious,
-} from '@evolonix/ui';
+import { Pagination, PaginationNext, PaginationPrevious } from '@evolonix/ui';
 import { useScrollHeight } from '@evolonix/util';
 
 export const EpisodeList = () => {
@@ -24,31 +18,11 @@ export const EpisodeList = () => {
   const vm = useEpisodes(id);
   const listRef = useRef<HTMLDivElement | null>(null);
   const listHeight = useScrollHeight(listRef, 48);
-  const [query, setQuery] = useState<string>(vm.query || '');
-
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const query = (formData.get('query') ?? undefined) as string | undefined;
-    vm.search(query || undefined);
-  };
-
-  const handleClearSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if ((e.target as HTMLInputElement).value === '') {
-      vm.search();
-      setQuery('');
-    }
-  };
 
   useEffect(() => {
     const list = listRef.current?.querySelector('.overflow-y-auto');
     list?.scrollTo({ top: 0 });
   }, [vm.episodes]);
-
-  useEffect(() => {
-    setQuery(vm.query || '');
-  }, [vm.query]);
 
   return (
     <div
@@ -56,25 +30,13 @@ export const EpisodeList = () => {
       style={{ '--list-scroll-height': listHeight } as React.CSSProperties}
       className="flex h-96 flex-col md:h-[var(--list-scroll-height)]"
     >
-      <form
-        noValidate
-        method="POST"
-        onSubmit={handleSearch}
-        className="flex items-center gap-2 px-4 pb-4"
-      >
-        <Input
-          type="search"
-          name="query"
-          placeholder="Search"
-          value={query}
-          autoFocus
-          onInput={handleClearSearch}
-          onChange={(e) => setQuery((e.target as HTMLInputElement).value)}
-        />
-        <Button type="submit" disabled={vm.isLoading}>
-          Search
-        </Button>
-      </form>
+      <Search
+        initialQuery={vm.query}
+        disabled={vm.isLoading}
+        className="px-4"
+        autoFocus
+        onSearch={vm.search}
+      />
       <Divider />
       <div className="grow overflow-y-auto">
         {vm.showSkeleton ? (

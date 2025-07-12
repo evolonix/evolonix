@@ -8,3 +8,4 @@ export * from './lipsum';
 export * from './logo';
 export * from './page-header';
 export * from './profile-dropdown-menu';
+export * from './search';

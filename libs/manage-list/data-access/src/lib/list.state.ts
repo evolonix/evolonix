@@ -1,12 +1,12 @@
 import { StoreState } from '@evolonix/react';
 
-import { Entity, Pagination } from './list.model';
+import { Entity, PaginationDetails } from './list.model';
 
 export interface ListState<T extends Entity> extends StoreState {
   list: T[];
   query: string;
   page?: number;
-  pagination?: Pagination;
+  pagination?: PaginationDetails;
   selectedId?: string;
 }
 

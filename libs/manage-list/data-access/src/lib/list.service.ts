@@ -1,6 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
-import { Entity, Pagination } from './list.model';
+import { Entity, PaginationDetails } from './list.model';
 
 export abstract class ListService {
   constructor(protected readonly client: ApolloClient<NormalizedCacheObject>) {}
@@ -8,7 +8,7 @@ export abstract class ListService {
   abstract getPagedList<T extends Entity>(
     page: number,
     query: string,
-  ): Promise<[T[], Pagination, Error | undefined]>;
+  ): Promise<[T[], PaginationDetails, Error | undefined]>;
   abstract getEntityById<T extends Entity>(
     id: string,
   ): Promise<[T | undefined, Error | undefined]>;

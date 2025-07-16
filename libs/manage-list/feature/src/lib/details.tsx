@@ -1,6 +1,7 @@
-import { Entity } from '@evolonix/data-access';
+import { Entity } from '@evolonix/manage-list-data-access';
 import { Alert, AlertActions, AlertTitle, Button, Divider } from '@evolonix/ui';
 import { useScrollHeight } from '@evolonix/util';
+import { PencilIcon, TrashIcon } from '@heroicons/react/20/solid';
 import { useEffect, useRef, useState } from 'react';
 
 interface DetailsProps<T> {
@@ -28,7 +29,7 @@ export const Details = <T extends Entity>({
           '--details-scroll-height': detailsHeight,
         } as React.CSSProperties
       }
-      className="flex h-full flex-col md:max-h-[var(--details-scroll-height)]"
+      className="flex h-[var(--details-scroll-height)] flex-col"
     >
       {children}
     </div>
@@ -40,14 +41,14 @@ export const DetailsTitle = ({ children }: { children: React.ReactNode }) => {
 };
 
 interface DetailsActionsProps {
-  deletePrompt: string;
   editUrl: string;
+  deletePrompt: string;
   onDelete: () => void;
 }
 
 export const DetailsActions = ({
-  deletePrompt,
   editUrl,
+  deletePrompt,
   onDelete,
 }: DetailsActionsProps) => {
   const [showAlert, setShowAlert] = useState(false);
@@ -56,9 +57,11 @@ export const DetailsActions = ({
     <>
       <div className="flex flex-wrap items-center gap-2">
         <Button href={editUrl} outline>
+          <PencilIcon />
           Edit
         </Button>
         <Button color="red" onClick={() => setShowAlert(true)}>
+          <TrashIcon />
           Delete
         </Button>
       </div>

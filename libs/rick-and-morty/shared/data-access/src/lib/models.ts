@@ -1,4 +1,4 @@
-import { Entity } from '@evolonix/data-access';
+import { Entity } from '@evolonix/manage-list-data-access';
 
 export interface Episode extends Entity {
   air_date?: string;

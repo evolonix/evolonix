@@ -13,21 +13,21 @@ import CharacterEditForm from './character.form';
 
 interface CharacterDrawerProps {
   character?: Character;
-  open: boolean;
-  close: (value: boolean) => void;
+  isOpen: boolean;
+  onClose: (value: boolean) => void;
   onSave: (character: Character) => void;
 }
 
 export const CharacterDrawer = ({
   character,
-  open,
-  close,
+  isOpen,
+  onClose,
   onSave,
 }: CharacterDrawerProps) => {
   const characterForm = useRef<HTMLFormElement | null>(null);
 
   return (
-    <Drawer preventCloseOnOutsideClick open={open} close={close}>
+    <Drawer preventCloseOnOutsideClick open={isOpen} close={onClose}>
       <DrawerHeader>
         <DrawerTitle>{`${character ? 'Edit' : 'New'} character`}</DrawerTitle>
         <DrawerDescription>
@@ -55,7 +55,7 @@ export const CharacterDrawer = ({
         >
           Save
         </Button>
-        <Button plain onClick={() => close(false)}>
+        <Button plain onClick={() => onClose(false)}>
           Cancel
         </Button>
       </DrawerActions>

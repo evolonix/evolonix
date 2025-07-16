@@ -7,30 +7,30 @@ import {
   DetailsTitle,
 } from '@evolonix/manage-list-feature';
 import { Character } from '@evolonix/rick-and-morty-shared-data-access';
-import { Link, Lipsum } from '@evolonix/ui';
+import { Link } from '@evolonix/ui';
 
 interface CharacterDetailsProps {
-  loading: boolean;
-  character: Character;
+  isLoading: boolean;
+  character?: Character;
   onDelete: () => void;
 }
 
 export const CharacterDetails = ({
-  loading,
+  isLoading,
   character,
   onDelete,
 }: CharacterDetailsProps) => {
-  return (
+  return character ? (
     <Details entity={character}>
       <DetailsHeader>
         <DetailsTitle>{character?.name}</DetailsTitle>
         <DetailsActions
-          deletePrompt="Are you sure you want to delete this character?"
           editUrl={`/rick-and-morty/characters/${character?.id}/edit`}
+          deletePrompt="Are you sure you want to delete this character?"
           onDelete={onDelete}
         />
       </DetailsHeader>
-      {loading ? (
+      {isLoading ? (
         <DetailsBodySkeleton />
       ) : character ? (
         <DetailsBody>
@@ -41,27 +41,27 @@ export const CharacterDetails = ({
               className="h-48 w-48 rounded-lg object-cover"
             />
           ) : null}
-          <dl className="grid w-full columns-2 gap-2">
+          <dl className="grid w-full gap-2 md:grid-cols-[auto_1fr]">
             <dt className="font-bold">Location:</dt>
-            <dd className="col-start-2">{character.location?.name}</dd>
+            <dd>{character.location?.name}</dd>
 
             <dt className="font-bold">Origin:</dt>
-            <dd className="col-start-2">{character.origin?.name}</dd>
+            <dd>{character.origin?.name}</dd>
 
             <dt className="font-bold">Gender:</dt>
-            <dd className="col-start-2">{character.gender}</dd>
+            <dd>{character.gender}</dd>
 
             <dt className="font-bold">Species:</dt>
-            <dd className="col-start-2">{character.species}</dd>
+            <dd>{character.species}</dd>
 
             <dt className="font-bold">Status:</dt>
-            <dd className="col-start-2">{character.status}</dd>
+            <dd>{character.status}</dd>
 
             <dt className="font-bold">Type:</dt>
-            <dd className="col-start-2">{character.type}</dd>
+            <dd>{character.type}</dd>
 
             <dt className="font-bold">Episode:</dt>
-            <dd className="col-start-2">
+            <dd>
               {character.episode?.map((episode) =>
                 episode ? (
                   <Link
@@ -75,10 +75,18 @@ export const CharacterDetails = ({
               )}
             </dd>
           </dl>
-
-          <Lipsum />
         </DetailsBody>
       ) : null}
     </Details>
+  ) : (
+    <>
+      <div className="flex h-9 items-center justify-between">
+        <h2 className="font-bold">Characters</h2>
+      </div>
+      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Explore the various characters from Rick & Morty. Click on a character
+        to learn more about it.
+      </p>
+    </>
   );
 };

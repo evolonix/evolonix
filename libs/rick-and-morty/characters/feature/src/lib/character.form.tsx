@@ -1,35 +1,74 @@
-import { useForm } from '@evolonix/feature';
+import { useForm } from '@evolonix/manage-list-feature';
 import {
   Character,
   CharacterSchema,
 } from '@evolonix/rick-and-morty-shared-data-access';
-import { ErrorMessage, Field, Input, Label } from '@evolonix/ui';
+import {
+  ErrorMessage,
+  Field,
+  ImageUploader,
+  ImageUploaderRef,
+  Input,
+  Label,
+} from '@evolonix/ui';
+import { useRef } from 'react';
 
 interface CharacterEditFormProps {
+  ref?: React.Ref<HTMLFormElement>;
   character?: Character;
-  onSubmit: (character: Character) => void;
+  onSubmit: (character: Character) => Promise<void>;
 }
 
 export const CharacterEditForm = ({
+  ref,
   character,
   onSubmit,
-  ...props
-}: CharacterEditFormProps & React.ComponentProps<'form'>) => {
+}: CharacterEditFormProps) => {
+  const uploaderRef = useRef<ImageUploaderRef>(null);
+
+  const interceptSubmit = async (character: Character) => {
+    const file = uploaderRef.current?.getFile();
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // const res = await fetch('/api/upload', {
+      //   method: 'POST',
+      //   body: formData,
+      // });
+
+      // if (!res.ok) throw new Error('Upload failed');
+      // const { url } = await res.json();
+      const url =
+        'https://i.etsystatic.com/31548528/r/il/ffde13/5804742914/il_300x300.5804742914_ap2d.jpg'; // Mock URL for testing
+
+      uploaderRef.current?.setUploadedUrl(url);
+      character = { ...character, image: url };
+    }
+
+    onSubmit(character);
+  };
+
   const [form, fields] = useForm<Character>(
     character,
     CharacterSchema,
-    onSubmit,
+    interceptSubmit,
   );
 
   return (
     <form
-      {...props}
+      ref={ref}
       id={form.id}
       method="POST"
       noValidate={form.noValidate}
       onSubmit={form.onSubmit}
     >
       <input type="hidden" name={fields.id.name} value={fields.id.value} />
+      <ImageUploader
+        ref={uploaderRef}
+        name={fields.image.name}
+        initialImageUrl={character?.image}
+      />
       <Field>
         <Label>Name</Label>
         <Input
@@ -50,7 +89,6 @@ export const CharacterEditForm = ({
           placeholder="Alive"
           defaultValue={fields.status.value}
           required
-          autoFocus
         />
         {fields.status.errors ? (
           <ErrorMessage>{fields.status.errors}</ErrorMessage>
@@ -63,7 +101,6 @@ export const CharacterEditForm = ({
           placeholder="Human"
           defaultValue={fields.species.value}
           required
-          autoFocus
         />
         {fields.species.errors ? (
           <ErrorMessage>{fields.species.errors}</ErrorMessage>
@@ -75,8 +112,6 @@ export const CharacterEditForm = ({
           name={fields.type.name}
           placeholder=""
           defaultValue={fields.type.value}
-          required
-          autoFocus
         />
         {fields.type.errors ? (
           <ErrorMessage>{fields.type.errors}</ErrorMessage>
@@ -89,7 +124,6 @@ export const CharacterEditForm = ({
           placeholder="Male"
           defaultValue={fields.gender.value}
           required
-          autoFocus
         />
         {fields.gender.errors ? (
           <ErrorMessage>{fields.gender.errors}</ErrorMessage>

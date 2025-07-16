@@ -2,7 +2,7 @@ export interface Entity {
   id?: string;
 }
 
-export interface Pagination {
+export interface PaginationDetails {
   count?: number;
   next?: number;
   pages?: number;

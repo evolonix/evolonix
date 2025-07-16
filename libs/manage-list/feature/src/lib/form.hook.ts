@@ -1,12 +1,12 @@
 import { DefaultValue, useForm as useConformForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
-import { Entity } from '@evolonix/data-access';
+import { Entity } from '@evolonix/manage-list-data-access';
 import { z } from 'zod';
 
 export const useForm = <T extends Entity>(
   defaultValue: DefaultValue<T> | undefined,
   schema: z.ZodType<T>,
-  onSubmit: (entity: T) => void,
+  onSubmit: (entity: T) => Promise<void>,
 ) => {
   return useConformForm<T>({
     id: `edit-form-${defaultValue?.id ?? 'new'}`,

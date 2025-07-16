@@ -2,6 +2,7 @@ export * from './catalyst';
 export * from './drawer';
 export * from './grid-layout';
 export * from './icons';
+export * from './image-uploader';
 export * from './layout-navbar';
 export * from './layout-sidebar';
 export * from './lipsum';

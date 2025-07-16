@@ -1,4 +1,7 @@
-import { ListService, Pagination } from '@evolonix/data-access';
+import {
+  ListService,
+  PaginationDetails,
+} from '@evolonix/manage-list-data-access';
 import {
   CharacterByIdDocument,
   CharactersDocument,
@@ -8,7 +11,7 @@ export class CharactersService extends ListService {
   async getPagedList<Character>(
     page: number,
     query: string,
-  ): Promise<[Character[], Pagination, Error | undefined]> {
+  ): Promise<[Character[], PaginationDetails, Error | undefined]> {
     const { data, error } = await this.client.query({
       query: CharactersDocument,
       variables: {
@@ -20,8 +23,12 @@ export class CharactersService extends ListService {
       fetchPolicy: 'no-cache',
     });
 
+    // // For testing purposes, we can use a mock data file
+    // const { data } = JSON.parse(mockCharacters);
+    // const error = undefined; // Simulating no error for mock data
+
     const characters = (data.characters?.results ?? []) as Character[];
-    const info = (data.characters?.info || {}) as Pagination;
+    const info = (data.characters?.info || {}) as PaginationDetails;
 
     return [characters, info, error];
   }

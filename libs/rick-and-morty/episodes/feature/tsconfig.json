@@ -3,16 +3,19 @@
   "include": [],
   "references": [
     {
-      "path": "../../shared/data-access"
+      "path": "../data-access"
     },
     {
-      "path": "../../../util"
+      "path": "../../../manage-list/data-access"
     },
     {
       "path": "../../../ui"
     },
     {
-      "path": "../data-access"
+      "path": "../../shared/data-access"
+    },
+    {
+      "path": "../../../manage-list/feature"
     },
     {
       "path": "./tsconfig.lib.json"

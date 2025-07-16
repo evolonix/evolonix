@@ -1,9 +1,6 @@
-import clsx from 'clsx';
-import { NavLink } from 'react-router';
+import { Avatar, Search } from '@evolonix/ui';
 
-import { Search } from '@evolonix/ui';
-
-import { Pagination as PaginationType } from '@evolonix/data-access';
+import { PaginationDetails } from '@evolonix/manage-list-data-access';
 import {
   List,
   ListBody,
@@ -16,18 +13,18 @@ import { Character } from '@evolonix/rick-and-morty-shared-data-access';
 import { Pagination, PaginationNext, PaginationPrevious } from '@evolonix/ui';
 
 interface CharacterListProps {
-  loading: boolean;
+  isLoading: boolean;
   list: Character[];
   query: string;
-  pagination?: PaginationType;
+  pagination?: PaginationDetails;
   onSearch: (query?: string) => void;
   onPreviousPage: () => void;
   onNextPage: () => void;
 }
 
 export const CharacterList = ({
+  isLoading,
   list,
-  loading,
   query,
   pagination,
   onSearch,
@@ -35,46 +32,48 @@ export const CharacterList = ({
   onNextPage,
 }: CharacterListProps) => {
   return (
-    <List list={list}>
+    <List>
       <ListHeader>
         <Search
           initialQuery={query}
-          disabled={loading}
+          disabled={isLoading}
           autoFocus
           onSearch={onSearch}
         />
       </ListHeader>
-      {loading ? (
+      {isLoading ? (
         <ListBodySkeleton />
       ) : (
         <ListBody>
           {list.map((character, index) => (
-            <ListItem key={character.id} divider={index < list.length - 1}>
-              <NavLink
-                to={`/rick-and-morty/characters/${character.id}`}
-                className={({ isActive }) =>
-                  clsx(
-                    'flex w-full items-center gap-2 p-4 font-bold',
-                    'hover:text-cyan-700 dark:hover:text-cyan-500',
-                    isActive ? 'text-cyan-600 dark:text-cyan-400' : '',
-                  )
-                }
-              >
-                <span className="truncate">{character.name}</span>
-              </NavLink>
+            <ListItem
+              key={character.id}
+              to={`/rick-and-morty/characters/${character.id}`}
+              divider={index < list.length - 1}
+            >
+              <Avatar
+                src={character.image ?? ''}
+                alt={character.name ?? ''}
+                initials={character.name
+                  ?.split(' ')
+                  ?.map((name) => name.charAt(0))
+                  .join('')}
+                className="size-10"
+              />
+              <span className="truncate">{character.name}</span>
             </ListItem>
           ))}
-          {list.length === 0 && <ListItem>No characters found.</ListItem>}
+          {list.length === 0 && <li className="py-4">No characters found.</li>}
         </ListBody>
       )}
       <ListFooter>
         <Pagination>
           <PaginationPrevious
-            disabled={loading || !pagination?.prev}
+            disabled={isLoading || !pagination?.prev}
             onClick={onPreviousPage}
           />
           <PaginationNext
-            disabled={loading || !pagination?.next}
+            disabled={isLoading || !pagination?.next}
             onClick={onNextPage}
           />
         </Pagination>

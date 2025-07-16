@@ -4,7 +4,9 @@ import React from 'react';
 const validate = (children: React.ReactNode) => {
   const validateElement = (element: React.ReactElement) => {
     if (element.type !== GridLayoutItem) {
-      throw new Error('Invalid component type provided for GridLayout. Expected GridLayoutItem or a Fragment of GridLayoutItem elements.');
+      throw new Error(
+        'Invalid component type provided for GridLayout. Expected GridLayoutItem or a Fragment of GridLayoutItem elements.',
+      );
     }
   };
 
@@ -27,7 +29,8 @@ export const GridLayout = ({
   fullWidth = false,
   disableTopPadding = false,
   ...props
-}: GridLayoutProps & Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>) => {
+}: GridLayoutProps &
+  Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>) => {
   // Validate that all children are of type GridLayoutItem
   validate(props.children);
 
@@ -39,7 +42,7 @@ export const GridLayout = ({
         'xxl:px-12 px-4 xl:px-6',
         disableTopPadding ? '' : 'pt-4 xl:pt-6',
         fullWidth ? '' : '2xl:mx-auto 2xl:max-w-[var(--breakpoint-2xl)]',
-        'w-full'
+        'w-full',
       )}
       {...props}
     />
@@ -116,8 +119,9 @@ export const GridLayoutItem = ({
   lg,
   xl,
   xxl,
+  className,
   ...props
-}: GridLayoutItemProps & Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>) => {
+}: GridLayoutItemProps & React.HTMLAttributes<HTMLDivElement>) => {
   // Specified breakpoint values win over full width
   xxl ??= xl ?? lg ?? md ?? sm ?? xs ?? 12;
   xl ??= lg ?? md ?? sm ?? xs ?? 12;
@@ -139,12 +143,13 @@ export const GridLayoutItem = ({
         } as React.CSSProperties
       }
       className={clsx(
+        className,
         'col-span-[var(--grid-col-span-xs)]',
         'sm:col-span-[var(--grid-col-span-sm)]',
         'md:col-span-[var(--grid-col-span-md)]',
         'lg:col-span-[var(--grid-col-span-lg)]',
         'xl:col-span-[var(--grid-col-span-xl)]',
-        'xxl:col-span-[var(--grid-col-span-xxl)]'
+        'xxl:col-span-[var(--grid-col-span-xxl)]',
       )}
       {...props}
     />

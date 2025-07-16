@@ -1,13 +1,14 @@
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import {
+  ListService,
+  PaginationDetails,
+} from '@evolonix/manage-list-data-access';
 import { EpisodeByIdDocument, EpisodesDocument } from './__generated__/graphql';
 
-export class EpisodesService {
-  constructor(private readonly client: ApolloClient<NormalizedCacheObject>) {}
-
-  async getPagedEpisodes<T, F>(
-    page?: number,
-    query?: string,
-  ): Promise<[T[], F, Error | undefined]> {
+export class EpisodesService extends ListService {
+  async getPagedList<Episode>(
+    page: number,
+    query: string,
+  ): Promise<[Episode[], PaginationDetails, Error | undefined]> {
     const { data, error } = await this.client.query({
       query: EpisodesDocument,
       variables: {
@@ -19,27 +20,31 @@ export class EpisodesService {
       fetchPolicy: 'no-cache',
     });
 
-    const episodes = (data.episodes?.results ?? []) as T[];
-    const info = (data.episodes?.info || {}) as F;
+    // // For testing purposes, we can use a mock data file
+    // const { data } = JSON.parse(mockEpisodes);
+    // const error = undefined; // Simulating no error for mock data
+
+    const episodes = (data.episodes?.results ?? []) as Episode[];
+    const info = (data.episodes?.info || {}) as PaginationDetails;
 
     return [episodes, info, error];
   }
 
-  async getEpisodeById<T>(
+  async getEntityById<Episode>(
     id: string,
-  ): Promise<[T | undefined, Error | undefined]> {
+  ): Promise<[Episode | undefined, Error | undefined]> {
     const { data, error } = await this.client.query({
       query: EpisodeByIdDocument,
       variables: { id },
       fetchPolicy: 'no-cache',
     });
-    const episode = data.episode as T | undefined;
+    const episode = data.episode as Episode | undefined;
     return [episode, error];
   }
 
-  async createEpisode<T>(
-    episode: Omit<T, 'id'>,
-  ): Promise<[T | undefined, Error[] | undefined]> {
+  async createEntity<Episode>(
+    episode: Omit<Episode, 'id'>,
+  ): Promise<[Episode | undefined, Error[]]> {
     // const { data, errors } = await this.client.mutate({
     //   mutation: CreateEpisodeDocument,
     //   variables: { episode },
@@ -49,13 +54,13 @@ export class EpisodesService {
     // const errorList = errors ? errors.map(e => new Error(e.message)) : undefined;
     // return [created, errorList];
 
-    const created = { ...episode, id: crypto.randomUUID() } as T;
-    return [created, undefined];
+    const created = { ...episode, id: crypto.randomUUID() } as Episode;
+    return [created, []];
   }
 
-  async updateEpisode<T>(
-    episode: T,
-  ): Promise<[T | undefined, Error[] | undefined]> {
+  async updateEntity<Episode>(
+    episode: Episode,
+  ): Promise<[Episode | undefined, Error[]]> {
     // const { __typename, ...payload } = track as Episode;
     // const { data, errors } = await this.client.mutate({
     //   mutation: UpdateEpisodeDocument,
@@ -67,10 +72,10 @@ export class EpisodesService {
     // return [updated, errorList];
 
     const updated = { ...episode };
-    return [updated, undefined];
+    return [updated, []];
   }
 
-  async deleteEpisode(id: string): Promise<[boolean, Error[] | undefined]> {
+  async deleteEntity(id: string): Promise<[boolean, Error[]]> {
     // const { errors } = await this.client.mutate({
     //   mutation: DeleteEpisodeDocument,
     //   variables: { id },
@@ -81,6 +86,6 @@ export class EpisodesService {
     // return [deleted, errorList];
 
     const deleted = id !== '';
-    return [deleted, undefined];
+    return [deleted, []];
   }
 }

@@ -1,4 +1,4 @@
-import { ListViewModel } from '@evolonix/data-access';
+import { ListViewModel } from '@evolonix/manage-list-data-access';
 import { inject } from '@evolonix/react';
 import { Character } from '@evolonix/rick-and-morty-shared-data-access';
 import { useCallback, useEffect, useRef, useState } from 'react';

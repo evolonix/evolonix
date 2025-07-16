@@ -1,115 +1,84 @@
 import clsx from 'clsx';
-import { Fragment, useEffect, useMemo, useRef } from 'react';
-import { NavLink, useLocation, useParams } from 'react-router';
+import { NavLink } from 'react-router';
 
-import { Avatar, Divider, Search } from '@evolonix/ui';
+import { Search } from '@evolonix/ui';
 
-import { useCharacters } from '@evolonix/rick-and-morty-characters-data-access';
+import { Pagination as PaginationType } from '@evolonix/data-access';
+import {
+  List,
+  ListBody,
+  ListBodySkeleton,
+  ListFooter,
+  ListHeader,
+  ListItem,
+} from '@evolonix/manage-list-feature';
+import { Character } from '@evolonix/rick-and-morty-shared-data-access';
 import { Pagination, PaginationNext, PaginationPrevious } from '@evolonix/ui';
-import { useScrollHeight } from '@evolonix/util';
 
-export const CharacterList = () => {
-  const { id } = useParams();
-  const { search } = useLocation();
-  const searchParams = useMemo(() => {
-    const searchParams = new URLSearchParams(search);
-    return searchParams.size > 0 ? `?${searchParams.toString()}` : '';
-  }, [search]);
-  const vm = useCharacters(id);
-  const listRef = useRef<HTMLDivElement | null>(null);
-  const listHeight = useScrollHeight(listRef, 48);
+interface CharacterListProps {
+  loading: boolean;
+  list: Character[];
+  query: string;
+  pagination?: PaginationType;
+  onSearch: (query?: string) => void;
+  onPreviousPage: () => void;
+  onNextPage: () => void;
+}
 
-  useEffect(() => {
-    const list = listRef.current?.querySelector('.overflow-y-auto');
-    list?.scrollTo({ top: 0 });
-  }, [vm.characters]);
-
+export const CharacterList = ({
+  list,
+  loading,
+  query,
+  pagination,
+  onSearch,
+  onPreviousPage,
+  onNextPage,
+}: CharacterListProps) => {
   return (
-    <div
-      ref={listRef}
-      style={{ '--list-scroll-height': listHeight } as React.CSSProperties}
-      className="flex h-[var(--list-scroll-height)] flex-col"
-    >
-      <Search
-        initialQuery={vm.query}
-        disabled={vm.isLoading}
-        className="px-4"
-        autoFocus
-        onSearch={vm.search}
-      />
-      <Divider />
-      <div className="grow overflow-y-auto">
-        {vm.showSkeleton ? (
-          <CharacterListSkeleton />
-        ) : vm.characters.length ? (
-          <ul className="flex h-full flex-col items-center">
-            {vm.characters.map((character, index) =>
-              character ? (
-                <Fragment key={character.id}>
-                  <li className="w-full">
-                    <NavLink
-                      to={`/rick-and-morty/characters/${character.id}${searchParams}`}
-                      className={({ isActive }) =>
-                        clsx(
-                          'flex w-full items-center gap-2 p-4 font-bold',
-                          'hover:text-cyan-700 dark:hover:text-cyan-500',
-                          isActive ? 'text-cyan-600 dark:text-cyan-400' : '',
-                        )
-                      }
-                    >
-                      <Avatar
-                        src={character.image ?? ''}
-                        alt={character.name ?? ''}
-                        initials={character.name
-                          ?.split(' ')
-                          ?.map((name) => name.charAt(0))
-                          .join('')}
-                        className="size-10"
-                      />
-                      <span className="truncate">{character.name}</span>
-                    </NavLink>
-                    {index < vm.characters.length - 1 ? <Divider /> : null}
-                  </li>
-                </Fragment>
-              ) : null,
-            )}
-          </ul>
-        ) : (
-          <div className="flex h-full">
-            <p className="p-4 text-zinc-500 dark:text-zinc-400">
-              No characters found.
-            </p>
-          </div>
-        )}
-      </div>
-      <Divider />
-      <Pagination className="px-4 pt-4">
-        <PaginationPrevious
-          disabled={vm.isLoading || !vm.pagination?.prev}
-          onClick={vm.previousPage}
+    <List list={list}>
+      <ListHeader>
+        <Search
+          initialQuery={query}
+          disabled={loading}
+          autoFocus
+          onSearch={onSearch}
         />
-        <PaginationNext
-          disabled={vm.isLoading || !vm.pagination?.next}
-          onClick={vm.nextPage}
-        />
-      </Pagination>
-    </div>
-  );
-};
-
-export const CharacterListSkeleton = () => {
-  return (
-    <ul className="flex h-full flex-col items-center">
-      {Array.from({ length: 20 }).map((_, index) => (
-        <Fragment key={index}>
-          <li className="w-full">
-            <div className="block w-full p-4 font-bold">
-              <div className="h-6 animate-pulse rounded-full bg-zinc-900 dark:bg-zinc-100" />
-            </div>
-            {index < 10 ? <Divider /> : null}
-          </li>
-        </Fragment>
-      ))}
-    </ul>
+      </ListHeader>
+      {loading ? (
+        <ListBodySkeleton />
+      ) : (
+        <ListBody>
+          {list.map((character, index) => (
+            <ListItem key={character.id} divider={index < list.length - 1}>
+              <NavLink
+                to={`/rick-and-morty/characters/${character.id}`}
+                className={({ isActive }) =>
+                  clsx(
+                    'flex w-full items-center gap-2 p-4 font-bold',
+                    'hover:text-cyan-700 dark:hover:text-cyan-500',
+                    isActive ? 'text-cyan-600 dark:text-cyan-400' : '',
+                  )
+                }
+              >
+                <span className="truncate">{character.name}</span>
+              </NavLink>
+            </ListItem>
+          ))}
+          {list.length === 0 && <ListItem>No characters found.</ListItem>}
+        </ListBody>
+      )}
+      <ListFooter>
+        <Pagination>
+          <PaginationPrevious
+            disabled={loading || !pagination?.prev}
+            onClick={onPreviousPage}
+          />
+          <PaginationNext
+            disabled={loading || !pagination?.next}
+            onClick={onNextPage}
+          />
+        </Pagination>
+      </ListFooter>
+    </List>
   );
 };

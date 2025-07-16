@@ -35,6 +35,12 @@
     },
     {
       "path": "./libs/rick-and-morty/characters/feature"
+    },
+    {
+      "path": "./libs/manage-list/data-access"
+    },
+    {
+      "path": "./libs/manage-list/feature"
     }
   ]
 }

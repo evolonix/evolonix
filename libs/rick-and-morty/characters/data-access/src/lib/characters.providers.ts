@@ -1,7 +1,11 @@
+import { buildListStore } from '@evolonix/manage-list-data-access';
 import { addProviders, InjectionToken, Provider } from '@evolonix/react';
-import { RickAndMortyApolloClient } from '@evolonix/rick-and-morty-shared-data-access';
+import {
+  Character,
+  RickAndMortyApolloClient,
+} from '@evolonix/rick-and-morty-shared-data-access';
+
 import { CharactersService } from './characters.service';
-import { buildCharacterStore } from './characters.store';
 
 export const CharacterStoreToken = new InjectionToken('Character Store');
 
@@ -13,7 +17,7 @@ export const providers: Provider[] = [
   },
   {
     provide: CharacterStoreToken,
-    useFactory: buildCharacterStore,
+    useFactory: buildListStore<Character>,
     deps: [CharactersService],
   },
 ];

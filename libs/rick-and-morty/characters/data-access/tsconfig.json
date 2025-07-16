@@ -6,6 +6,9 @@
       "path": "../../shared/data-access"
     },
     {
+      "path": "../../../manage-list/data-access"
+    },
+    {
       "path": "../../../react"
     },
     {

@@ -6,56 +6,54 @@ import {
   trackStatusWith,
   waitForAnother,
 } from '@evolonix/react';
-import { createStore, StoreApi } from 'zustand';
+import { createStore } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
+import { Entity } from './list.model';
+import { ListService } from './list.service';
 import {
-  Character,
-  Pagination,
-} from '@evolonix/rick-and-morty-shared-data-access';
-import { CharactersService } from './characters.service';
-import {
-  CharacterActions,
-  CharacterComputedState,
-  CharacterState,
-  CharacterViewModel,
-} from './characters.state';
+  ListActions,
+  ListComputedState,
+  ListState,
+  ListViewModel,
+} from './list.state';
 
 /**
  * These ACTIONS enable waitFor() to look up existing, async request (if any)
  */
 const ACTIONS = {
-  loadAll: (page = 1, query = '') => `CharacterStore:loadAll:${page}:${query}`,
-  select: (id: string) => `CharacterStore:select:${id}`,
+  loadAll: (page = 1, query = '') => `ListStore:loadAll:${page}:${query}`,
+  select: (id: string) => `ListStore:select:${id}`,
 };
 
-const initialState: Partial<CharacterState> = {
-  characters: [],
-  query: '',
-  page: 1,
-};
-
-export function buildCharacterStore(service: CharactersService) {
-  const configureStore = (
+export function buildListStore<T extends Entity>(service: ListService) {
+  function configureStore<T extends Entity>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     set: (state: any) => any,
-    get: () => CharacterViewModel,
-    store: StoreApi<CharacterViewModel>,
-  ): CharacterViewModel => {
-    const trackStatus = trackStatusWith<CharacterViewModel>(store);
+    get: () => ListViewModel<T>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    store: any, // StoreApi<ListViewModel<T>>,
+  ): ListViewModel<T> {
+    const trackStatus = trackStatusWith<ListViewModel<T>>(store);
 
-    const state: CharacterState = initStoreState(get, initialState);
+    const initialState: Partial<ListState<T>> = {
+      list: [],
+      query: '',
+      page: 1,
+    };
 
-    const actions: CharacterActions = {
+    const state: ListState<T> = initStoreState(get, initialState);
+
+    const actions: ListActions<T> = {
       loadAll: async (page = get().page ?? 1, query = get().query ?? '') => {
         await trackStatus(
           async () => {
-            const [characters, info, error] = await service.getPagedCharacters<
-              Character,
-              Pagination
-            >(page, query);
-            return { page, query, characters, pagination: info, error };
+            const [list, info, error] = await service.getPagedList<T>(
+              page,
+              query,
+            );
+            return { page, query, list, pagination: info, error };
           },
           { waitForId: ACTIONS.loadAll(page, query) },
         );
@@ -72,41 +70,37 @@ export function buildCharacterStore(service: CharactersService) {
 
         await waitForAnother(ACTIONS.loadAll(get().page, get().query));
 
-        const character = get().characters.find((s) => s.id === id);
-        if (character) {
-          set({ selectedId: character.id });
+        const entity = get().list.find((s) => s.id === id);
+        if (entity) {
+          set({ selectedId: entity.id });
           return;
         }
 
         await trackStatus(
           async () => {
-            const [character, error] =
-              await service.getCharacterById<Character>(id);
-            return { selectedId: character?.id, selected: character, error };
+            const [entity, error] = await service.getEntityById<T>(id);
+            return { selectedId: entity?.id, selected: entity, error };
           },
           { waitForId: ACTIONS.select(id) },
         );
       },
-      save: async (character: Character) => {
-        if (character.id) {
-          const [updated, errors] = await service.updateCharacter(character);
-          set((draft: CharacterViewModel) => {
+      save: async (entity: T) => {
+        if (entity.id) {
+          const [updated, errors] = await service.updateEntity(entity);
+          set((draft: ListViewModel<T>) => {
             draft.errors = errors ?? [];
-            const index = draft.characters.findIndex(
-              (s) => s.id === character.id,
-            );
+            const index = draft.list.findIndex((s) => s.id === entity.id);
             if (updated && index > -1) {
-              draft.characters[index] = updated;
+              draft.list[index] = updated;
               draft.selectedId = updated.id;
             }
           });
         } else {
-          const [created, errors] =
-            await service.createCharacter<Character>(character);
-          set((draft: CharacterViewModel) => {
+          const [created, errors] = await service.createEntity(entity);
+          set((draft: ListViewModel<T>) => {
             draft.errors = errors ?? [];
             if (created) {
-              draft.characters.push(created);
+              draft.list.push(created);
               draft.selectedId = created.id;
             }
           });
@@ -115,11 +109,11 @@ export function buildCharacterStore(service: CharactersService) {
         return get().selected;
       },
       delete: async (id: string) => {
-        const [deleted, errors] = await service.deleteCharacter(id);
-        set((draft: CharacterViewModel) => {
+        const [deleted, errors] = await service.deleteEntity(id);
+        set((draft: ListViewModel<T>) => {
           draft.errors = errors ?? [];
           if (deleted) {
-            draft.characters = draft.characters.filter((s) => s.id !== id);
+            draft.list = draft.list.filter((s) => s.id !== id);
             if (draft.selectedId === id) {
               draft.selectedId = undefined;
             }
@@ -150,14 +144,12 @@ export function buildCharacterStore(service: CharactersService) {
       ...state,
       ...actions,
     };
-  };
+  }
 
-  const compute = (
-    state: CharacterViewModel,
-  ): Partial<CharacterComputedState> => {
+  const compute = (state: ListViewModel<T>): Partial<ListComputedState<T>> => {
     const selectedId = state.selectedId;
     const selected =
-      state.characters?.find((s) => s.id === selectedId) ??
+      state.list?.find((s) => s.id === selectedId) ??
       (selectedId ? state.selected : undefined);
 
     return { selected };
@@ -178,12 +170,9 @@ export function buildCharacterStore(service: CharactersService) {
     },
   };
 
-  const store = createStore<CharacterViewModel>()(
+  const store = createStore<ListViewModel<T>>()(
     devtools(
-      computeWith(compute, immer(syncWithUrl(syncOptions, configureStore))),
-      {
-        trace: import.meta.env.DEV,
-      },
+      computeWith(compute, syncWithUrl(syncOptions, immer(configureStore<T>))),
     ),
   );
 

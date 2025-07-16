@@ -96,7 +96,8 @@
     "libs/*",
     "libs/rick-and-morty/shared/*",
     "libs/rick-and-morty/characters/*",
-    "libs/rick-and-morty/episodes/*"
+    "libs/rick-and-morty/episodes/*",
+    "libs/manage-list/*"
   ],
   "config": {
     "commitizen": {

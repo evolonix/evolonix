@@ -22,6 +22,12 @@
       "@evolonix/feature-feature-flags": [
         "libs/feature-feature-flags/src/index.ts"
       ],
+      "@evolonix/manage-list-data-access": [
+        "libs/manage-list/data-access/src/index.ts"
+      ],
+      "@evolonix/manage-list-feature": [
+        "libs/manage-list/feature/src/index.ts"
+      ],
       "@evolonix/react": ["libs/react/src/index.ts"],
       "@evolonix/ui": ["libs/ui/src/index.ts"],
       "@evolonix/util": ["libs/util/src/index.ts"]

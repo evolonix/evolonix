@@ -1,5 +1,6 @@
-export interface Episode {
-  id?: string;
+import { Entity } from '@evolonix/data-access';
+
+export interface Episode extends Entity {
   air_date?: string;
   characters: Array<Character>;
   created?: string;
@@ -7,8 +8,7 @@ export interface Episode {
   name?: string;
 }
 
-export interface Location {
-  id?: string;
+export interface Location extends Entity {
   created?: string;
   dimension?: string;
   name?: string;
@@ -16,8 +16,7 @@ export interface Location {
   type?: string;
 }
 
-export interface Character {
-  id?: string;
+export interface Character extends Entity {
   episode?: Array<Episode>;
   gender?: string;
   /**

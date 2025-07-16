@@ -1,16 +1,14 @@
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { ListService, Pagination } from '@evolonix/data-access';
 import {
   CharacterByIdDocument,
   CharactersDocument,
 } from './__generated__/graphql';
 
-export class CharactersService {
-  constructor(private readonly client: ApolloClient<NormalizedCacheObject>) {}
-
-  async getPagedCharacters<T, F>(
-    page?: number,
-    query?: string,
-  ): Promise<[T[], F, Error | undefined]> {
+export class CharactersService extends ListService {
+  async getPagedList<Character>(
+    page: number,
+    query: string,
+  ): Promise<[Character[], Pagination, Error | undefined]> {
     const { data, error } = await this.client.query({
       query: CharactersDocument,
       variables: {
@@ -22,27 +20,27 @@ export class CharactersService {
       fetchPolicy: 'no-cache',
     });
 
-    const characters = (data.characters?.results ?? []) as T[];
-    const info = (data.characters?.info || {}) as F;
+    const characters = (data.characters?.results ?? []) as Character[];
+    const info = (data.characters?.info || {}) as Pagination;
 
     return [characters, info, error];
   }
 
-  async getCharacterById<T>(
+  async getEntityById<Character>(
     id: string,
-  ): Promise<[T | undefined, Error | undefined]> {
+  ): Promise<[Character | undefined, Error | undefined]> {
     const { data, error } = await this.client.query({
       query: CharacterByIdDocument,
       variables: { id },
       fetchPolicy: 'no-cache',
     });
-    const character = data.character as T | undefined;
+    const character = data.character as Character | undefined;
     return [character, error];
   }
 
-  async createCharacter<T>(
-    character: Omit<T, 'id'>,
-  ): Promise<[T | undefined, Error[] | undefined]> {
+  async createEntity<Character>(
+    character: Omit<Character, 'id'>,
+  ): Promise<[Character | undefined, Error[]]> {
     // const { data, errors } = await this.client.mutate({
     //   mutation: CreateCharacterDocument,
     //   variables: { character },
@@ -52,13 +50,13 @@ export class CharactersService {
     // const errorList = errors ? errors.map(e => new Error(e.message)) : undefined;
     // return [created, errorList];
 
-    const created = { ...character, id: crypto.randomUUID() } as T;
-    return [created, undefined];
+    const created = { ...character, id: crypto.randomUUID() } as Character;
+    return [created, []];
   }
 
-  async updateCharacter<T>(
-    character: T,
-  ): Promise<[T | undefined, Error[] | undefined]> {
+  async updateEntity<Character>(
+    character: Character,
+  ): Promise<[Character | undefined, Error[]]> {
     // const { __typename, ...payload } = track as Character;
     // const { data, errors } = await this.client.mutate({
     //   mutation: UpdateCharacterDocument,
@@ -70,10 +68,10 @@ export class CharactersService {
     // return [updated, errorList];
 
     const updated = { ...character };
-    return [updated, undefined];
+    return [updated, []];
   }
 
-  async deleteCharacter(id: string): Promise<[boolean, Error[] | undefined]> {
+  async deleteEntity(id: string): Promise<[boolean, Error[]]> {
     // const { errors } = await this.client.mutate({
     //   mutation: DeleteCharacterDocument,
     //   variables: { id },
@@ -84,6 +82,6 @@ export class CharactersService {
     // return [deleted, errorList];
 
     const deleted = id !== '';
-    return [deleted, undefined];
+    return [deleted, []];
   }
 }

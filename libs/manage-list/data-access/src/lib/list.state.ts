@@ -1,26 +1,23 @@
 import { StoreState } from '@evolonix/react';
 
-import {
-  Character,
-  Pagination,
-} from '@evolonix/rick-and-morty-shared-data-access';
+import { Entity, Pagination } from './list.model';
 
-export interface CharacterState extends StoreState {
-  characters: Character[];
+export interface ListState<T extends Entity> extends StoreState {
+  list: T[];
   query: string;
   page?: number;
   pagination?: Pagination;
   selectedId?: string;
 }
 
-export interface CharacterComputedState {
-  selected?: Character;
+export interface ListComputedState<T extends Entity> {
+  selected?: T;
 }
 
-export interface CharacterActions {
+export interface ListActions<T extends Entity> {
   loadAll: (page?: number, query?: string, replace?: boolean) => Promise<void>;
   select: (id?: string) => Promise<void>;
-  save: (character: Character) => Promise<Character | undefined>;
+  save: (entity: T) => Promise<T | undefined>;
   delete: (id: string) => Promise<void>;
   search: (query?: string) => Promise<void>;
   previousPage: () => Promise<void>;
@@ -28,6 +25,6 @@ export interface CharacterActions {
   reset: () => void;
 }
 
-export type CharacterViewModel = CharacterState &
-  CharacterComputedState &
-  CharacterActions;
+export type ListViewModel<T extends Entity> = ListState<T> &
+  ListComputedState<T> &
+  ListActions<T>;

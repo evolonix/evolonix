@@ -33,6 +33,9 @@
       "path": "../../shared/data-access/tsconfig.lib.json"
     },
     {
+      "path": "../../../manage-list/data-access/tsconfig.lib.json"
+    },
+    {
       "path": "../../../react/tsconfig.lib.json"
     }
   ]

@@ -1,4 +1,4 @@
-name: Preview
+name: Preview Cleanup
 
 on:
   # Run this workflow on when PR is closed.

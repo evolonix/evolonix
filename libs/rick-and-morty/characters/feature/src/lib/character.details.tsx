@@ -90,9 +90,9 @@ export const CharacterDetails = ({
                     <div key={episode.id}>
                       <Link
                         href={`/rick-and-morty/episodes/${episode.id}`}
-                        className="group inline-flex items-center gap-1 hover:text-cyan-700 dark:hover:text-cyan-500"
+                        className="group hover:text-cyan-700 dark:hover:text-cyan-500"
                       >
-                        {episode.name}
+                        {episode.name}{' '}
                         <span className="text-zinc-600 group-hover:text-cyan-700 dark:text-zinc-400 dark:group-hover:text-cyan-500">
                           ({episode.episode})
                         </span>

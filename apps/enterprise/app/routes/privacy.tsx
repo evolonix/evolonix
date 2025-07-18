@@ -1,12 +1,7 @@
-import { Divider, PageHeader } from '@evolonix/ui';
+import { PageHeader } from '@evolonix/ui';
 
 export const Privacy = () => {
-  return (
-    <>
-      <PageHeader label="Privacy Policy" />
-      <Divider className="mt-4" />
-    </>
-  );
+  return <PageHeader label="Privacy Policy" />;
 };
 
 export default Privacy;

@@ -15,7 +15,7 @@ interface CharacterDrawerProps {
   character?: Character;
   isOpen: boolean;
   onClose: (value: boolean) => void;
-  onSave: (character: Character) => void;
+  onSave: (character: Character) => Promise<void>;
 }
 
 export const CharacterDrawer = ({

@@ -2,11 +2,12 @@ import { Entity } from '@evolonix/manage-list-data-access';
 import { Alert, AlertActions, AlertTitle, Button, Divider } from '@evolonix/ui';
 import { useScrollHeight } from '@evolonix/util';
 import { PencilIcon, TrashIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
 interface DetailsProps<T> {
   entity?: T;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const Details = <T extends Entity>({
@@ -29,24 +30,26 @@ export const Details = <T extends Entity>({
           '--details-scroll-height': detailsHeight,
         } as React.CSSProperties
       }
-      className="flex h-[var(--details-scroll-height)] flex-col"
+      className="flex flex-col md:h-[var(--details-scroll-height)]"
     >
       {children}
     </div>
   );
 };
 
-export const DetailsTitle = ({ children }: { children: React.ReactNode }) => {
+export const DetailsTitle = ({ children }: { children?: React.ReactNode }) => {
   return <h2 className="font-bold">{children}</h2>;
 };
 
 interface DetailsActionsProps {
+  isLoading: boolean;
   editUrl: string;
   deletePrompt: string;
   onDelete: () => void;
 }
 
 export const DetailsActions = ({
+  isLoading,
   editUrl,
   deletePrompt,
   onDelete,
@@ -56,11 +59,15 @@ export const DetailsActions = ({
   return (
     <>
       <div className="flex flex-wrap items-center gap-2">
-        <Button href={editUrl} outline>
+        <Button href={editUrl} outline disabled={isLoading}>
           <PencilIcon />
           Edit
         </Button>
-        <Button color="red" onClick={() => setShowAlert(true)}>
+        <Button
+          color="red"
+          onClick={() => setShowAlert(true)}
+          disabled={isLoading}
+        >
           <TrashIcon />
           Delete
         </Button>
@@ -87,12 +94,12 @@ export const DetailsActions = ({
 };
 
 interface DetailsHeaderProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const DetailsHeader = ({ children }: DetailsHeaderProps) => {
   return (
-    <header className="bg-zinc-100 dark:bg-zinc-900">
+    <header className="sticky top-0 z-10 bg-white pt-4 dark:bg-zinc-900">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         {children}
       </div>
@@ -101,20 +108,43 @@ export const DetailsHeader = ({ children }: DetailsHeaderProps) => {
   );
 };
 
+export const DetailsHeaderSkeleton = () => {
+  return (
+    <header>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <h2 className="h-6 w-40 animate-pulse rounded-full bg-zinc-900 dark:bg-zinc-100">
+          &nbsp;
+        </h2>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button className="w-20 animate-pulse">&nbsp;</Button>
+          <Button className="w-20 animate-pulse">&nbsp;</Button>
+        </div>
+      </div>
+      <Divider />
+    </header>
+  );
+};
+
 interface DetailsBodyProps {
-  children: React.ReactNode;
+  className?: string;
+  children?: React.ReactNode;
 }
 
-export const DetailsBody = ({ children }: DetailsBodyProps) => {
+export const DetailsBody = ({ className, children }: DetailsBodyProps) => {
   return (
-    <div className="flex grow flex-col gap-2 overflow-y-auto pt-4">
+    <div
+      className={clsx(
+        className,
+        'flex grow flex-col gap-2 overflow-y-auto pt-4',
+      )}
+    >
       {children}
     </div>
   );
 };
 
 export const DetailsBodySkeleton = () => {
-  return <div>Loading...</div>;
+  return <div></div>;
 };
 
 export default Details;

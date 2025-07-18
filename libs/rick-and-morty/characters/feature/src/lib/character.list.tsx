@@ -13,6 +13,7 @@ import { Character } from '@evolonix/rick-and-morty-shared-data-access';
 import { Pagination, PaginationNext, PaginationPrevious } from '@evolonix/ui';
 
 interface CharacterListProps {
+  showSkeleton: boolean;
   isLoading: boolean;
   list: Character[];
   query: string;
@@ -23,6 +24,7 @@ interface CharacterListProps {
 }
 
 export const CharacterList = ({
+  showSkeleton,
   isLoading,
   list,
   query,
@@ -41,10 +43,10 @@ export const CharacterList = ({
           onSearch={onSearch}
         />
       </ListHeader>
-      {isLoading ? (
+      {showSkeleton ? (
         <ListBodySkeleton />
       ) : (
-        <ListBody>
+        <ListBody className={isLoading ? 'animate-pulse' : ''}>
           {list.map((character, index) => (
             <ListItem
               key={character.id}
@@ -52,8 +54,8 @@ export const CharacterList = ({
               divider={index < list.length - 1}
             >
               <Avatar
-                src={character.image ?? ''}
-                alt={character.name ?? ''}
+                src={character.image}
+                alt={character.name}
                 initials={character.name
                   ?.split(' ')
                   ?.map((name) => name.charAt(0))

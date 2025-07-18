@@ -1,12 +1,7 @@
-import { Divider, PageHeader } from '@evolonix/ui';
+import { PageHeader } from '@evolonix/ui';
 
 export const Changelog = () => {
-  return (
-    <>
-      <PageHeader label="Changelog" />
-      <Divider className="mt-4" />
-    </>
-  );
+  return <PageHeader label="Changelog" />;
 };
 
 export default Changelog;

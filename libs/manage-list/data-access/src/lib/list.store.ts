@@ -47,13 +47,17 @@ export function buildListStore<T extends Entity>(service: ListService) {
 
     const actions: ListActions<T> = {
       loadAll: async (page = get().page ?? 1, query = get().query ?? '') => {
+        if (page === get().page && query === get().query && get().list.length) {
+          return; // Already loaded
+        }
+
         await trackStatus(
           async () => {
-            const [list, info, error] = await service.getPagedList<T>(
+            const [list, pagination, error] = await service.getPagedList<T>(
               page,
               query,
             );
-            return { page, query, list, pagination: info, error };
+            return { page, query, list, pagination, error };
           },
           { waitForId: ACTIONS.loadAll(page, query) },
         );
@@ -65,7 +69,7 @@ export function buildListStore<T extends Entity>(service: ListService) {
         }
 
         if (id === get().selectedId) {
-          return; // already selected
+          return; // Already selected
         }
 
         await waitForAnother(ACTIONS.loadAll(get().page, get().query));

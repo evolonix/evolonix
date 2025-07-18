@@ -13,6 +13,7 @@ import { Episode } from '@evolonix/rick-and-morty-shared-data-access';
 import { Pagination, PaginationNext, PaginationPrevious } from '@evolonix/ui';
 
 interface EpisodeListProps {
+  showSkeleton: boolean;
   isLoading: boolean;
   list: Episode[];
   query: string;
@@ -23,6 +24,7 @@ interface EpisodeListProps {
 }
 
 export const EpisodeList = ({
+  showSkeleton,
   isLoading,
   list,
   query,
@@ -41,10 +43,10 @@ export const EpisodeList = ({
           onSearch={onSearch}
         />
       </ListHeader>
-      {isLoading ? (
+      {showSkeleton ? (
         <ListBodySkeleton />
       ) : (
-        <ListBody>
+        <ListBody className={isLoading ? 'animate-pulse' : ''}>
           {list.map((episode, index) => (
             <ListItem
               key={episode.id}

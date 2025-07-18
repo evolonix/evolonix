@@ -1,16 +1,9 @@
-import {
-  Divider,
-  GridLayout,
-  GridLayoutItem,
-  Link,
-  PageHeader,
-} from '@evolonix/ui';
+import { GridLayout, GridLayoutItem, Link, PageHeader } from '@evolonix/ui';
 
 export const RickAndMorty = () => {
   return (
     <>
       <PageHeader label="Rick & Morty" />
-      <Divider className="mt-4" />
       <GridLayout>
         <GridLayoutItem>
           <ul>

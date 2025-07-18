@@ -1,12 +1,7 @@
-import { Divider, PageHeader } from '@evolonix/ui';
+import { PageHeader } from '@evolonix/ui';
 
 export const Settings = () => {
-  return (
-    <>
-      <PageHeader label="My Settings" />
-      <Divider className="mt-4" />
-    </>
-  );
+  return <PageHeader label="My Settings" />;
 };
 
 export default Settings;

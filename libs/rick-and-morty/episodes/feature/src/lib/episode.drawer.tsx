@@ -15,7 +15,7 @@ interface EpisodeDrawerProps {
   episode?: Episode;
   isOpen: boolean;
   onClose: (value: boolean) => void;
-  onSave: (episode: Episode) => void;
+  onSave: (episode: Episode) => Promise<void>;
 }
 
 export const EpisodeDrawer = ({

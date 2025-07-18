@@ -1,5 +1,4 @@
 import {
-  Divider,
   GridLayout,
   GridLayoutItem,
   PageHeader,
@@ -10,7 +9,6 @@ export const Search = () => {
   return (
     <>
       <PageHeader label="Search" />
-      <Divider className="mt-4" />
       <GridLayout>
         <GridLayoutItem>
           <UiSearch

@@ -19,9 +19,9 @@ export const useZustandStore = <ViewModel = unknown, Slice = ViewModel>(
   // Enable override from URL to force showing skeletons
   const pickFn = useCallback(
     (state: ViewModel) => {
-      const forceSkeletons =
-        params.has('showSkeleton') && params.get('showSkeleton') === 'true';
-      if (forceSkeletons) state = { ...state, showSkeleton: true };
+      const forceSkeleton =
+        params.has('forceSkeleton') && params.get('forceSkeleton') === 'true';
+      if (forceSkeleton) state = { ...state, forceSkeleton: true };
 
       const fallback = IDENTITY_SELECTOR as SliceSelector<
         StoreApi<ViewModel>,

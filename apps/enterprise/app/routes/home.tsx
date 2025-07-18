@@ -1,12 +1,7 @@
-import { Divider, PageHeader } from '@evolonix/ui';
+import { PageHeader } from '@evolonix/ui';
 
 export const Home = () => {
-  return (
-    <>
-      <PageHeader label="Home" />
-      <Divider className="mt-4" />
-    </>
-  );
+  return <PageHeader label="Home" />;
 };
 
 export default Home;

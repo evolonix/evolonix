@@ -36,7 +36,7 @@ jobs:
 
       - if: ${{ steps.fly_status.outputs.exists == 'true' }}
         run: |
-          flyctl apps destroy --org evolonix "evolonix-enterprise-pr-${{ github.event.number }}" --yes
+          flyctl apps destroy "evolonix-enterprise-pr-${{ github.event.number }}" --yes
 
       # If using the name `pr-${{ github.event.number }}` for the environment, you can use this action to delete the environment.
       # - name: Clean up GitHub environment

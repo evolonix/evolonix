@@ -21,11 +21,13 @@ export const Episodes = () => {
   return (
     <>
       <ManageList
-        label="Characters"
+        isLoading={vm.isLoading}
+        label="Episodes"
         newUrl="/rick-and-morty/characters/new"
         list={
           <EpisodeList
-            isLoading={vm.showSkeleton}
+            showSkeleton={vm.showSkeleton}
+            isLoading={vm.isLoading}
             list={vm.list}
             query={vm.query}
             pagination={vm.pagination}
@@ -36,7 +38,7 @@ export const Episodes = () => {
         }
         details={
           <EpisodeDetails
-            isLoading={vm.showSkeleton}
+            isLoading={vm.isLoading}
             episode={vm.selected}
             onDelete={vm.handleDelete}
           />

@@ -1,13 +1,12 @@
-import { Heading } from './catalyst';
+import { Divider, Heading } from './catalyst';
 import { GridLayout, GridLayoutItem } from './grid-layout';
 
 export interface PageHeaderProps {
   label: string;
   actions?: React.ReactNode;
-  children?: React.ReactNode;
 }
 
-export const PageHeader = ({ label, actions, children }: PageHeaderProps) => {
+export const PageHeader = ({ label, actions }: PageHeaderProps) => {
   return (
     <GridLayout disableTopPadding>
       <GridLayoutItem>
@@ -17,8 +16,8 @@ export const PageHeader = ({ label, actions, children }: PageHeaderProps) => {
             <div className="flex flex-wrap items-center gap-2">{actions}</div>
           ) : null}
         </div>
+        <Divider className="mt-4" />
       </GridLayoutItem>
-      {children ? <GridLayoutItem>{children}</GridLayoutItem> : null}
     </GridLayout>
   );
 };

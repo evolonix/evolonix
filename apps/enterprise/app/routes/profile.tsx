@@ -1,12 +1,7 @@
-import { Divider, PageHeader } from '@evolonix/ui';
+import { PageHeader } from '@evolonix/ui';
 
 export const Profile = () => {
-  return (
-    <>
-      <PageHeader label="My Profile" />
-      <Divider className="mt-4" />
-    </>
-  );
+  return <PageHeader label="My Profile" />;
 };
 
 export default Profile;

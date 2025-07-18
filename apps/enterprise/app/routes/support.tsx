@@ -1,12 +1,7 @@
-import { Divider, PageHeader } from '@evolonix/ui';
+import { PageHeader } from '@evolonix/ui';
 
 export const Support = () => {
-  return (
-    <>
-      <PageHeader label="Support" />
-      <Divider className="mt-4" />
-    </>
-  );
+  return <PageHeader label="Support" />;
 };
 
 export default Support;

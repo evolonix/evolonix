@@ -1,9 +1,4 @@
-import {
-  Divider,
-  GridLayoutItem,
-  GridLayout as Layout,
-  PageHeader,
-} from '@evolonix/ui';
+import { GridLayoutItem, GridLayout as Layout, PageHeader } from '@evolonix/ui';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
@@ -37,7 +32,6 @@ export const GridLayout = () => {
   return (
     <>
       <PageHeader label="Grid Layout" />
-      <Divider className="mt-4" />
       <Layout>
         {lg ? (
           <>

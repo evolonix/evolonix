@@ -13,6 +13,8 @@ import {
 } from '@evolonix/ui';
 import { useRef } from 'react';
 
+import missingImage from '../assets/missing-image.jpg';
+
 interface CharacterEditFormProps {
   ref?: React.Ref<HTMLFormElement>;
   character?: Character;
@@ -68,6 +70,7 @@ export const CharacterEditForm = ({
         ref={uploaderRef}
         name={fields.image.name}
         initialImageUrl={character?.image}
+        missingImage={missingImage}
       />
       <Field>
         <Label>Name</Label>

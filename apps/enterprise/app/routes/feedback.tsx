@@ -1,12 +1,7 @@
-import { Divider, PageHeader } from '@evolonix/ui';
+import { PageHeader } from '@evolonix/ui';
 
 export const Feedback = () => {
-  return (
-    <>
-      <PageHeader label="Share Feedback" />
-      <Divider className="mt-4" />
-    </>
-  );
+  return <PageHeader label="Share Feedback" />;
 };
 
 export default Feedback;

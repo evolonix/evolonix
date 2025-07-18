@@ -1,6 +1,5 @@
 import {
   Button,
-  Divider,
   GridLayout,
   GridLayoutItem,
   NavbarItem,
@@ -11,13 +10,6 @@ import * as Headless from '@headlessui/react';
 import { Bars3Icon, PlusIcon } from '@heroicons/react/20/solid';
 import { useEffect, useRef, useState } from 'react';
 
-interface ManagerListProps {
-  label: string;
-  newUrl: string;
-  list: React.ReactNode;
-  details: React.ReactNode;
-}
-
 function CloseMenuIcon() {
   return (
     <svg data-slot="icon" viewBox="0 0 20 20" aria-hidden="true">
@@ -27,10 +19,15 @@ function CloseMenuIcon() {
 }
 
 function MobileList({
+  label,
   isOpen,
   children,
   onClose,
-}: React.PropsWithChildren<{ isOpen: boolean; onClose: () => void }>) {
+}: React.PropsWithChildren<{
+  label: string;
+  isOpen: boolean;
+  onClose: () => void;
+}>) {
   return (
     <Headless.Dialog open={isOpen} onClose={onClose} className="lg:hidden">
       <Headless.DialogBackdrop
@@ -47,14 +44,29 @@ function MobileList({
               <CloseMenuIcon />
             </Headless.CloseButton>
           </div>
-          <div className="flex flex-col overflow-y-hidden">{children}</div>
+          <Headless.DialogTitle className="px-4">{label}</Headless.DialogTitle>
+          <div className="flex flex-col overflow-y-hidden py-4">{children}</div>
         </div>
       </Headless.DialogPanel>
     </Headless.Dialog>
   );
 }
 
-export function ManageList({ label, newUrl, list, details }: ManagerListProps) {
+interface ManagerListProps {
+  isLoading: boolean;
+  label: string;
+  newUrl: string;
+  list: React.ReactNode;
+  details: React.ReactNode;
+}
+
+export function ManageList({
+  isLoading,
+  label,
+  newUrl,
+  list,
+  details,
+}: ManagerListProps) {
   const [showList, setShowList] = useState(false);
   const listRef = useRef<HTMLDivElement | null>(null);
   const listHeight = useScrollHeight(listRef, 48);
@@ -67,30 +79,35 @@ export function ManageList({ label, newUrl, list, details }: ManagerListProps) {
   return (
     <>
       {/* List on mobile */}
-      <MobileList isOpen={showList} onClose={() => setShowList(false)}>
+      <MobileList
+        label={label}
+        isOpen={showList}
+        onClose={() => setShowList(false)}
+      >
         {list}
       </MobileList>
 
       <PageHeader
         label={label}
         actions={
-          <Button href={newUrl}>
-            <PlusIcon />
-            Add
-          </Button>
+          <>
+            <Button
+              disabled={isLoading}
+              aria-label="Open list navigation"
+              className="lg:hidden"
+              onClick={() => setShowList(true)}
+            >
+              <Bars3Icon />
+              Show List
+            </Button>
+            <Button href={newUrl} disabled={isLoading}>
+              <PlusIcon />
+              Add
+            </Button>
+          </>
         }
-      >
-        <Button
-          onClick={() => setShowList(true)}
-          aria-label="Open list navigation"
-          className="lg:hidden"
-        >
-          <Bars3Icon />
-          Show List
-        </Button>
-      </PageHeader>
-      <Divider className="mt-4" />
-      <GridLayout>
+      />
+      <GridLayout disableTopPadding>
         <GridLayoutItem md={4} lg={5} xl={4} className="max-lg:hidden">
           <div
             ref={listRef}

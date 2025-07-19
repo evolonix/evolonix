@@ -10,6 +10,7 @@ import {
 import clsx from 'clsx';
 import { useLocation } from 'react-router';
 
+import { MapPinIcon } from '@heroicons/react/20/solid';
 import { useCallback } from 'react';
 import {
   Avatar,
@@ -130,6 +131,14 @@ export const LayoutSidebar = ({ isExpanded = false }: LayoutSidebarProps) => {
           >
             <MortyIcon />
             <SidebarLabel>Episodes</SidebarLabel>
+          </SidebarItem>
+          <SidebarItem
+            href="/rick-and-morty/locations"
+            title={isExpanded ? undefined : 'Locations'}
+            current={isCurrent('/rick-and-morty/locations')}
+          >
+            <MapPinIcon />
+            <SidebarLabel>Locations</SidebarLabel>
           </SidebarItem>
         </SidebarSection>
         <SidebarSpacer />

@@ -1,0 +1,19 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../../shared/data-access"
+    },
+    {
+      "path": "../../../react"
+    },
+    {
+      "path": "../../../manage-list/data-access"
+    },
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ],
+  "extends": "../../../../tsconfig.base.json"
+}

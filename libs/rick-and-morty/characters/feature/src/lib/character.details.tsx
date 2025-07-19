@@ -64,12 +64,34 @@ export const CharacterDetails = ({
                 className="h-48 w-48 rounded-lg object-cover"
               />
             ) : null}
-            <dl className="grid w-full gap-2 md:grid-cols-[auto_1fr]">
+            <dl className="grid w-full gap-2 lg:grid-cols-[auto_1fr]">
               <dt className="font-bold">Location:</dt>
-              <dd>{character.location?.name}</dd>
+              <dd>
+                {character.location?.id ? (
+                  <Link
+                    href={`/rick-and-morty/locations/${character.location?.id}`}
+                    className="group hover:text-cyan-700 dark:hover:text-cyan-500"
+                  >
+                    {character.location?.name}
+                  </Link>
+                ) : (
+                  character.location?.name
+                )}
+              </dd>
 
               <dt className="font-bold">Origin:</dt>
-              <dd>{character.origin?.name}</dd>
+              <dd>
+                {character.origin?.id ? (
+                  <Link
+                    href={`/rick-and-morty/locations/${character.origin?.id}`}
+                    className="group hover:text-cyan-700 dark:hover:text-cyan-500"
+                  >
+                    {character.origin?.name}
+                  </Link>
+                ) : (
+                  character.origin?.name
+                )}
+              </dd>
 
               <dt className="font-bold">Gender:</dt>
               <dd>{character.gender}</dd>

@@ -31,7 +31,7 @@ export const Details = <T extends Entity>({
           '--details-scroll-height': detailsHeight,
         } as React.CSSProperties
       }
-      className="flex flex-col md:h-[var(--details-scroll-height)]"
+      className="flex flex-col lg:h-[var(--details-scroll-height)]"
     >
       {children}
     </div>

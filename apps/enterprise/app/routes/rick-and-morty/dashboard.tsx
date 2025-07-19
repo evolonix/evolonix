@@ -13,6 +13,9 @@ export const RickAndMorty = () => {
             <li>
               <Link href="/rick-and-morty/episodes">Episodes</Link>
             </li>
+            <li>
+              <Link href="/rick-and-morty/locations">Locations</Link>
+            </li>
           </ul>
         </GridLayoutItem>
       </GridLayout>

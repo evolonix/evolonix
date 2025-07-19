@@ -29,6 +29,24 @@
         "libs/manage-list/feature/src/index.ts"
       ],
       "@evolonix/react": ["libs/react/src/index.ts"],
+      "@evolonix/rick-and-morty-characters-data-access": [
+        "libs/rick-and-morty/characters/data-access/src/index.ts"
+      ],
+      "@evolonix/rick-and-morty-characters-feature": [
+        "libs/rick-and-morty/characters/feature/src/index.ts"
+      ],
+      "@evolonix/rick-and-morty-episodes-data-access": [
+        "libs/rick-and-morty/episodes/data-access/src/index.ts"
+      ],
+      "@evolonix/rick-and-morty-episodes-feature": [
+        "libs/rick-and-morty/episodes/feature/src/index.ts"
+      ],
+      "@evolonix/rick-and-morty-locations-data-access": [
+        "libs/rick-and-morty/locations/data-access/src/index.ts"
+      ],
+      "@evolonix/rick-and-morty-locations-feature": [
+        "libs/rick-and-morty/locations/feature/src/index.ts"
+      ],
       "@evolonix/ui": ["libs/ui/src/index.ts"],
       "@evolonix/util": ["libs/util/src/index.ts"]
     }

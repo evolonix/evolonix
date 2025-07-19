@@ -1,24 +1,24 @@
 import { buildListStore } from '@evolonix/manage-list-data-access';
 import { addProviders, InjectionToken, Provider } from '@evolonix/react';
 import {
-  Episode,
+  Location,
   RickAndMortyApolloClient,
 } from '@evolonix/rick-and-morty-shared-data-access';
 
-import { EpisodesService } from './episodes.service';
+import { LocationsService } from './locations.service';
 
-export const EpisodeStoreToken = new InjectionToken('Episodes Store');
+export const LocationStoreToken = new InjectionToken('Locations Store');
 
 export const providers: Provider[] = [
   {
-    provide: EpisodesService,
-    useClass: EpisodesService,
+    provide: LocationsService,
+    useClass: LocationsService,
     deps: [RickAndMortyApolloClient],
   },
   {
-    provide: EpisodeStoreToken,
-    useFactory: buildListStore<Episode>,
-    deps: [EpisodesService],
+    provide: LocationStoreToken,
+    useFactory: buildListStore<Location>,
+    deps: [LocationsService],
   },
 ];
 

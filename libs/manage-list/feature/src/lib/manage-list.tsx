@@ -7,8 +7,9 @@ import {
 } from '@evolonix/ui';
 import { useScrollHeight } from '@evolonix/util';
 import * as Headless from '@headlessui/react';
-import { Bars3Icon, PlusIcon } from '@heroicons/react/20/solid';
+import { ArrowPathIcon, Bars3Icon, PlusIcon } from '@heroicons/react/20/solid';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 function CloseMenuIcon() {
   return (
@@ -67,6 +68,7 @@ export function ManageList({
   list,
   details,
 }: ManagerListProps) {
+  const navigate = useNavigate();
   const [showList, setShowList] = useState(false);
   const listRef = useRef<HTMLDivElement | null>(null);
   const listHeight = useScrollHeight(listRef, 48);
@@ -97,10 +99,14 @@ export function ManageList({
               className="lg:hidden"
               onClick={() => setShowList(true)}
             >
-              <Bars3Icon />
+              {isLoading ? (
+                <ArrowPathIcon className="animate-spin" />
+              ) : (
+                <Bars3Icon />
+              )}
               Show List
             </Button>
-            <Button href={newUrl} disabled={isLoading}>
+            <Button disabled={isLoading} onClick={() => navigate(newUrl)}>
               <PlusIcon />
               Add
             </Button>

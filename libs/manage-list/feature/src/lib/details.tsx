@@ -4,6 +4,7 @@ import { useScrollHeight } from '@evolonix/util';
 import { PencilIcon, TrashIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 interface DetailsProps<T> {
   entity?: T;
@@ -54,19 +55,20 @@ export const DetailsActions = ({
   deletePrompt,
   onDelete,
 }: DetailsActionsProps) => {
+  const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
 
   return (
     <>
       <div className="flex flex-wrap items-center gap-2">
-        <Button href={editUrl} outline disabled={isLoading}>
+        <Button outline disabled={isLoading} onClick={() => navigate(editUrl)}>
           <PencilIcon />
           Edit
         </Button>
         <Button
           color="red"
-          onClick={() => setShowAlert(true)}
           disabled={isLoading}
+          onClick={() => setShowAlert(true)}
         >
           <TrashIcon />
           Delete

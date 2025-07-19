@@ -41,6 +41,12 @@
     },
     {
       "path": "./libs/manage-list/feature"
+    },
+    {
+      "path": "./libs/rick-and-morty/locations/data-access"
+    },
+    {
+      "path": "./libs/rick-and-morty/locations/feature"
     }
   ]
 }

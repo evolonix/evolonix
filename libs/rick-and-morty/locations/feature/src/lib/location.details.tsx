@@ -7,64 +7,66 @@ import {
   DetailsHeaderSkeleton,
   DetailsTitle,
 } from '@evolonix/manage-list-feature';
-import { Episode } from '@evolonix/rick-and-morty-shared-data-access';
+import { Location } from '@evolonix/rick-and-morty-shared-data-access';
 import { Avatar, Link } from '@evolonix/ui';
 import { useParams } from 'react-router';
 
-interface EpisodeDetailsProps {
+interface LocationDetailsProps {
   isLoading: boolean;
-  episode?: Episode;
+  location?: Location;
   onDelete: () => void;
 }
 
-export const EpisodeDetails = ({
+export const LocationDetails = ({
   isLoading,
-  episode,
+  location,
   onDelete,
-}: EpisodeDetailsProps) => {
+}: LocationDetailsProps) => {
   const { id } = useParams();
 
-  return !id || (id === 'new' && !episode) ? (
+  return !id || (id === 'new' && !location) ? (
     <>
       <div className="flex h-9 items-center justify-between">
-        <h2 className="font-bold">Episodes</h2>
+        <h2 className="font-bold">Locations</h2>
       </div>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        Explore the various episodes from Rick & Morty. Click on an episode to
+        Explore the various locations from Rick & Morty. Click on an location to
         learn more about it.
       </p>
     </>
   ) : (
-    <Details entity={episode}>
-      {isLoading && !episode ? (
+    <Details entity={location}>
+      {isLoading && !location ? (
         <>
           <DetailsHeaderSkeleton />
           <DetailsBodySkeleton />
         </>
-      ) : episode ? (
+      ) : location ? (
         <>
           <DetailsHeader>
-            <DetailsTitle>{episode?.name}</DetailsTitle>
+            <DetailsTitle>{location?.name}</DetailsTitle>
             <DetailsActions
               isLoading={isLoading}
-              editUrl={`/rick-and-morty/episodes/${episode?.id}/edit`}
-              deletePrompt="Are you sure you want to delete this episode?"
+              editUrl={`/rick-and-morty/locations/${location?.id}/edit`}
+              deletePrompt="Are you sure you want to delete this location?"
               onDelete={onDelete}
             />
           </DetailsHeader>
           <DetailsBody
-            className={id !== episode.id && id !== 'new' ? 'animate-pulse' : ''}
+            className={
+              id !== location.id && id !== 'new' ? 'animate-pulse' : ''
+            }
           >
             <dl className="grid w-full gap-2 lg:grid-cols-[auto_1fr]">
-              <dt className="font-bold">Episode:</dt>
-              <dd>{episode.episode}</dd>
+              <dt className="font-bold">Type:</dt>
+              <dd>{location.type}</dd>
 
-              <dt className="font-bold">Air date:</dt>
-              <dd>{episode.air_date}</dd>
+              <dt className="font-bold">Dimension:</dt>
+              <dd>{location.dimension}</dd>
 
-              <dt className="font-bold">Characters:</dt>
+              <dt className="font-bold">Residents:</dt>
               <dd>
-                {episode.characters?.map((character) =>
+                {location.residents?.map((character) =>
                   character ? (
                     <div key={character.id}>
                       <Link

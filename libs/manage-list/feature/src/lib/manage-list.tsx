@@ -120,7 +120,7 @@ export function ManageList({
             style={
               { '--list-scroll-height': listHeight } as React.CSSProperties
             }
-            className="flex flex-col md:h-[var(--list-scroll-height)]"
+            className="flex flex-col lg:h-[var(--list-scroll-height)]"
           >
             {list}
           </div>

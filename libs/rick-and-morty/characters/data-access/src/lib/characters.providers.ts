@@ -7,7 +7,7 @@ import {
 
 import { CharactersService } from './characters.service';
 
-export const CharacterStoreToken = new InjectionToken('Character Store');
+export const CharacterStoreToken = new InjectionToken('Characters Store');
 
 export const providers: Provider[] = [
   {

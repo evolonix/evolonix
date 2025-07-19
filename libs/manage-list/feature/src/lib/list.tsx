@@ -19,7 +19,7 @@ interface ListHeaderProps {
 export const ListHeader = ({ children }: ListHeaderProps) => {
   return (
     <>
-      <div className="px-4 md:px-0 md:pt-4">{children}</div>
+      <div className="px-4 lg:px-0 lg:pt-4">{children}</div>
       <Divider />
     </>
   );
@@ -44,7 +44,7 @@ export const ListBodySkeleton = () => {
       <ul className="flex h-full flex-col">
         {Array.from({ length: 20 }).map((_, index) => (
           <li key={index} className="w-full">
-            <div className="block w-full p-4 font-bold md:px-0">
+            <div className="block w-full p-4 font-bold lg:px-0">
               <div className="h-6 animate-pulse rounded-full bg-zinc-900 dark:bg-zinc-100" />
             </div>
             {index < 19 ? <Divider /> : null}
@@ -83,7 +83,7 @@ export const ListItem = forwardRef(
             to={props.to as To}
             className={({ isActive }) =>
               clsx(
-                'flex w-full items-center gap-2 p-4 font-bold md:px-0',
+                'flex w-full items-center gap-2 p-4 font-bold lg:px-0',
                 'hover:text-cyan-700 dark:hover:text-cyan-500',
                 isActive ? 'text-cyan-600 dark:text-cyan-400' : '',
               )
@@ -125,7 +125,7 @@ export const ListFooter = ({ children }: ListFooterProps) => {
   return (
     <>
       <Divider className="mb-4" />
-      <div className="px-4 md:px-0">{children}</div>
+      <div className="px-4 lg:px-0">{children}</div>
     </>
   );
 };

@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/rick-and-morty/locations/feature"
+    },
+    {
       "path": "../../libs/rick-and-morty/episodes/feature"
     },
     {

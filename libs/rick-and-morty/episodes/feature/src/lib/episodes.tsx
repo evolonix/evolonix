@@ -23,7 +23,7 @@ export const Episodes = () => {
       <ManageList
         isLoading={vm.isLoading}
         label="Episodes"
-        newUrl="/rick-and-morty/characters/new"
+        newUrl="/rick-and-morty/episodes/new"
         list={
           <EpisodeList
             showSkeleton={vm.showSkeleton}

@@ -23,6 +23,7 @@ export const EpisodeEditForm = ({
       ref={ref}
       id={form.id}
       method="POST"
+      className="flex flex-col gap-8"
       noValidate={form.noValidate}
       onSubmit={form.onSubmit}
     >

@@ -1,0 +1,22 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../../manage-list/data-access"
+    },
+    {
+      "path": "../../ui"
+    },
+    {
+      "path": "../data-access"
+    },
+    {
+      "path": "../../manage-list/feature"
+    },
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ],
+  "extends": "../../../tsconfig.base.json"
+}

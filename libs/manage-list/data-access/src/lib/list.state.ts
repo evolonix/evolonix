@@ -15,7 +15,12 @@ export interface ListComputedState<T extends Entity> {
 }
 
 export interface ListActions<T extends Entity> {
-  loadAll: (page?: number, query?: string, replace?: boolean) => Promise<void>;
+  loadAll: (query?: string) => Promise<void>;
+  loadPaged: (
+    page?: number,
+    query?: string,
+    replace?: boolean,
+  ) => Promise<void>;
   select: (id?: string) => Promise<void>;
   save: (entity: T) => Promise<T | undefined>;
   delete: (id: string) => Promise<void>;

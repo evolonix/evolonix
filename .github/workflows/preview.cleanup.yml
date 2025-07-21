@@ -15,6 +15,7 @@ env:
 
 jobs:
   cleanup-enterprise-preview:
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     # Only run one deployment at a time per PR.
     concurrency:

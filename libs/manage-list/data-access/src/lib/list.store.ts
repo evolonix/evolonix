@@ -23,7 +23,8 @@ import {
  * These ACTIONS enable waitFor() to look up existing, async request (if any)
  */
 const ACTIONS = {
-  loadAll: (page = 1, query = '') => `ListStore:loadAll:${page}:${query}`,
+  loadAll: (query = '') => `ListStore:loadAll:${query}`,
+  loadPaged: (page = 1, query = '') => `ListStore:loadPaged:${page}:${query}`,
   select: (id: string) => `ListStore:select:${id}`,
 };
 
@@ -46,7 +47,18 @@ export function buildListStore<T extends Entity>(service: ListService) {
     const state: ListState<T> = initStoreState(get, initialState);
 
     const actions: ListActions<T> = {
-      loadAll: async (page = get().page ?? 1, query = get().query ?? '') => {
+      loadAll: async (query = '') => {
+        if (query === get().query && get().list.length) return;
+
+        await trackStatus(
+          async () => {
+            const [list, error] = await service.getList<T>(query);
+            return { query, list, pagination: undefined, error };
+          },
+          { waitForId: ACTIONS.loadAll(query) },
+        );
+      },
+      loadPaged: async (page = get().page ?? 1, query = get().query ?? '') => {
         if (page === get().page && query === get().query && get().list.length) {
           return; // Already loaded
         }
@@ -59,7 +71,7 @@ export function buildListStore<T extends Entity>(service: ListService) {
             );
             return { page, query, list, pagination, error };
           },
-          { waitForId: ACTIONS.loadAll(page, query) },
+          { waitForId: ACTIONS.loadPaged(page, query) },
         );
       },
       select: async (id?: string) => {
@@ -72,7 +84,7 @@ export function buildListStore<T extends Entity>(service: ListService) {
           return; // Already selected
         }
 
-        await waitForAnother(ACTIONS.loadAll(get().page, get().query));
+        await waitForAnother(ACTIONS.loadPaged(get().page, get().query));
 
         const entity = get().list.find((s) => s.id === id);
         if (entity) {
@@ -127,19 +139,19 @@ export function buildListStore<T extends Entity>(service: ListService) {
       search: async (query = '') => {
         if (query === get().query) return;
 
-        await actions.loadAll(1, query);
+        await actions.loadPaged(1, query);
       },
       previousPage: async () => {
         const page = get().pagination?.prev;
         if (!page) return;
 
-        await actions.loadAll(page);
+        await actions.loadPaged(page);
       },
       nextPage: async () => {
         const page = get().pagination?.next;
         if (!page) return;
 
-        await actions.loadAll(page);
+        await actions.loadPaged(page);
       },
       reset: () => set(initialState),
     };

@@ -5,6 +5,9 @@ import { Entity, PaginationDetails } from './list.model';
 export abstract class ListService {
   constructor(protected readonly client: ApolloClient<NormalizedCacheObject>) {}
 
+  abstract getList<T extends Entity>(
+    query: string,
+  ): Promise<[T[], Error | undefined]>;
   abstract getPagedList<T extends Entity>(
     page: number,
     query: string,

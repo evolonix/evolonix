@@ -19,8 +19,11 @@
     "customConditions": ["development"],
     "baseUrl": ".",
     "paths": {
-      "@evolonix/feature-feature-flags": [
-        "libs/feature-feature-flags/src/index.ts"
+      "@evolonix/feature-flags-data-access": [
+        "libs/feature-flags/data-access/src/index.ts"
+      ],
+      "@evolonix/feature-flags-feature": [
+        "libs/feature-flags/feature/src/index.ts"
       ],
       "@evolonix/manage-list-data-access": [
         "libs/manage-list/data-access/src/index.ts"
@@ -29,23 +32,11 @@
         "libs/manage-list/feature/src/index.ts"
       ],
       "@evolonix/react": ["libs/react/src/index.ts"],
-      "@evolonix/rick-and-morty-characters-data-access": [
-        "libs/rick-and-morty/characters/data-access/src/index.ts"
+      "@evolonix/rick-and-morty-data-access": [
+        "libs/rick-and-morty/data-access/src/index.ts"
       ],
-      "@evolonix/rick-and-morty-characters-feature": [
-        "libs/rick-and-morty/characters/feature/src/index.ts"
-      ],
-      "@evolonix/rick-and-morty-episodes-data-access": [
-        "libs/rick-and-morty/episodes/data-access/src/index.ts"
-      ],
-      "@evolonix/rick-and-morty-episodes-feature": [
-        "libs/rick-and-morty/episodes/feature/src/index.ts"
-      ],
-      "@evolonix/rick-and-morty-locations-data-access": [
-        "libs/rick-and-morty/locations/data-access/src/index.ts"
-      ],
-      "@evolonix/rick-and-morty-locations-feature": [
-        "libs/rick-and-morty/locations/feature/src/index.ts"
+      "@evolonix/rick-and-morty-feature": [
+        "libs/rick-and-morty/feature/src/index.ts"
       ],
       "@evolonix/ui": ["libs/ui/src/index.ts"],
       "@evolonix/util": ["libs/util/src/index.ts"]

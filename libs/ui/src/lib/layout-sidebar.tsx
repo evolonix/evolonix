@@ -10,7 +10,6 @@ import {
 import clsx from 'clsx';
 import { useLocation } from 'react-router';
 
-import { MapPinIcon } from '@heroicons/react/20/solid';
 import { useCallback } from 'react';
 import {
   Avatar,
@@ -29,6 +28,8 @@ import {
 import { MortyIcon, RickAndMortyIcon, RickIcon } from './icons';
 import { Logo } from './logo';
 import { ProfileDropdownMenu } from './profile-dropdown-menu';
+
+import portal from '../assets/portal.png';
 
 export interface LayoutSidebarProps {
   isExpanded?: boolean;
@@ -92,14 +93,15 @@ export const LayoutSidebar = ({ isExpanded = false }: LayoutSidebarProps) => {
             <SidebarLabel>Home</SidebarLabel>
           </SidebarItem>
           <SidebarItem
-            href="/admin/settings"
-            title={isExpanded ? undefined : 'Settings'}
-            current={isCurrent('/admin/settings')}
+            href="/rick-and-morty"
+            title={isExpanded ? undefined : 'Rick & Morty'}
+            current={isCurrent('/rick-and-morty', true)}
           >
-            <Cog6ToothIcon />
-            <SidebarLabel>Settings</SidebarLabel>
+            <RickAndMortyIcon />
+            <SidebarLabel>Rick & Morty</SidebarLabel>
           </SidebarItem>
         </SidebarSection>
+        <SidebarSpacer />
         <SidebarSection>
           <SidebarHeading
             isExpanded={isExpanded}
@@ -109,40 +111,39 @@ export const LayoutSidebar = ({ isExpanded = false }: LayoutSidebarProps) => {
             Rick & Morty
           </SidebarHeading>
           <SidebarItem
-            href="/rick-and-morty"
-            title={isExpanded ? undefined : 'Dashboard'}
-            current={isCurrent('/rick-and-morty', true)}
-          >
-            <RickAndMortyIcon />
-            <SidebarLabel>Dashboard</SidebarLabel>
-          </SidebarItem>
-          <SidebarItem
-            href="/rick-and-morty/characters"
+            href="/admin/rick-and-morty/characters"
             title={isExpanded ? undefined : 'Characters'}
-            current={isCurrent('/rick-and-morty/characters')}
+            current={isCurrent('/admin/rick-and-morty/characters')}
           >
             <RickIcon />
             <SidebarLabel>Characters</SidebarLabel>
           </SidebarItem>
           <SidebarItem
-            href="/rick-and-morty/episodes"
+            href="/admin/rick-and-morty/episodes"
             title={isExpanded ? undefined : 'Episodes'}
-            current={isCurrent('/rick-and-morty/episodes')}
+            current={isCurrent('/admin/rick-and-morty/episodes')}
           >
             <MortyIcon />
             <SidebarLabel>Episodes</SidebarLabel>
           </SidebarItem>
           <SidebarItem
-            href="/rick-and-morty/locations"
+            href="/admin/rick-and-morty/locations"
             title={isExpanded ? undefined : 'Locations'}
-            current={isCurrent('/rick-and-morty/locations')}
+            current={isCurrent('/admin/rick-and-morty/locations')}
           >
-            <MapPinIcon />
+            <img src={portal} alt="Portal" className="size-5" />
             <SidebarLabel>Locations</SidebarLabel>
           </SidebarItem>
         </SidebarSection>
-        <SidebarSpacer />
         <SidebarSection>
+          <SidebarItem
+            href="/admin/settings"
+            title={isExpanded ? undefined : 'Settings'}
+            current={isCurrent('/admin/settings')}
+          >
+            <Cog6ToothIcon />
+            <SidebarLabel>Settings</SidebarLabel>
+          </SidebarItem>
           <SidebarItem
             href="/support"
             title={isExpanded ? undefined : 'Support'}

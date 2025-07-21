@@ -13,7 +13,7 @@ import {
   FeatureFlagProvider,
   FeatureFlags,
   FeatureFlagToggleDialog,
-} from '@evolonix/feature-feature-flags';
+} from '@evolonix/feature-flags-feature';
 
 import '../styles.css';
 import { buildInjector } from './injector';

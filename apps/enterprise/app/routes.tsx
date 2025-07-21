@@ -13,17 +13,30 @@ export default [
     route('inbox', './routes/inbox.tsx'),
     route('support', './routes/support.tsx'),
     route('changelog', './routes/changelog.tsx'),
-    ...prefix('rick-and-morty', [
-      index('./routes/rick-and-morty/dashboard.tsx'),
-      route('characters/:id?/edit?', './routes/rick-and-morty/characters.tsx'),
-      route('episodes/:id?/edit?', './routes/rick-and-morty/episodes.tsx'),
-      route('locations/:id?/edit?', './routes/rick-and-morty/locations.tsx'),
-    ]),
     route('profile', './routes/profile.tsx'),
     route('settings', './routes/settings.tsx'),
     route('privacy', './routes/privacy.tsx'),
     route('feedback', './routes/feedback.tsx'),
-    ...prefix('admin', [route('settings', './routes/admin/settings.tsx')]),
+    ...prefix('rick-and-morty', [
+      index('./routes/rick-and-morty/dashboard.tsx'),
+    ]),
+    ...prefix('admin', [
+      route('settings', './routes/admin/settings.tsx'),
+      ...prefix('rick-and-morty', [
+        route(
+          'characters/:id?/edit?',
+          './routes/admin/rick-and-morty/characters.tsx',
+        ),
+        route(
+          'episodes/:id?/edit?',
+          './routes/admin/rick-and-morty/episodes.tsx',
+        ),
+        route(
+          'locations/:id?/edit?',
+          './routes/admin/rick-and-morty/locations.tsx',
+        ),
+      ]),
+    ]),
     ...prefix('cdk', [route('grid-layout', './routes/cdk/grid-layout.tsx')]),
   ]),
   layout('./auth.tsx', [

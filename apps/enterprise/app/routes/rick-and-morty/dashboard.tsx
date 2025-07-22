@@ -36,6 +36,16 @@ export const RickAndMortyDashboard = () => {
             autoFocus
             onSearch={vm.search}
           />
+          <Pagination>
+            <PaginationPrevious
+              disabled={vm.isLoading || !vm.pagination?.prev}
+              onClick={vm.previousPage}
+            />
+            <PaginationNext
+              disabled={vm.isLoading || !vm.pagination?.next}
+              onClick={vm.nextPage}
+            />
+          </Pagination>
         </GridLayoutItem>
         {vm.showSkeleton
           ? Array.from({ length: 6 }).map((_, index) => (

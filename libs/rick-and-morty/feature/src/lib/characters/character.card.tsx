@@ -1,5 +1,5 @@
 import { Character } from '@evolonix/rick-and-morty-data-access';
-import { Heading } from '@evolonix/ui';
+import { Heading, Link } from '@evolonix/ui';
 import clsx from 'clsx';
 
 interface CharacterCardProps {
@@ -20,7 +20,9 @@ export const CharacterCard = ({ isLoading, character }: CharacterCardProps) => {
         ) : null}
         <div className="flex grow flex-col gap-4 overflow-hidden p-4">
           <div>
-            <Heading level={3}>{character.name}</Heading>
+            <Link href={`/rick-and-morty/characters/${character.id}`}>
+              <Heading level={3}>{character.name}</Heading>
+            </Link>
             <div className="flex items-center gap-2">
               <div
                 className={clsx(
@@ -47,7 +49,7 @@ export const CharacterCard = ({ isLoading, character }: CharacterCardProps) => {
             <span className="text-zinc-600 dark:text-zinc-400">
               First seen in:
             </span>
-            <span className="truncate">{character.episode?.[0].name}</span>
+            <span className="truncate">{character.episodes?.[0].name}</span>
           </div>
         </div>
       </div>

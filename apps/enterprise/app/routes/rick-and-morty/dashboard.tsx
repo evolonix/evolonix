@@ -6,7 +6,6 @@ import {
 import {
   GridLayout,
   GridLayoutItem,
-  Heading,
   PageHeader,
   Pagination,
   PaginationNext,
@@ -14,6 +13,7 @@ import {
   Search,
 } from '@evolonix/ui';
 import { useEffect } from 'react';
+import { breadcrumbMap } from '../../breadcrumbs';
 
 export const RickAndMortyDashboard = () => {
   const vm = useCharacters();
@@ -24,11 +24,8 @@ export const RickAndMortyDashboard = () => {
 
   return (
     <>
-      <PageHeader label="Rick & Morty" />
+      <PageHeader label="Characters" breadcrumbMap={breadcrumbMap} />
       <GridLayout>
-        <GridLayoutItem>
-          <Heading level={2}>Characters</Heading>
-        </GridLayoutItem>
         <GridLayoutItem>
           <Search
             initialQuery={vm.query}
@@ -47,17 +44,21 @@ export const RickAndMortyDashboard = () => {
             />
           </Pagination>
         </GridLayoutItem>
-        {vm.showSkeleton
-          ? Array.from({ length: 6 }).map((_, index) => (
-              <GridLayoutItem key={index} xl={6}>
-                <CharacterCardSkeleton />
-              </GridLayoutItem>
-            ))
-          : vm.list.map((character) => (
-              <GridLayoutItem key={character.id} xl={6}>
-                <CharacterCard isLoading={vm.isLoading} character={character} />
-              </GridLayoutItem>
-            ))}
+        {vm.showSkeleton ? (
+          Array.from({ length: 6 }).map((_, index) => (
+            <GridLayoutItem key={index} xl={6}>
+              <CharacterCardSkeleton />
+            </GridLayoutItem>
+          ))
+        ) : vm.list.length ? (
+          vm.list.map((character) => (
+            <GridLayoutItem key={character.id} xl={6}>
+              <CharacterCard isLoading={vm.isLoading} character={character} />
+            </GridLayoutItem>
+          ))
+        ) : (
+          <GridLayoutItem>No characters found</GridLayoutItem>
+        )}
         <GridLayoutItem>
           <Pagination>
             <PaginationPrevious

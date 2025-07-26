@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/rick-and-morty/data-access"
+    },
+    {
       "path": "../../libs/util"
     },
     {

@@ -51,7 +51,6 @@ export const Search = ({
         placeholder="Search"
         value={query}
         autoFocus={autoFocus}
-        disabled={disabled}
         onInput={handleClearSearch}
         onChange={(e) => setQuery((e.target as HTMLInputElement).value)}
       />

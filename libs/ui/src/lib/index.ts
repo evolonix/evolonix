@@ -1,3 +1,4 @@
+export * from './breadcrumbs';
 export * from './catalyst';
 export * from './drawer';
 export * from './grid-layout';

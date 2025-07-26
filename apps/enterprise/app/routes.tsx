@@ -19,6 +19,7 @@ export default [
     route('feedback', './routes/feedback.tsx'),
     ...prefix('rick-and-morty', [
       index('./routes/rick-and-morty/dashboard.tsx'),
+      route('characters/:id?', './routes/rick-and-morty/character.tsx'),
     ]),
     ...prefix('admin', [
       route('settings', './routes/admin/settings.tsx'),

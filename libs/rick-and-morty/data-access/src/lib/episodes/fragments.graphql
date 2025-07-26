@@ -9,30 +9,6 @@ fragment CharacterSummary on Character {
   created
 }
 
-fragment LocationDetails on Location {
-  id
-  name
-  dimension
-  residents {
-    ...CharacterSummary
-  }
-  type
-  created
-}
-
-fragment CharacterDetails on Character {
-  ...CharacterSummary
-  episode {
-    ...EpisodeDetails
-  }
-  location {
-    ...LocationDetails
-  }
-  origin {
-    ...LocationDetails
-  }
-}
-
 fragment EpisodeDetails on Episode {
   id
   name

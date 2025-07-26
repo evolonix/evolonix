@@ -6,12 +6,12 @@ import {
 import {
   GridLayout,
   GridLayoutItem,
-  Heading,
   PageHeader,
   Pagination,
   PaginationNext,
   PaginationPrevious,
   Search,
+  Subheading,
 } from '@evolonix/ui';
 import { useEffect } from 'react';
 
@@ -27,7 +27,7 @@ export const RickAndMortyDashboard = () => {
       <PageHeader label="Rick & Morty" />
       <GridLayout>
         <GridLayoutItem>
-          <Heading level={2}>Characters</Heading>
+          <Subheading level={2}>Characters</Subheading>
         </GridLayoutItem>
         <GridLayoutItem>
           <Search
@@ -47,17 +47,21 @@ export const RickAndMortyDashboard = () => {
             />
           </Pagination>
         </GridLayoutItem>
-        {vm.showSkeleton
-          ? Array.from({ length: 6 }).map((_, index) => (
-              <GridLayoutItem key={index} xl={6}>
-                <CharacterCardSkeleton />
-              </GridLayoutItem>
-            ))
-          : vm.list.map((character) => (
-              <GridLayoutItem key={character.id} xl={6}>
-                <CharacterCard isLoading={vm.isLoading} character={character} />
-              </GridLayoutItem>
-            ))}
+        {vm.showSkeleton ? (
+          Array.from({ length: 6 }).map((_, index) => (
+            <GridLayoutItem key={index} xl={6}>
+              <CharacterCardSkeleton />
+            </GridLayoutItem>
+          ))
+        ) : vm.list.length ? (
+          vm.list.map((character) => (
+            <GridLayoutItem key={character.id} xl={6}>
+              <CharacterCard isLoading={vm.isLoading} character={character} />
+            </GridLayoutItem>
+          ))
+        ) : (
+          <GridLayoutItem>No characters found</GridLayoutItem>
+        )}
         <GridLayoutItem>
           <Pagination>
             <PaginationPrevious

@@ -107,7 +107,7 @@ export const CharacterDetails = ({
 
               <dt className="font-bold">Episodes:</dt>
               <dd>
-                {character.episode?.map((episode) =>
+                {character.episodes?.map((episode) =>
                   episode ? (
                     <div key={episode.id}>
                       <Link

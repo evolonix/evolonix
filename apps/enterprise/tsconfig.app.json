@@ -51,6 +51,9 @@
   ],
   "references": [
     {
+      "path": "../../libs/rick-and-morty/data-access/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/util/tsconfig.lib.json"
     },
     {

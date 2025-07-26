@@ -17,7 +17,7 @@ export interface Location extends Entity {
 }
 
 export interface Character extends Entity {
-  episode?: Array<Episode>;
+  episodes?: Array<Episode>;
   gender?: string;
   /**
    * Link to the character's image.

@@ -6,6 +6,7 @@
     "prepare": "husky install",
     "dev": "npx nx dev enterprise --host",
     "start": "npm run dev",
+    "codegen:all": "npx nx run-many --target=codegen --all",
     "update-deps": "bash scripts/cp-all-deps.sh"
   },
   "private": true,
